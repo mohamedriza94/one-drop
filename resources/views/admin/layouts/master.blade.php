@@ -28,8 +28,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/src/assets/css/light/elements/alert.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/src/assets/css/dark/elements/alert.css')}}">
     <link href="{{asset('assets/admin/src/assets/css/dark/components/timeline.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('assets/admin/src/assets/css/light/components/timeline.css')}}" rel="stylesheet" type="text/css" />
-
+    <link href="{{asset('assets/admin/src/assets/css/light/components/timeline.css')}}" rel="stylesheet" type="text/css"/>
     <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
@@ -445,9 +444,8 @@
 
 
                 <li class="menu">
-                    <a href="" aria-expanded="false" class="dropdown-toggle">
+                    <a href="{{ route('admin.staffControls.message') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
-                            
                             <i class="fa-solid fa-envelope" style="width:50px; height:100%;"></i> 
                             <span>Messages</span>
                         </div>

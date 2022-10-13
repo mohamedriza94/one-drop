@@ -52,6 +52,18 @@ Route::group([
     Route::get('/fetchSingleHospital/{id}', 'hospitalController@fetchSingleHospital');
     Route::post('/updateHospital/{id}', 'hospitalController@updateHospital');
     Route::delete('/deleteHospital/{id}', 'hospitalController@deleteHospital');
+
+
+
+
+    //===========================================================================
+    //staff routes---------------------------------------------------------------
+
+    //message management routes
+    Route::get('staff/message', 'Staff\messageController@index')->name('admin.staffControls.message');
+    Route::post('/sendMessage', 'Staff\messageController@sendMessage');
+    Route::get('/fetchSentMessages/{id}', 'Staff\messageController@fetchSentMessages');
+    Route::get('/fetchTrashMessages/{id}', 'Staff\messageController@fetchTrashMessages');
     });
 
     });
