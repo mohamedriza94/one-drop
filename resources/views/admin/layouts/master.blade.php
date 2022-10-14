@@ -154,7 +154,7 @@
 
 
                 <li class="menu">
-                    <a href="" aria-expanded="false" class="dropdown-toggle">
+                    <a href="{{ route('admin.staffMessage') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
 
                             <i class="fa-solid fa-envelope" style="width:50px; height:100%;"></i> 

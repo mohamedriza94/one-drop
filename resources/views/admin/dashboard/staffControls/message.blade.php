@@ -31,13 +31,13 @@
                         <a id="btnOpenComposeMessageModal" class="btn btn-lg btn-primary form-control" href="#">Compose</a>
                     </div>
                     <div class="col-3">
-                        <a id="viewInboxMessages" class="btn btn-lg btn-light col-4 form-control" href="#">Inbox</a>
+                        <a id="viewInboxMessages" class="btn btn-lg btn-light col-4 form-control" href="#"><i class="fa-solid fa-inbox"></i> Inbox</a>
                     </div>
                     <div class="col-3">
-                        <a id="viewSentMessages" class="btn btn-lg btn-light col-4 form-control" href="#">Sent</a>
+                        <a id="viewSentMessages" class="btn btn-lg btn-light col-4 form-control" href="#"><i class="fa-solid fa-envelope-circle-check"></i> Sent</a>
                     </div>
                     <div class="col-3">
-                        <a id="viewTrashMessages" class="btn btn-lg btn-light form-control" href="#">Trash</a>
+                        <a id="viewTrashMessages" class="btn btn-lg btn-light form-control" href="#"><i class="fa-solid fa-trash"></i> Trash</a>
                     </div>
                 </div>
             </div>
@@ -65,29 +65,38 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title add-title" id="openMessageModalTitle">View</h5>
+                            <h5 class="modal-title add-title" id="openMessageModalTitle"></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                             </button>
                         </div>
 
+                        <div class="modal-body d-none" id="replyMessageErrorModalBody">
+                            <ul class="bg-warning form-control px-5 d-none" id="replyMessageErrorList">
+
+                            </ul>
+                        </div>
+
                         <div class="modal-body">
                             <div id="" class="row g-3">
                                 <div class="col-md-12">
-                                    <label class="form-label"><b>Sender:</b></label>
+                                    <label class="form-label" id="sender"></label>
                                 </div>
 
                                 <div class="col-md-12">
-                                    <label class="form-label"><b>Date:</b>&nbsp;&nbsp;&nbsp;<b>Time:</b></label>
+                                    <label class="form-label" id="openDate"></label>
                                 </div>
 
                                 <div class="col-md-12">
-                                    <label class="form-label"><b>Subject:</b></label> 
+                                    <label class="form-label" id="openSubject"></label> 
                                 </div>
 
                                 <div class="col-md-12">
-                                    <p class=""></p> 
+                                    <p class="" id="openMessage"></p> 
                                 </div>
+
+                                <input type="hidden" id="openSenderId">
+                                <input type="hidden" id="openSender">
                             </div>
                         </div>
 
@@ -122,7 +131,7 @@
                                         <option value="staffToAdmin">Admin</option>
                                         <option value="staffToHospital">Hospital</option>
                                         <option value="staffToDonor">Donor</option>
-                                        <option value="other">Other</option>
+                                        <option value="staffToOther">Other</option>
                                     </select>
                                 </div>
                             </div>
@@ -264,107 +273,6 @@ $('#btnOpenComposeMessageModal').click(function(){
     $('#errorList').addClass('d-none');
 });
 
-$('#chooseRecipient').change(function() {
-
-    if ($(this).val() == 'staffToAdmin') {
-        $('#chosenStaffToAdmin').removeClass('d-none');
-        $('#chosenStaffToHospital').addClass('d-none');
-        $('#chosenStaffToDonor').addClass('d-none');
-        $('#chosenOther').addClass('d-none');
-    }
-    else if ($(this).val() == 'staffToHospital') {
-        $('#chosenStaffToAdmin').addClass('d-none');
-        $('#chosenStaffToHospital').removeClass('d-none');
-        $('#chosenStaffToDonor').addClass('d-none');
-        $('#chosenOther').addClass('d-none');
-    }
-    else if ($(this).val() == 'staffToDonor') {
-        $('#chosenStaffToAdmin').addClass('d-none');
-        $('#chosenStaffToHospital').addClass('d-none');
-        $('#chosenStaffToDonor').removeClass('d-none');
-        $('#chosenOther').addClass('d-none');
-    }
-    else if ($(this).val() == 'other') {
-        $('#chosenStaffToAdmin').addClass('d-none');
-        $('#chosenStaffToHospital').addClass('d-none');
-        $('#chosenStaffToDonor').addClass('d-none');
-        $('#chosenOther').removeClass('d-none');
-    }
-});
-
-$('#viewSentMessages').click(function(){
-    $('#viewSentMessages').removeClass('btn-light');
-    $('#viewSentMessages').addClass('btn-dark');
-    $('#viewInboxMessages').removeClass('btn-dark');
-    $('#viewInboxMessages').addClass('btn-light');
-    $('#viewTrashMessages').removeClass('btn-dark');
-    $('#viewTrashMessages').addClass('btn-light');
-
-    fetchSentMessages();
-});
-
-$('#viewTrashMessages').click(function(){
-    $('#viewSentMessages').removeClass('btn-dark');
-    $('#viewSentMessages').addClass('btn-light');
-    $('#viewInboxMessages').removeClass('btn-dark');
-    $('#viewInboxMessages').addClass('btn-light');
-    $('#viewTrashMessages').removeClass('btn-light');
-    $('#viewTrashMessages').addClass('btn-dark');
-});
-
-$('#viewInboxMessages').click(function(){
-    $('#viewSentMessages').removeClass('btn-dark');
-    $('#viewSentMessages').addClass('btn-light');
-    $('#viewInboxMessages').removeClass('btn-light');
-    $('#viewInboxMessages').addClass('btn-dark');
-    $('#viewTrashMessages').removeClass('btn-dark');
-    $('#viewTrashMessages').addClass('btn-light');
-});
-
-function fetchSentMessages()
-{
-    var id = $('#senderId').val();
-
-    var url = '{{ url("admin/dashboard/fetchSentMessages/:id") }}';
-    url = url.replace(':id', id);
-
-    $.ajax({
-        type:"GET",
-        url:url,
-        success:function(response){
-            $('tbody').html('');
-            $.each(response.messages,function(key,item){
-
-                if(item.sender=="staffToAdmin"){
-                    $sentTo = 'Administrator';
-                }else{
-                    $sentTo = 'Administrator';
-                }
-
-                var messageSubject_str = item.subject;
-                var messageSubject_str = messageSubject_str.slice(0, 35)+'...'; 
-
-                var messageDescription_str = item.message;
-                var messageDescription_str = messageDescription_str.slice(0, 20)+'...'; 
-
-                var messageDate_str = item.date;
-                var messageDate_str = messageDate_str.slice(0, 10); 
-
-                $('tbody').append('<tr>\
-                    <td>To <b>'+$sentTo+'</b></td>\
-                    <td>'+messageSubject_str+'</td>\
-                    <td>'+messageDescription_str+'</td>\
-                    <td>'+messageDate_str+'</td>\
-                    <td>\
-                    <button class="btn btn-dark btn-sm" value="'+item.id+'" id="btnOpenMessageModal">Open</button>\
-                    </td>\
-                    </tr>\
-                    ');
-            });
-        }
-    });
-}
-
 //send message - staff to admin / staff to hospital
 $(document).on('click', '#staffToAdmin_btnCompose',function(e){
     e.preventDefault();
@@ -436,10 +344,241 @@ $(document).on('click', '#staffToAdmin_btnCompose',function(e){
         });
 });
 
-$('#btnOpenMessageModal').click(function(){
-    alert('dsadsa');
+$('#chooseRecipient').change(function() {
+
+    if ($(this).val() == 'staffToAdmin') {
+        $('#chosenStaffToAdmin').removeClass('d-none');
+        $('#chosenStaffToHospital').addClass('d-none');
+        $('#chosenStaffToDonor').addClass('d-none');
+        $('#chosenOther').addClass('d-none');
+    }
+    else if ($(this).val() == 'staffToHospital') {
+        $('#chosenStaffToAdmin').addClass('d-none');
+        $('#chosenStaffToHospital').removeClass('d-none');
+        $('#chosenStaffToDonor').addClass('d-none');
+        $('#chosenOther').addClass('d-none');
+    }
+    else if ($(this).val() == 'staffToDonor') {
+        $('#chosenStaffToAdmin').addClass('d-none');
+        $('#chosenStaffToHospital').addClass('d-none');
+        $('#chosenStaffToDonor').removeClass('d-none');
+        $('#chosenOther').addClass('d-none');
+    }
+    else if ($(this).val() == 'staffToOther') {
+        $('#chosenStaffToAdmin').addClass('d-none');
+        $('#chosenStaffToHospital').addClass('d-none');
+        $('#chosenStaffToDonor').addClass('d-none');
+        $('#chosenOther').removeClass('d-none');
+    }
 });
 
+$('#viewSentMessages').click(function(){
+    $('#viewSentMessages').removeClass('btn-light');
+    $('#viewSentMessages').addClass('btn-dark');
+    $('#viewInboxMessages').removeClass('btn-dark');
+    $('#viewInboxMessages').addClass('btn-light');
+    $('#viewTrashMessages').removeClass('btn-dark');
+    $('#viewTrashMessages').addClass('btn-light');
+
+    fetchSentMessages();
+});
+
+$('#viewTrashMessages').click(function(){
+    $('#viewSentMessages').removeClass('btn-dark');
+    $('#viewSentMessages').addClass('btn-light');
+    $('#viewInboxMessages').removeClass('btn-dark');
+    $('#viewInboxMessages').addClass('btn-light');
+    $('#viewTrashMessages').removeClass('btn-light');
+    $('#viewTrashMessages').addClass('btn-dark');
+
+    fetchTrashMessages();
+});
+
+$('#viewInboxMessages').click(function(){
+    $('#viewSentMessages').removeClass('btn-dark');
+    $('#viewSentMessages').addClass('btn-light');
+    $('#viewInboxMessages').removeClass('btn-light');
+    $('#viewInboxMessages').addClass('btn-dark');
+    $('#viewTrashMessages').removeClass('btn-dark');
+    $('#viewTrashMessages').addClass('btn-light');
+});
+
+function fetchSentMessages()
+{
+    var senderId = $('#senderId').val();
+
+    var url = '{{ url("admin/dashboard/fetchSentMessages/:senderId") }}';
+    url = url.replace(':senderId', senderId);
+
+    $.ajax({
+        type:"GET",
+        url:url,
+        success:function(response){
+            $('tbody').html('');
+            $.each(response.messages,function(key,item){
+
+                if(item.sender=="staffToAdmin"){
+                    $sentTo = 'Administrator';
+                }else{
+                    $sentTo = 'Administrator';
+                }
+
+                var messageSubject_str = item.subject;
+                var messageSubject_str = messageSubject_str.slice(0, 35)+'...'; 
+
+                var messageDescription_str = item.message;
+                var messageDescription_str = messageDescription_str.slice(0, 20)+'...'; 
+
+                var messageDate_str = item.date;
+                var messageDate_str = messageDate_str.slice(0, 10); 
+
+                $openButton = '<button class="btn btn-dark btn-sm" value="'+item.id+'" id="btnOpenSentOrTrashMessageModal">Open</button>';
+                $deleteButton = '<button class="btn btn-danger btn-sm" value="'+item.id+'" id="btnSentMoveToTrash">Move to Trash</button>';
+
+                $('tbody').append('<tr>\
+                    <td>To <b>'+$sentTo+'</b></td>\
+                    <td>'+messageSubject_str+'</td>\
+                    <td>'+messageDescription_str+'</td>\
+                    <td>'+messageDate_str+'</td>\
+                    <td>\
+                    '+$openButton+'\
+                    '+$deleteButton+'\
+                    </td>\
+                    </tr>\
+                    ');
+            });
+        }
+    });
+}
+
+$(document).on('click', '#btnSentMoveToTrash',function(e){
+        e.preventDefault();
+        var id = $(this).val();
+
+        var url = '{{ url("admin/dashboard/moveToTrash/:id") }}';
+        url = url.replace(':id', id);
+
+        $.ajax({
+            type:"PUT",
+            url:url,
+            dataType:"json",
+            success:function(response){
+                fetchSentMessages();
+            }
+        });
+});
+
+function fetchTrashMessages()
+{
+    var senderId = $('#senderId').val();
+
+    var url = '{{ url("admin/dashboard/fetchTrashMessages/:senderId") }}';
+    url = url.replace(':senderId', senderId);
+
+    $.ajax({
+        type:"GET",
+        url:url,
+        success:function(response){
+            $('tbody').html('');
+            $.each(response.messages,function(key,item){
+
+                if(item.sender=="staffToAdmin"){
+                    $sentTo = 'Administrator';
+                    $messageType = '<label class="badge badge-primary">Sent Message</label>';
+                }else{
+                    $sentTo = 'Administrator';
+                }
+
+                var messageSubject_str = item.subject;
+                var messageSubject_str = messageSubject_str.slice(0, 35)+'...'; 
+
+                var messageDescription_str = item.message;
+                var messageDescription_str = messageDescription_str.slice(0, 20)+'...'; 
+
+                var messageDate_str = item.date;
+                var messageDate_str = messageDate_str.slice(0, 10); 
+
+                $openButton = '<button class="btn btn-danger btn-sm" value="'+item.id+'" id="btnOpenSentOrTrashMessageModal">Open</button>';
+
+                $('tbody').append('<tr>\
+                    <td>To <b>'+$sentTo+'</b></td>\
+                    <td>'+messageSubject_str+'</td>\
+                    <td>'+messageDescription_str+'</td>\
+                    <td>'+messageDate_str+'</td>\
+                    <td>'+$messageType+'</td>\
+                    <td>\
+                    '+$openButton+'\
+                    </td>\
+                    </tr>\
+                    ');
+            });
+        }
+    });
+}
+
+$(document).on('click', '#btnOpenSentOrTrashMessageModal',function(e){
+
+ $('#replyMessageErrorList').html('');
+ $('#replyMessageErrorModalBody').addClass('d-none');
+ $('#replyMessageErrorList').addClass('d-none');
+
+ var id = $(this).val();
+ 
+ var url = '{{ url("admin/dashboard/fetchSingleMessage/:id") }}';
+ url = url.replace(':id', id);
+
+ $.ajax({
+    type:"GET",
+    url:url,
+    success: function (response){
+        if(response.status==404){
+            alert('Message Not Found');
+        }
+        else
+        {
+            $('#openMessageModal').modal('show');
+            $('#openMessageModalTitle').text('Message No. '+response.messages.message_no);
+            $('#openSender').val(response.messages.sender);
+
+            var openDate_str = response.messages.date;
+            var openDate_str = openDate_str.slice(0, 11); 
+
+            var openTime_str = response.messages.time;
+            var openTime_str = openTime_str.slice(11, 20);
+
+            $('#openDate').html('<b>Date:</b> '+openDate_str+'&nbsp;&nbsp;&nbsp;<b>Time:</b> '+openTime_str);
+            $('#openSubject').html('<b>Subject:</b> '+response.messages.subject);
+            $('#openMessage').text(response.messages.message);
+            $('#openSenderId').val(response.messages.sender_id);
+
+
+            var openedSenderId = $('#openSenderId').val();
+            var openSender = $('#openSender').val();
+
+            var urlGetSender = '{{ url("admin/dashboard/fetchSender/:senderId/:sender") }}';
+            urlGetSender = urlGetSender.replace(':senderId', openedSenderId);
+            urlGetSender = urlGetSender.replace(':sender', openSender);
+
+            $.ajax({
+                type:"GET",
+                url:urlGetSender,
+                success: function (response){
+                    if(response.status==404){
+                        alert('Sender Not Found');
+                    }
+                    else
+                    {
+                        if(openSender.includes("staffTo"))
+                        {
+                            $('#sender').html('<b>Sent by:</b> '+response.admins.fullname+' (Staff)');
+                        }
+                    }
+                }
+            });
+        }
+    }
+    });
+});
 
 });
 </script>

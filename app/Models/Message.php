@@ -20,8 +20,14 @@ class Message extends Model
         'date',
         'time',
         'status',
+        'staff_side_status',
+        'admin_side_status',
+        'hospital_side_status',
+        'donor_side_status',
+        'other_status',
         'reply_status',
         'sender_id',
+        'recipientId',
     ];
 
 }
