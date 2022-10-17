@@ -13,7 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('activities', function (Blueprint $table) {
+            $table->id();
+            $table->string('task');
+            $table->string('date');
+            $table->string('time');
+            $table->unsignedBigInteger('user_id');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('activities');
     }
 };

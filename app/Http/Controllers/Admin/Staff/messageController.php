@@ -6,7 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin;
 use App\Models\Message;
+use App\Models\Hospital;
+use App\Models\Activity;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+
+use App\Mail\Admin\otherMessage;
+
 
 class messageController extends Controller
 {
@@ -21,6 +27,7 @@ class messageController extends Controller
 
             'sender' => ['required'],
             'senderId' => ['required'],
+            'recipientId' => ['required'],
             'subject' => ['required','string','max:100'],
             'message' => ['required','string','max:255'],
 
@@ -35,62 +42,284 @@ class messageController extends Controller
         }
         else
         {
-            $isExist = Admin::select("*")->where("id", $request->input('senderId'))->exists();
+            $isSenderIdExist = Admin::select("*")->where("id", $request->input('senderId'))->exists();
             
-            if ($isExist) 
+            if ($isSenderIdExist) 
             {
                 $messageNo = rand(1500000,9515959);
-                $admin_side_status = 'unread';
-                $staff_side_status = 'sent';
-                $reply_status = '0';
-                $date = NOW();
 
-                $messages = new Message;
-                $messages->message_no = $messageNo;
-                $messages->sender = $request->input('sender');
-                $messages->subject = $request->input('subject');
-                $messages->message = $request->input('message');
-                $messages->date = $date;
-                $messages->time = $date;
+                $senderType = $request->input('sender');
 
-                $messages->admin_side_status = $admin_side_status;
-                $messages->staff_side_status = $staff_side_status;
-                $messages->reply_status = $reply_status;
-                $messages->sender_id = $request->input('senderId');
+                $staff_side_status = ""; $admin_side_status = "";
+                $hospital_side_status = ""; $donor_side_status = "";
+                $other_status = ""; $reply_status = '0';
 
-                $messages->save();
+                if($senderType == "staffToAdmin")
+                {
+                    $staff_side_status="sent";
+                    $admin_side_status="unread";
 
-                return response()->json([
-                    'status'=>200
-                ]);
+                    $date = NOW();
 
+                    $messages = new Message;
+
+                    $messages->message_no = $messageNo;
+                    $messages->sender = $request->input('sender');
+                    $messages->subject = $request->input('subject');
+                    $messages->message = $request->input('message');
+                    $messages->recipient_id = $request->input('recipientId');
+
+                    $messages->date = $date;
+                    $messages->time = $date;
+
+                    $messages->staff_side_status = $staff_side_status;
+                    $messages->admin_side_status = $admin_side_status;
+                    $messages->hospital_side_status = $hospital_side_status;
+                    $messages->donor_side_status = $donor_side_status;
+                    $messages->other_status = $other_status;
+                    $messages->reply_status = $reply_status;
+
+                    $messages->sender_id = $request->input('senderId');
+
+                    $messages->save();
+
+                    //record activity
+                    $activities = new Activity;
+                    $activities->user_id = auth()->guard('admin')->user()->id;
+                    $activities->task = 'Sent a message to Administrator';
+                    $activities->date = NOW();
+                    $activities->time = NOW();
+                    $activities->save();
+
+                    return response()->json([
+                        'status'=>200
+                     ]);
+
+                }
+                else if($senderType == "staffToHospital")
+                {
+                    $staff_side_status="sent";
+                    $hospital_side_status="unread";
+
+                    
+                    $isRecipientIdExist = Hospital::select("*")->where("id", $request->input('recipientId'))->exists();
+
+                    if($isRecipientIdExist)
+                    {
+                        $date = NOW();
+
+                        $messages = new Message;
+
+                        $messages->message_no = $messageNo;
+                        $messages->sender = $request->input('sender');
+                        $messages->subject = $request->input('subject');
+                        $messages->message = $request->input('message');
+                        $messages->recipient_id = $request->input('recipientId');
+
+                        $messages->date = $date;
+                        $messages->time = $date;
+
+                        $messages->staff_side_status = $staff_side_status;
+                        $messages->admin_side_status = $admin_side_status;
+                        $messages->hospital_side_status = $hospital_side_status;
+                        $messages->donor_side_status = $donor_side_status;
+                        $messages->other_status = $other_status;
+                        $messages->reply_status = $reply_status;
+
+                        $messages->sender_id = $request->input('senderId');
+
+                        $messages->save();
+
+                        //record activity
+                        $activities = new Activity;
+                        $activities->user_id = auth()->guard('admin')->user()->id;
+                        $activities->task = 'Sent a message to Hospital No. '.$request->input('recipientId');
+                        $activities->date = NOW();
+                        $activities->time = NOW();
+                        $activities->save();
+
+                        return response()->json([
+                            'status'=>200
+                        ]);
+                    }
+                    else
+                    {
+                        return response()->json([
+                            'status'=>301,
+                        ]);
+                    }
+                }
+                else if($senderType == "staffToDonor")
+                {
+                    $staff_side_status="sent";
+                    $donor_side_status="unread";
+
+                    
+                    $isRecipientIdExist = Hospital::select("*")->where("id", $request->input('recipientId'))->exists();
+
+                    if($isRecipientIdExist)
+                    {
+                        $date = NOW();
+
+                        $messages = new Message;
+
+                        $messages->message_no = $messageNo;
+                        $messages->sender = $request->input('sender');
+                        $messages->subject = $request->input('subject');
+                        $messages->message = $request->input('message');
+                        $messages->recipient_id = $request->input('recipientId');
+
+                        $messages->date = $date;
+                        $messages->time = $date;
+
+                        $messages->staff_side_status = $staff_side_status;
+                        $messages->admin_side_status = $admin_side_status;
+                        $messages->hospital_side_status = $hospital_side_status;
+                        $messages->donor_side_status = $donor_side_status;
+                        $messages->other_status = $other_status;
+                        $messages->reply_status = $reply_status;
+
+                        $messages->sender_id = $request->input('senderId');
+
+                        $messages->save();
+
+                        //record activity
+                        $activities = new Activity;
+                        $activities->user_id = auth()->guard('admin')->user()->id;
+                        $activities->task = 'Sent a message to Donor';
+                        $activities->date = NOW();
+                        $activities->time = NOW();
+                        $activities->save();
+
+                        return response()->json([
+                            'status'=>200
+                        ]);
+                    }
+                    else
+                    {
+                        return response()->json([
+                            'status'=>301,
+                        ]);
+                    }
+                }
+                else if($senderType == "staffToOther")
+                {
+                    $staff_side_status= "sent";
+                    $other_status = "0";
+
+                    $otherSubject = $request->input('subject'); 
+                    $otherMessage = $request->input('message');
+                    $mailSender = 'Staff';
+                    
+                    if(Mail::to($request->input('recipientId'))->send(new otherMessage($otherSubject, $otherMessage, $mailSender)))
+                    {
+                        $date = NOW();
+
+                        $messages = new Message;
+
+                        $messages->message_no = $messageNo;
+                        $messages->sender = $request->input('sender');
+                        $messages->subject = $request->input('subject');
+                        $messages->message = $request->input('message');
+                        $messages->recipient_id = $request->input('recipientId');
+
+                        $messages->date = $date;
+                        $messages->time = $date;
+
+                        $messages->staff_side_status = $staff_side_status;
+                        $messages->admin_side_status = $admin_side_status;
+                        $messages->hospital_side_status = $hospital_side_status;
+                        $messages->donor_side_status = $donor_side_status;
+                        $messages->other_status = $other_status;
+                        $messages->reply_status = $reply_status;
+
+                        $messages->sender_id = $request->input('senderId');
+
+                        $messages->save();
+
+                        //record activity
+                        $activities = new Activity;
+                        $activities->user_id = auth()->guard('admin')->user()->id;
+                        $activities->task = 'Sent a message to '.$request->input('recipientId');
+                        $activities->date = NOW();
+                        $activities->time = NOW();
+                        $activities->save();
+                        
+                        return response()->json([
+                            'status'=>200
+                        ]);
+                    }
+                    else
+                    {
+                        return response()->json([
+                            'status'=>301,
+                        ]);
+                    }
+                }
             }
             else
             {
                 return response()->json([
                     'status'=>404,
-                    'errors'=>$validator->messages()
                 ]);
             }
         }
     }
 
-    public function fetchSentMessages($senderId)
+    public function fetchInboxMessages($authId)
     {
-        $messages = Message::where('staff_side_status', '=', "sent")->where('sender','LIKE','%'.'staffTo'.'%')->where('sender_id', '=', $senderId)->orderBy('id', 'DESC')->get();
+        $messages = Message::where('recipient_id', '=', $authId)->where('staff_side_status', '=', "unread")->where('sender','LIKE','%'.'ToStaff'.'%')->orderBy('id', 'DESC')->get();
         return response()->json([
             'messages'=>$messages,
         ]);
     }
 
-    public function fetchTrashMessages($senderId)
+    public function fetchSentMessages($authId)
     {
-        $messages = Message::where('staff_side_status', '=', "trash")->where('sender_id', '=', $senderId)->orderBy('id', 'DESC')->get();
+        $messages = Message::where('sender_id', '=', $authId)->where('staff_side_status', '=', "sent")->orderBy('id', 'DESC')->get();
         return response()->json([
             'messages'=>$messages,
         ]);
     }
 
+    public function moveToTrash(Request $request, $id)
+    {
+        $messages = Message::find($id);
+        $staff_side_status = "trash";
+        
+        $messages->staff_side_status = $staff_side_status;
+        $messages->update();
+
+        //record activity
+        $activities = new Activity;
+        $activities->user_id = auth()->guard('admin')->user()->id;
+        $activities->task = 'Moved message No. '.$id.' to trash';
+        $activities->date = NOW();
+        $activities->time = NOW();
+        $activities->save();
+
+        return response()->json([
+            'status'=>200,
+        ]);
+    }
+    
+    public function fetchTrashMessages($authId)
+    {
+        $messages = Message::where([
+            ['recipient_id',$authId],
+            ['staff_side_status','trash'],
+            ['sender','LIKE','%'.'ToStaff'.'%']
+        ])->orWhere([
+            ['sender_id',$authId],
+            ['staff_side_status','trash'],
+            ['sender','LIKE','%'.'staffTo'.'%']
+        ])->orderBy('id', 'DESC')->get();
+
+        return response()->json([
+            'messages'=>$messages,
+        ]);
+    }
+    
     public function fetchSingleMessage($id)
     {
         $messages = Message::find($id);
@@ -111,14 +340,14 @@ class messageController extends Controller
 
     public function fetchSender($senderId,$sender)
     {
-        if($sender=="staffToAdmin")
+        if($sender=="staffToHospital" || $sender=="hospitalToStaff")
         {
-            $admins = Admin::find($senderId);
-            if($admins)
+            $hospitals = Hospital::find($senderId);
+            if($hospitals)
             {
                 return response()->json([
                     'status'=>200,
-                    'admins'=>$admins,
+                    'hospitals'=>$hospitals,
                 ]);
             }
             else
@@ -128,22 +357,22 @@ class messageController extends Controller
                 ]);
             }
         }
-        else
+        else if($sender=="staffToDonor" || $sender=="donorToStaff")
         {
-
+            $hospitals = Hospital::find($senderId);
+            if($hospitals)
+            {
+                return response()->json([
+                    'status'=>200,
+                    'hospitals'=>$hospitals,
+                ]);
+            }
+            else
+            {
+                return response()->json([
+                    'status'=>404,
+                ]);
+            }
         }
-    }
-
-    public function moveToTrash(Request $request, $id)
-    {
-        $messages = Message::find($id);
-        $staff_side_status = "trash";
-        
-        $messages->staff_side_status = $staff_side_status;
-        $messages->update();
-
-        return response()->json([
-            'status'=>200,
-        ]);
     }
 }

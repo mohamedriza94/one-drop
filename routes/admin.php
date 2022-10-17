@@ -29,7 +29,10 @@ Route::group([
     Route::get('/fetchProfile/{id}', 'profileController@fetchProfile');
     Route::put('/updateProfile/{id}', 'profileController@updateProfile');
     Route::put('/changePassword/{id}', 'profileController@changePassword');
-
+    
+    //===========================================================================
+    //Admin routes---------------------------------------------------------------
+    //
     //staff management routes
     Route::get('/staff', 'staffController@index')->name('admin.staff');
     Route::post('/insertStaff', 'staffController@addStaff');
@@ -53,7 +56,7 @@ Route::group([
     Route::post('/updateHospital/{id}', 'hospitalController@updateHospital');
     Route::delete('/deleteHospital/{id}', 'hospitalController@deleteHospital');
 
-    //staff message management routes
+    //message management routes
     Route::get('/staffMessage', 'staffMessageController@index')->name('admin.staffMessage');
 
     Route::get('/fetchStafflist', 'staffMessageController@fetchStafflist');
@@ -67,18 +70,28 @@ Route::group([
     Route::get('/staff_fetchSender/{senderId}/{sender}', 'staffMessageController@staff_fetchSender');
 
 
-
     //===========================================================================
-    //staff routes---------------------------------------------------------------
+    //Staff routes---------------------------------------------------------------
     //
     //message management routes 
     Route::get('staff/message', 'Staff\messageController@index')->name('admin.staffControls.message');
+
     Route::post('/sendMessage', 'Staff\messageController@sendMessage');
-    Route::get('/fetchSentMessages/{senderId}', 'Staff\messageController@fetchSentMessages');
-    Route::get('/fetchTrashMessages/{senderId}', 'Staff\messageController@fetchTrashMessages');
+    Route::get('/fetchInboxMessages/{authId}', 'Staff\messageController@fetchInboxMessages');
+    Route::get('/fetchSentMessages/{authId}', 'Staff\messageController@fetchSentMessages');
+    Route::get('/fetchTrashMessages/{authId}', 'Staff\messageController@fetchTrashMessages');
     Route::get('/fetchSingleMessage/{id}', 'Staff\messageController@fetchSingleMessage');
     Route::get('/fetchSender/{senderId}/{sender}', 'Staff\messageController@fetchSender');
     Route::put('/moveToTrash/{id}', 'Staff\messageController@moveToTrash');
+
+    //universal message reply route
+    Route::post('/replyToMessage', 'staffMessageController@replyToMessage');
+    Route::get('/fetchReply/{messageId}', 'staffMessageController@fetchReply');
+    Route::put('/viewedReplyUpdateStatus/{id}', 'staffMessageController@viewedReplyUpdateStatus');
+
+    //activity log routes
+    Route::get('/activity', 'activityController@index')->name('admin.activity');
+    Route::get('/fetchActivities', 'activityController@fetchActivities');
     });
 
     });

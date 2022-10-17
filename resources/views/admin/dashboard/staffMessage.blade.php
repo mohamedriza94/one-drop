@@ -92,11 +92,41 @@
                                 </div>
 
                                 <div class="col-md-12">
+                                    <label class="form-label"><b>Message:</b></label> 
                                     <p class="" id="openMessage"></p> 
+                                </div>
+                                
+                                <input type="hidden" id="openMessageId">
+                                
+                                <div class="col-md-12 d-none" id="openReplySection">
+                                    
+                                <hr style="padding:1px; background:black;">
+                                    <label class="form-label"><b>Reply:</b></label> 
+                                    <p class="" id="openReply"></p> 
                                 </div>
 
                                 <input type="hidden" id="openSenderId">
                                 <input type="hidden" id="openSender">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="modal-body d-none" id="replyBody">
+                            <div id="" class="row g-3">
+                                
+                                <h5><b>Reply</b></h5>
+                                <input type="hidden" id="messageIdForReply">
+                                <div class="col-md-12">
+                                    <label class="form-label">Type your reply here:</label>
+                                    <textarea class="form-control" id="reply_message" name="reply_message" rows="8"></textarea> 
+                                </div>
+
+                                <div class="col-md-6">
+                                    <button class="btn btn-danger form-control" type="submit" data-bs-dismiss="modal">Discard</button>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary form-control" type="submit" id="btnReply" name="btnReply">Reply</button>
+                                </div>
                             </div>
                         </div>
 
@@ -118,7 +148,6 @@
 
                         <div class="modal-body d-none" id="errorModalBody">
                             <ul class="bg-warning form-control px-5 d-none" id="errorList">
-
                             </ul>
                         </div>
 
@@ -236,6 +265,11 @@
 
 <script>
 $(document).ready(function(){
+
+//load inbox
+fetchInboxMessages();
+$('#viewInboxMessages').removeClass('btn-light');
+$('#viewInboxMessages').addClass('btn-dark');
 
 //call functions
 fetchStafflist();
@@ -540,6 +574,91 @@ $(document).on('click', '#adminToHospital_btnCompose',function(e){
         });
 });
 
+$(document).on('click', '#other_btnCompose',function(e){
+    e.preventDefault();
+
+    $('#other_btnCompose').text('Sending...');
+
+    var sender = $('#chooseRecipient').val();
+    var senderId = $('#senderId').val();
+    var recipientId = $('#other_email').val();
+    var subject = $('#other_subject').val();
+    var message = $('#other_message').val();
+
+    var data = {
+        'sender' : sender,
+        'senderId' : senderId,
+        'recipientId' : recipientId,
+        'subject' : subject,
+        'message' : message,
+    }
+
+    var url = '{{ url("admin/dashboard/staff_sendMessage") }}';
+
+    $.ajax({
+        type:"POST",
+        url:url,
+        data:data,
+        dataType:"json",
+        success:function(response){
+                if(response.status==404) //sender ID missing
+                {
+                    $('#other_btnCompose').text('Compose');
+
+                    $('#errorList').html('');
+                    $('#errorModalBody').removeClass('d-none');
+                    $('#errorList').removeClass('d-none');
+
+                    $.each(response.errors,function(key,err_value){
+                        $('#errorList').append('<li>Admin ID is not valid</li>');
+                    });
+                }
+                else if(response.status==301) //Email invalid
+                {
+                    $('#other_btnCompose').text('Compose');
+
+                    $('#errorList').html('');
+                    $('#errorModalBody').removeClass('d-none');
+                    $('#errorList').removeClass('d-none');
+
+                    $.each(response.errors,function(key,err_value){
+                        $('#errorList').append('<li>Email is not valid</li>');
+                    });
+                }
+                else if(response.status==400)
+                {
+                    $('#other_btnCompose').text('Compose');
+
+                    $('#errorList').html('');
+                    $('#errorModalBody').removeClass('d-none');
+                    $('#errorList').removeClass('d-none');
+
+                    $.each(response.errors,function(key,err_value){
+                        $('#errorList').append('<li>'+err_value+'</li>');
+                    });
+                }
+                else if(response.status==200)
+                {
+                    $('#other_btnCompose').text('Sent!');
+                    $('#other_btnCompose').removeClass('btn-primary');
+                    $('#other_btnCompose').addClass('btn-success');
+
+                    
+                    $('#errorList').html('');
+                    $('#errorModalBody').addClass('d-none');
+                    $('#errorList').addClass('d-none');
+
+                    setTimeout(function(){
+                        $('#other_btnCompose').removeClass('btn-success');
+                        $('#other_btnCompose').addClass('btn-primary');
+                        $('#other_btnCompose').text('Compose');
+                        $('#composeMessageModal').modal('hide');
+                    }, 2000);
+                }
+            }
+        });
+});
+
 function fetchInboxMessages()
 {
     var url = '{{ url("admin/dashboard/staff_fetchInboxMessages") }}';
@@ -567,7 +686,15 @@ function fetchInboxMessages()
                 var messageDate_str = item.date;
                 var messageDate_str = messageDate_str.slice(0, 10); 
 
-                $openButton = '<button class="btn btn-dark btn-sm" value="'+item.id+'" id="btnOpenInboxMessage">Open</button>';
+                if(item.reply_status=="1" || item.reply_status=="2")
+                {
+                    $toggleElement = '<label class="badge badge-success">Replied</label>';
+                }
+                else if(item.reply_status=="0")
+                {
+                    $toggleElement = '<button class="btn btn-dark btn-sm" value="'+item.id+'" id="btnOpenInboxMessage">Open</button>';
+                }
+                
                 $deleteButton = '<button class="btn btn-danger btn-sm" value="'+item.id+'" id="btnInboxMoveToTrash">Move to Trash</button>';
 
                 $('tbody').append('<tr>\
@@ -576,7 +703,7 @@ function fetchInboxMessages()
                     <td>'+messageDescription_str+'</td>\
                     <td>'+messageDate_str+'</td>\
                     <td>\
-                    '+$openButton+'\
+                    '+$toggleElement+'\
                     '+$deleteButton+'\
                     </td>\
                     </tr>\
@@ -624,11 +751,11 @@ function fetchTrashMessages()
                 }
                 else if(item.sender=="staffToAdmin"){
                     $party = 'From <b>Staff</b>';
-                    $messageType = '<label class="badge badge-danger">Received</label>';
+                    $messageType = '<label class="badge badge-success">Received</label>';
                 }
                 else if(item.sender=="hospitalToAdmin"){
                     $party = 'From <b>Hospital</b>';
-                    $messageType = '<label class="badge badge-danger">Received</label>';
+                    $messageType = '<label class="badge badge-success">Received</label>';
                 }
                 else if(item.sender=="adminToOther"){
                     $party = 'To <b>Guest</b>';
@@ -682,6 +809,9 @@ function fetchSentMessages()
                 else if(item.sender=="adminToHospital"){
                     $party = 'Hospital';
                 }
+                else if(item.sender=="adminToOther"){
+                    $party = 'Guest';
+                }
 
                 var messageSubject_str = item.subject;
                 var messageSubject_str = messageSubject_str.slice(0, 35)+'...'; 
@@ -692,8 +822,23 @@ function fetchSentMessages()
                 var messageDate_str = item.date;
                 var messageDate_str = messageDate_str.slice(0, 10); 
 
+                if(item.reply_status=="1")
+                {
+                    $replyButton = '<button class="btn btn-success btn-sm" value="'+item.id+'" id="btnOpenReply">See Reply</button>';
+                    $deleteButton = '<button class="btn btn-danger btn-sm" value="'+item.id+'" id="btnSentMoveToTrash">Move to Trash</button>';
+                }
+                else if(item.reply_status=="2")
+                {
+                    $replyButton = '<button class="btn btn-light btn-sm" value="'+item.id+'" id="btnOpenReply">Opened</button>';
+                    $deleteButton = '<button class="btn btn-danger btn-sm" value="'+item.id+'" id="btnSentMoveToTrash">Move to Trash</button>';
+                }
+                else if(item.reply_status=="0")
+                {
+                    $replyButton = '';
+                    $deleteButton = '';
+                }
+
                 $openButton = '<button class="btn btn-dark btn-sm" value="'+item.id+'" id="btnOpenSentOrTrashMessageModal">Open</button>';
-                $deleteButton = '<button class="btn btn-danger btn-sm" value="'+item.id+'" id="btnSentMoveToTrash">Move to Trash</button>';
 
                 $('tbody').append('<tr>\
                     <td>To <b>'+$party+'</b></td>\
@@ -703,6 +848,7 @@ function fetchSentMessages()
                     <td>\
                     '+$openButton+'\
                     '+$deleteButton+'\
+                    '+$replyButton+'\
                     </td>\
                     </tr>\
                     ');
@@ -730,9 +876,9 @@ $(document).on('click', '#btnSentMoveToTrash',function(e){
 
 $(document).on('click', '#btnOpenSentOrTrashMessageModal',function(e){
         e.preventDefault();
-         $('#openMessageModal').modal('show');
 
         var id = $(this).val();
+         $('#replyBody').addClass('d-none');
 
         var url = '{{ url("admin/dashboard/staff_fetchSingleMessage/:id") }}';
         url = url.replace(':id', id);
@@ -761,21 +907,18 @@ $(document).on('click', '#btnOpenSentOrTrashMessageModal',function(e){
             $('#openMessage').text(response.messages.message);
 
                         var getSenderType = $('#openSender').val();
-                        if(getSenderType == "adminToStaff")
+
+                        if(getSenderType == "adminToStaff" || getSenderType == "adminToHospital")
                         {
                             $('#openSenderId').val(response.messages.recipient_id);
                         }
-                        else if(getSenderType == "adminToHospital")
-                        {
-                            $('#openSenderId').val(response.messages.recipient_id);
-                        }
-                        else if(getSenderType == "staffToAdmin")
+                        else if(getSenderType == "staffToAdmin" || getSenderType == "hospitalToAdmin")
                         {
                             $('#openSenderId').val(response.messages.sender_id);
                         }
-                        else if(getSenderType == "hospitalToAdmin")
+                        else if(getSenderType == "adminToOther")
                         {
-                            $('#openSenderId').val(response.messages.sender_id);
+                            $('#sender').html('<b>Sent To:</b> '+response.messages.recipient_id+' (Guest)');
                         }
 
             var openedSenderId = $('#openSenderId').val();
@@ -795,6 +938,7 @@ $(document).on('click', '#btnOpenSentOrTrashMessageModal',function(e){
                     else
                     {
                         var getSenderType = $('#openSender').val();
+
                         if(getSenderType == "adminToStaff")
                         {
                             $('#sender').html('<b>Sent To:</b> '+response.admins.fullname+' (Staff)');
@@ -805,20 +949,325 @@ $(document).on('click', '#btnOpenSentOrTrashMessageModal',function(e){
                         }
                         else if(getSenderType == "staffToAdmin")
                         {
-                            $('#sender').html('<b>Received from:</b> '+response.admins.name+' (Staff)');
+                            $('#sender').html('<b>Received from:</b> '+response.admins.fullname+' (Staff)');
                         }
                         else if(getSenderType == "hospitalToAdmin")
                         {
                             $('#sender').html('<b>Received from:</b> '+response.hospitals.name+' (Hospital)');
                         }
+
                     }
                 }
             });
+
+         $('#openMessageModal').modal('show');
+            $('#openReplySection').addClass('d-none');
+            $('#replyBody').addClass('d-none');
         }
     }
+
+    
         });
 });
 
+$(document).on('click', '#btnOpenInboxMessage',function(e){
+        e.preventDefault();
+
+        var id = $(this).val();
+
+        $('#messageIdForReply').val(id);
+
+        var url = '{{ url("admin/dashboard/staff_fetchSingleMessage/:id") }}';
+        url = url.replace(':id', id);
+
+        $.ajax({
+            type:"GET",
+            url:url,
+            success:function(response){
+        if(response.status==404){
+            alert('Message Not Found');
+        }
+        else
+        {
+            $('#openMessageModal').modal('show');
+            $('#openMessageModalTitle').text('Message No. '+response.messages.message_no);
+            $('#openSender').val(response.messages.sender);
+
+            var openDate_str = response.messages.date;
+            var openDate_str = openDate_str.slice(0, 11); 
+
+            var openTime_str = response.messages.time;
+            var openTime_str = openTime_str.slice(11, 20);
+
+            $('#openDate').html('<b>Date:</b> '+openDate_str+'&nbsp;&nbsp;&nbsp;<b>Time:</b> '+openTime_str);
+            $('#openSubject').html('<b>Subject:</b> '+response.messages.subject);
+            $('#openMessage').text(response.messages.message);
+
+                        var getSenderType = $('#openSender').val();
+
+                        if(getSenderType == "adminToStaff" || getSenderType == "adminToHospital")
+                        {
+                            $('#openSenderId').val(response.messages.recipient_id);
+                        }
+                        else if(getSenderType == "staffToAdmin" || getSenderType == "hospitalToAdmin")
+                        {
+                            $('#openSenderId').val(response.messages.sender_id);
+                        }
+                        else if(getSenderType == "adminToOther")
+                        {
+                            $('#sender').html('<b>Sent To:</b> '+response.messages.recipient_id+' (Guest)');
+                        }
+
+            var openedSenderId = $('#openSenderId').val();
+            var openSender = $('#openSender').val();
+
+            var urlGetSender = '{{ url("admin/dashboard/staff_fetchSender/:senderId/:sender") }}';
+            urlGetSender = urlGetSender.replace(':senderId', openedSenderId);
+            urlGetSender = urlGetSender.replace(':sender', openSender);
+
+            $.ajax({
+                type:"GET",
+                url:urlGetSender,
+                success: function (response){
+                    if(response.status==404){
+                        alert('Sender Not Found');
+                    }
+                    else
+                    {
+                        var getSenderType = $('#openSender').val();
+
+                        if(getSenderType == "adminToStaff")
+                        {
+                            $('#sender').html('<b>Sent To:</b> '+response.admins.fullname+' (Staff)');
+                        }
+                        else if(getSenderType == "adminToHospital")
+                        {
+                            $('#sender').html('<b>Sent To:</b> '+response.hospitals.name+' (Hospital)');
+                        }
+                        else if(getSenderType == "staffToAdmin")
+                        {
+                            $('#sender').html('<b>Received from:</b> '+response.admins.fullname+' (Staff)');
+                        }
+                        else if(getSenderType == "hospitalToAdmin")
+                        {
+                            $('#sender').html('<b>Received from:</b> '+response.hospitals.name+' (Hospital)');
+                        }
+
+                    }
+                }
+            });
+
+         $('#openMessageModal').modal('show');
+         $('#openReplySection').addClass('d-none');
+         $('#replyBody').removeClass('d-none');
+        }
+    }
+
+    
+        });
+});
+
+$(document).on('click', '#btnReply',function(e){
+    e.preventDefault();
+
+    $('#btnReply').text('Sending...');
+
+    var reply = $('#reply_message').val();
+    var message_no = $('#messageIdForReply').val();
+
+    var data = {
+        'reply' : reply,
+        'message_no' : message_no
+    }
+
+    var url = '{{ url("admin/dashboard/replyToMessage") }}';
+
+    $.ajax({
+        type:"POST",
+        url:url,
+        data:data,
+        dataType:"json",
+        success:function(response)
+        {
+            if(response.status==400)
+            {
+                $('#btnReply').text('Reply');
+
+                $('#replyMessageErrorList').html('');
+                $('#replyMessageErrorModalBody').removeClass('d-none');
+                $('#replyMessageErrorList').removeClass('d-none');
+
+                $.each(response.errors,function(key,err_value){
+                    $('#replyMessageErrorList').append('<li>'+err_value+'</li>');
+                });
+            }
+            else if(response.status==300) //Message invalid
+            {
+                $('#btnReply').text('Reply');
+
+                $('#replyMessageErrorList').html('');
+                $('#replyMessageErrorModalBody').removeClass('d-none');
+                $('#replyMessageErrorList').removeClass('d-none');
+
+                $.each(response.errors,function(key,err_value){
+                    $('#errorList').append('<li>Message is not valid</li>');
+                });
+            }
+            else if(response.status==200)
+            {
+                $('#btnReply').text('Replied!');
+                $('#btnReply').removeClass('btn-primary');
+                $('#btnReply').addClass('btn-success');
+
+                $('#replyMessageErrorList').html('');
+                $('#replyMessageErrorModalBody').addClass('d-none');
+                $('#replyMessageErrorList').addClass('d-none');
+
+                setTimeout(function(){
+                    $('#reply_message').val('');
+                    $('#messageIdForReply').val('');
+                    $('#btnReply').removeClass('btn-success');
+                    $('#btnReply').addClass('btn-primary');
+                    $('#btnReply').text('Reply');
+                    $('#openMessageModal').modal('hide');
+                    fetchInboxMessages();
+                }, 2000);
+            }
+        }
+        });
+});
+
+$(document).on('click', '#btnOpenReply',function(e){
+        e.preventDefault();
+
+        var id = $(this).val();
+         $('#replyBody').addClass('d-none');
+
+        var url = '{{ url("admin/dashboard/staff_fetchSingleMessage/:id") }}';
+        url = url.replace(':id', id);
+
+        $.ajax({
+            type:"GET",
+            url:url,
+            success:function(response){
+        if(response.status==404){
+            alert('Message Not Found');
+        }
+        else
+        {
+            $('#openMessageModal').modal('show');
+            $('#openMessageModalTitle').text('Message No. '+response.messages.message_no);
+            $('#openSender').val(response.messages.sender);
+
+            var openDate_str = response.messages.date;
+            var openDate_str = openDate_str.slice(0, 11); 
+
+            var openTime_str = response.messages.time;
+            var openTime_str = openTime_str.slice(11, 20);
+
+            $('#openDate').html('<b>Date:</b> '+openDate_str+'&nbsp;&nbsp;&nbsp;<b>Time:</b> '+openTime_str);
+            $('#openSubject').html('<b>Subject:</b> '+response.messages.subject);
+            $('#openMessage').text(response.messages.message);
+
+            //for reply
+            $('#openMessageId').val(response.messages.id);
+            $('#openReplySection').removeClass('d-none');
+            $('#replyBody').addClass('d-none');
+
+                        var getSenderType = $('#openSender').val();
+
+                        if(getSenderType == "adminToStaff" || getSenderType == "adminToHospital")
+                        {
+                            $('#openSenderId').val(response.messages.recipient_id);
+                        }
+                        else if(getSenderType == "staffToAdmin" || getSenderType == "hospitalToAdmin")
+                        {
+                            $('#openSenderId').val(response.messages.sender_id);
+                        }
+                        else if(getSenderType == "adminToOther")
+                        {
+                            $('#sender').html('<b>Sent To:</b> '+response.messages.recipient_id+' (Guest)');
+                        }
+
+            var openedSenderId = $('#openSenderId').val();
+            var openSender = $('#openSender').val();
+
+            var urlGetSender = '{{ url("admin/dashboard/staff_fetchSender/:senderId/:sender") }}';
+            urlGetSender = urlGetSender.replace(':senderId', openedSenderId);
+            urlGetSender = urlGetSender.replace(':sender', openSender);
+
+            $.ajax({
+                type:"GET",
+                url:urlGetSender,
+                success: function (response){
+                    if(response.status==404){
+                        alert('Sender Not Found');
+                    }
+                    else
+                    {
+                        var getSenderType = $('#openSender').val();
+
+                        if(getSenderType == "adminToStaff")
+                        {
+                            $('#sender').html('<b>Sent To:</b> '+response.admins.fullname+' (Staff)');
+                        }
+                        else if(getSenderType == "adminToHospital")
+                        {
+                            $('#sender').html('<b>Sent To:</b> '+response.hospitals.name+' (Hospital)');
+                        }
+                        else if(getSenderType == "staffToAdmin")
+                        {
+                            $('#sender').html('<b>Received from:</b> '+response.admins.fullname+' (Staff)');
+                        }
+                        else if(getSenderType == "hospitalToAdmin")
+                        {
+                            $('#sender').html('<b>Received from:</b> '+response.hospitals.name+' (Hospital)');
+                        }
+
+                    }
+                }
+            });
+
+            var fetchedMessageId = $('#openMessageId').val();
+            var urlGetReply = '{{ url("admin/dashboard/fetchReply/:messageId") }}';
+            urlGetReply = urlGetReply.replace(':messageId', fetchedMessageId);
+
+            $.ajax({
+                type:"GET",
+                url:urlGetReply,
+                success: function (response){
+                    $.each(response.replies,function(key,item){
+                        
+                    $('#openReply').text(item.reply);
+
+                    });
+                }   
+            });
+
+         $('#openMessageModal').modal('show');
+        }
+    }
+
+    
+        });
+});
+
+$(document).on('click', '#btnOpenReply',function(e){
+        e.preventDefault();
+        var id = $(this).val();
+
+        var url = '{{ url("admin/dashboard/viewedReplyUpdateStatus/:id") }}';
+        url = url.replace(':id', id);
+
+        $.ajax({
+            type:"PUT",
+            url:url,
+            dataType:"json",
+            success:function(response){
+                fetchSentMessages();
+            }
+        });
+});
 
 });
 </script>
