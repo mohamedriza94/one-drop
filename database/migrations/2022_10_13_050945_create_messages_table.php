@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('donor_side_status')->nullable();;
             $table->string('other_status')->nullable();;
             $table->string('reply_status')->nullable();
-            $table->unsignedBigInteger('sender_id')->nullable();
+            $table->string('sender_id')->nullable();
             $table->string('recipient_id')->nullable();
             $table->timestamps();
         });

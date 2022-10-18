@@ -19,7 +19,6 @@ class Message extends Model
         'message',
         'date',
         'time',
-        'status',
         'staff_side_status',
         'admin_side_status',
         'hospital_side_status',

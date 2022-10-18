@@ -46,6 +46,10 @@ class RouteServiceProvider extends ServiceProvider
             // route model binding for admins
             Route::middleware('web')
                 ->group(base_path('routes/admin.php'));
+            
+            // route model binding for visitors
+            Route::middleware('web')
+                ->group(base_path('routes/visitor.php'));
         });
     }
 
