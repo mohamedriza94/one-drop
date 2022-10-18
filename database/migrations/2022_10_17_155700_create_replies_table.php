@@ -13,13 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('appointment', function (Blueprint $table) {
+        Schema::create('replies', function (Blueprint $table) {
             $table->id();
-            $table->string('appointment_no');
+            $table->unsignedBigInteger('reply_no')->unique();
+            $table->text('reply');
             $table->string('date');
             $table->string('time');
-            $table->string('venue');
             $table->string('status');
+            $table->unsignedBigInteger('message_no')->unique();
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('appointment');
+        Schema::dropIfExists('replies');
     }
 };

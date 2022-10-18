@@ -14,7 +14,14 @@ class hospitalController extends Controller
 {
     public function index()
     {
-        return view('admin.dashboard.hospital');
+        if(auth()->guard('admin')->user()->role == 'admin')
+        {
+            return view('admin.dashboard.hospital');
+        }
+        else
+        {
+            return back();
+        }
     }
 
     public function addHospital(Request $request)

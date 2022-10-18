@@ -182,7 +182,7 @@
                 </li>
 
                 <li class="menu">
-                    <a href="" aria-expanded="false" class="dropdown-toggle d-flex align-items-baseline">
+                    <a href="{{ route('admin.activity') }}" aria-expanded="false" class="dropdown-toggle d-flex align-items-baseline">
                         <div class="">
                             <i class="fa-solid fa-list-check" style="width:50px; height:100%;"></i>    
                             <span>Activities</span>
@@ -496,7 +496,7 @@
                 <hr>
                 
                 <li class="menu">
-                    <a href="" aria-expanded="false" class="dropdown-toggle">
+                    <a href="{{ route('admin.staffControls.news') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
                             <i class="fa-solid fa-newspaper" style="width:50px; height:100%;"></i>
                             <span>News</span>

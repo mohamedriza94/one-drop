@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('other_status')->nullable();;
             $table->string('reply_status')->nullable();
             $table->unsignedBigInteger('sender_id')->nullable();
-            $table->unsignedBigInteger('recipient_id')->nullable();
+            $table->string('recipient_id')->nullable();
             $table->timestamps();
         });
     }

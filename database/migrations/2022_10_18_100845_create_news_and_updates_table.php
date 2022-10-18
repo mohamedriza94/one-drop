@@ -13,15 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('blood', function (Blueprint $table) {
+        Schema::create('news_and_updates', function (Blueprint $table) {
             $table->id();
-            $table->string('bag_no');
-            $table->string('bloodgroup');
-            $table->string('received_date');
-            $table->string('received_time');
-            $table->string('expiry_date');
+            $table->string('news_no')->unique();
+            $table->string('title');
+            $table->text('description');
+            $table->text('thumbnail');
             $table->string('status');
+            $table->string('time');
+            $table->unsignedBigInteger('admin_id');
             $table->timestamps();
+            
+            $table->Index('admin_id');
         });
     }
 
@@ -32,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('blood');
+        Schema::dropIfExists('news_and_updates');
     }
 };
