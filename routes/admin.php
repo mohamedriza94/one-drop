@@ -29,7 +29,10 @@ Route::group([
     Route::get('/fetchProfile/{id}', 'profileController@fetchProfile');
     Route::put('/updateProfile/{id}', 'profileController@updateProfile');
     Route::put('/changePassword/{id}', 'profileController@changePassword');
-
+    
+    //===========================================================================
+    //Admin routes---------------------------------------------------------------
+    //
     //staff management routes
     Route::get('/staff', 'staffController@index')->name('admin.staff');
     Route::post('/insertStaff', 'staffController@addStaff');
@@ -53,17 +56,60 @@ Route::group([
     Route::post('/updateHospital/{id}', 'hospitalController@updateHospital');
     Route::delete('/deleteHospital/{id}', 'hospitalController@deleteHospital');
 
-
-
-
-    //===========================================================================
-    //staff routes---------------------------------------------------------------
-
     //message management routes
+    Route::get('/staffMessage', 'staffMessageController@index')->name('admin.staffMessage');
+
+    Route::get('/fetchStafflist', 'staffMessageController@fetchStafflist');
+    Route::get('/fetchHospitallist', 'staffMessageController@fetchHospitallist');
+    Route::post('/staff_sendMessage', 'staffMessageController@staff_sendMessage');
+    Route::get('/staff_fetchInboxMessages', 'staffMessageController@staff_fetchInboxMessages');
+    Route::get('/staff_fetchTrashMessages', 'staffMessageController@staff_fetchTrashMessages');
+    Route::get('/staff_fetchSentMessages/{senderId}', 'staffMessageController@staff_fetchSentMessages');
+    Route::put('/staff_MoveToTrash/{id}', 'staffMessageController@staff_moveToTrash');
+    Route::get('/staff_fetchSingleMessage/{id}', 'staffMessageController@staff_fetchSingleMessage');
+    Route::get('/staff_fetchSender/{senderId}/{sender}', 'staffMessageController@staff_fetchSender');
+
+    
+    //universal message reply route
+    Route::post('/replyToMessage', 'staffMessageController@replyToMessage');
+    Route::get('/fetchReply/{messageId}', 'staffMessageController@fetchReply');
+    Route::put('/viewedReplyUpdateStatus/{id}', 'staffMessageController@viewedReplyUpdateStatus');
+    
+
+
+    
+    //===========================================================================
+    //Staff routes---------------------------------------------------------------
+    //
+    //message management routes 
     Route::get('staff/message', 'Staff\messageController@index')->name('admin.staffControls.message');
+
     Route::post('/sendMessage', 'Staff\messageController@sendMessage');
-    Route::get('/fetchSentMessages/{id}', 'Staff\messageController@fetchSentMessages');
-    Route::get('/fetchTrashMessages/{id}', 'Staff\messageController@fetchTrashMessages');
+    Route::get('/fetchInboxMessages/{authId}', 'Staff\messageController@fetchInboxMessages');
+    Route::get('/fetchSentMessages/{authId}', 'Staff\messageController@fetchSentMessages');
+    Route::get('/fetchTrashMessages/{authId}', 'Staff\messageController@fetchTrashMessages');
+    Route::get('/fetchSingleMessage/{id}', 'Staff\messageController@fetchSingleMessage');
+    Route::get('/fetchSender/{senderId}/{sender}', 'Staff\messageController@fetchSender');
+    Route::put('/moveToTrash/{id}', 'Staff\messageController@moveToTrash');
+
+    
+    //activity log routes
+    Route::get('/activity', 'activityController@index')->name('admin.activity');
+    Route::get('/fetchActivities', 'activityController@fetchActivities');
+
+
+    //news and updates management routes
+    Route::get('staff/news', 'Staff\newsController@index')->name('admin.staffControls.news');
+    
+    Route::post('/addNews', 'Staff\newsController@addNews');
+    Route::get('/fetchNewsAndUpdates', 'Staff\newsController@fetchNewsAndUpdates');
+    Route::get('/fetchActiveNewsAndUpdates', 'Staff\newsController@fetchActiveNewsAndUpdates');
+    Route::get('/fetchInactiveNewsAndUpdates', 'Staff\newsController@fetchInactiveNewsAndUpdates');
+    Route::get('/searchNews/{input}', 'Staff\newsController@searchNews');
+    Route::get('/fetchSingleNews/{id}', 'Staff\newsController@fetchSingleNews');
+    Route::post('/updateNews/{id}', 'Staff\newsController@updateNews');
+    Route::put('/changeStatus/{id}', 'Staff\newsController@changeStatus');
+    Route::delete('/deleteNews/{id}/{news_no}', 'Staff\newsController@deleteNews');
     });
 
     });
