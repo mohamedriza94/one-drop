@@ -18,7 +18,14 @@ class messageController extends Controller
 {
     public function index()
     {
+        if(auth()->guard('admin')->user()->role == 'staff')
+        {
         return view('admin.dashboard.staffControls.message');
+        }
+        else
+        {
+            return back();
+        }
     }
 
     public function sendMessage(Request $request)

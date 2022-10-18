@@ -12,7 +12,14 @@ class activityController extends Controller
 {
     public function index()
     {
-        return view('admin.dashboard.activity');
+        if(auth()->guard('admin')->user()->role == 'admin')
+        {
+            return view('admin.dashboard.activity');
+        }
+        else
+        {
+            return back();
+        }
     }
 
     public function fetchActivities()

@@ -18,7 +18,14 @@ class staffMessageController extends Controller
 {
     public function index()
     {
-        return view('admin.dashboard.staffMessage');
+        if(auth()->guard('admin')->user()->role == 'admin')
+        {
+            return view('admin.dashboard.staffMessage');
+        }
+        else
+        {
+            return back();
+        }
     }
 
     public function staff_sendMessage(Request $request)
