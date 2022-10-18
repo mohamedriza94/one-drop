@@ -40,8 +40,9 @@ class messageController extends Controller
             if ($isExist) 
             {
                 $messageNo = rand(1500000,9515959);
-                $status = 'sent';
-                $replyStatus = 'unread';
+                $admin_side_status = 'unread';
+                $staff_side_status = 'sent';
+                $reply_status = '0';
                 $date = NOW();
 
                 $messages = new Message;
@@ -51,8 +52,10 @@ class messageController extends Controller
                 $messages->message = $request->input('message');
                 $messages->date = $date;
                 $messages->time = $date;
-                $messages->status = $status;
-                $messages->reply_status = $replyStatus;
+
+                $messages->admin_side_status = $admin_side_status;
+                $messages->staff_side_status = $staff_side_status;
+                $messages->reply_status = $reply_status;
                 $messages->sender_id = $request->input('senderId');
 
                 $messages->save();
@@ -72,9 +75,9 @@ class messageController extends Controller
         }
     }
 
-    public function fetchSentMessages($id)
+    public function fetchSentMessages($senderId)
     {
-        $messages = Message::where('status', '!=', "trash")->where('sender', '=', "staffToAdmin")->where('sender_id', '=', $id)->orderBy('id', 'DESC')->get();
+        $messages = Message::where('staff_side_status', '=', "sent")->where('sender','LIKE','%'.'staffTo'.'%')->where('sender_id', '=', $senderId)->orderBy('id', 'DESC')->get();
         return response()->json([
             'messages'=>$messages,
         ]);
@@ -82,9 +85,65 @@ class messageController extends Controller
 
     public function fetchTrashMessages($senderId)
     {
-        $messages = Message::where('status', '=', "trash")->where('sender', '=', "staffToAdmin")->where('sender_id', '=', $senderId)->orderBy('id', 'DESC')->get();
+        $messages = Message::where('staff_side_status', '=', "trash")->where('sender_id', '=', $senderId)->orderBy('id', 'DESC')->get();
         return response()->json([
             'messages'=>$messages,
+        ]);
+    }
+
+    public function fetchSingleMessage($id)
+    {
+        $messages = Message::find($id);
+        if($messages)
+        {
+            return response()->json([
+                'status'=>200,
+                'messages'=>$messages,
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status'=>404,
+            ]);
+        }
+    }
+
+    public function fetchSender($senderId,$sender)
+    {
+        if($sender=="staffToAdmin")
+        {
+            $admins = Admin::find($senderId);
+            if($admins)
+            {
+                return response()->json([
+                    'status'=>200,
+                    'admins'=>$admins,
+                ]);
+            }
+            else
+            {
+                return response()->json([
+                    'status'=>404,
+                ]);
+            }
+        }
+        else
+        {
+
+        }
+    }
+
+    public function moveToTrash(Request $request, $id)
+    {
+        $messages = Message::find($id);
+        $staff_side_status = "trash";
+        
+        $messages->staff_side_status = $staff_side_status;
+        $messages->update();
+
+        return response()->json([
+            'status'=>200,
         ]);
     }
 }

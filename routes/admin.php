@@ -53,17 +53,32 @@ Route::group([
     Route::post('/updateHospital/{id}', 'hospitalController@updateHospital');
     Route::delete('/deleteHospital/{id}', 'hospitalController@deleteHospital');
 
+    //staff message management routes
+    Route::get('/staffMessage', 'staffMessageController@index')->name('admin.staffMessage');
+
+    Route::get('/fetchStafflist', 'staffMessageController@fetchStafflist');
+    Route::get('/fetchHospitallist', 'staffMessageController@fetchHospitallist');
+    Route::post('/staff_sendMessage', 'staffMessageController@staff_sendMessage');
+    Route::get('/staff_fetchInboxMessages', 'staffMessageController@staff_fetchInboxMessages');
+    Route::get('/staff_fetchTrashMessages', 'staffMessageController@staff_fetchTrashMessages');
+    Route::get('/staff_fetchSentMessages/{senderId}', 'staffMessageController@staff_fetchSentMessages');
+    Route::put('/staff_MoveToTrash/{id}', 'staffMessageController@staff_moveToTrash');
+    Route::get('/staff_fetchSingleMessage/{id}', 'staffMessageController@staff_fetchSingleMessage');
+    Route::get('/staff_fetchSender/{senderId}/{sender}', 'staffMessageController@staff_fetchSender');
 
 
 
     //===========================================================================
     //staff routes---------------------------------------------------------------
-
-    //message management routes
+    //
+    //message management routes 
     Route::get('staff/message', 'Staff\messageController@index')->name('admin.staffControls.message');
     Route::post('/sendMessage', 'Staff\messageController@sendMessage');
-    Route::get('/fetchSentMessages/{id}', 'Staff\messageController@fetchSentMessages');
-    Route::get('/fetchTrashMessages/{id}', 'Staff\messageController@fetchTrashMessages');
+    Route::get('/fetchSentMessages/{senderId}', 'Staff\messageController@fetchSentMessages');
+    Route::get('/fetchTrashMessages/{senderId}', 'Staff\messageController@fetchTrashMessages');
+    Route::get('/fetchSingleMessage/{id}', 'Staff\messageController@fetchSingleMessage');
+    Route::get('/fetchSender/{senderId}/{sender}', 'Staff\messageController@fetchSender');
+    Route::put('/moveToTrash/{id}', 'Staff\messageController@moveToTrash');
     });
 
     });

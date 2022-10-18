@@ -21,9 +21,14 @@ return new class extends Migration
             $table->string('message');
             $table->string('date');
             $table->string('time');
-            $table->string('status');
+            $table->string('staff_side_status')->nullable();;
+            $table->string('admin_side_status')->nullable();;
+            $table->string('hospital_side_status')->nullable();;
+            $table->string('donor_side_status')->nullable();;
+            $table->string('other_status')->nullable();;
             $table->string('reply_status')->nullable();
             $table->unsignedBigInteger('sender_id')->nullable();
+            $table->unsignedBigInteger('recipient_id')->nullable();
             $table->timestamps();
         });
     }
