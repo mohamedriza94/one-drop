@@ -22,5 +22,7 @@ class Request extends Model
         'date',
         'time',
         'status',
+        'fulfilDate',
+        'remark',
     ];
 }

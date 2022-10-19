@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('date');
             $table->string('time');
             $table->string('status');
+            $table->string('fulfilDate')->nullable();
+            $table->text('remark')->nullable();
             $table->timestamps();
         });
     }
