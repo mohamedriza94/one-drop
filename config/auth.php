@@ -14,6 +14,10 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
+        'donor' => [
+            'driver' => 'session',
+            'provider' => 'donors',
+        ],
     ],
 
     'providers' => [
@@ -24,6 +28,10 @@ return [
         'admins' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
+        ],
+        'donors' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Donor::class,
         ],
     ],
 
@@ -36,6 +44,12 @@ return [
         ],
         'admins' => [
             'provider' => 'admins',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'donors' => [
+            'provider' => 'donors',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

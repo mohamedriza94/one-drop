@@ -88,7 +88,7 @@
                                 </li><!-- .nk-menu-item -->
 
                                 <li class="nk-menu-item">
-                                    <a href="#" class="nk-menu-link text-primary">
+                                    <a href="{{ Route('visitor.donorLogin') }}" class="nk-menu-link text-primary">
                                         <span class="nk-menu-text">I am a Donor</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->

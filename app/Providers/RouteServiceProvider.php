@@ -16,15 +16,8 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/dashboard';
-
-    /**
-     * The path to the "admin" dashboard route for your application.
-     *
-     * Typically, admins are redirected here after authentication.
-     *
-     * @var string
-     */
     public const ADMIN = '/admin/dashboard';
+    public const DONOR = '/donor/dashboard';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -50,6 +43,10 @@ class RouteServiceProvider extends ServiceProvider
             // route model binding for visitors
             Route::middleware('web')
                 ->group(base_path('routes/visitor.php'));
+            
+            // route model binding for donors
+            Route::middleware('web')
+                ->group(base_path('routes/donor.php'));
         });
     }
 

@@ -25,6 +25,9 @@ Route::group([
         Route::get('/news', 'newsController@index')->name('visitor.news');
         Route::get('/fetchNewsAndUpdates', 'newsController@fetchNewsAndUpdates');
         Route::get('/fetchSingleNews/{id}', 'newsController@fetchSingleNews');
+
+        //navigate to donor login
+        Route::get('/donorLogin', 'homeController@donorLogin')->name('visitor.donorLogin');
     });
 
     

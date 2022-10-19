@@ -11,4 +11,9 @@ class homeController extends Controller
     {
         return view('visitor.dashboard.home');
     }
+
+    public function donorLogin()
+    {
+        return view('donor.auth.login');
+    }
 }

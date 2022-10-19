@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Request As BloodRequest;
+use Illuminate\Support\Facades\Mail;
+
+use App\Mail\Visitor\bloodRequest As bloodRequesMail;
+
 
 class requestController extends Controller
 {
@@ -44,6 +48,9 @@ class requestController extends Controller
 
             $requests->save();
 
+            $mailRequestNo = $request->input('requestNo');
+            Mail::to($request->input('email'))->send(new bloodRequesMail($mailRequestNo));
+            
             return response()->json([
                 'status'=>200
             ]);
