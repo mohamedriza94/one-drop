@@ -7,20 +7,26 @@ Route::group([
         
     Route::get('/login', 'Auth\LoginController@showLoginForm')->name('donor.login');
     Route::post('/', 'Auth\LoginController@validateLogin')->name('donor.login.submit');
-    //Route::get('/forgotPassword', 'Auth\ForgotPasswordController@showForgotPassword')->name('donor.forgotPassword');
-    //Route::post('/sendVerificationCode/{email}', 'Auth\ForgotPasswordController@verifyEmail');
-    //Route::get('/verify/{typedCode}/{email}', 'Auth\ForgotPasswordController@verifyCode');
-    //Route::get('/resetPassword/{typedCode}/{email}/{password}', 'Auth\ForgotPasswordController@resetPassword');
+    Route::get('/forgotPassword', 'Auth\ForgotPasswordController@showForgotPassword')->name('donor.forgotPassword');
+    Route::post('/sendVerificationCode/{email}', 'Auth\ForgotPasswordController@verifyEmail');
+    Route::get('/verify/{typedCode}/{email}', 'Auth\ForgotPasswordController@verifyCode');
+    Route::get('/resetPassword/{typedCode}/{email}/{password}', 'Auth\ForgotPasswordController@resetPassword');
 
     Route::group(['middleware' => ['auth:donor']], function () {
     
-    Route::post('/logout', 'Auth\LoginController@logout')->name('donor.logout');
+        Route::post('/logout', 'Auth\LoginController@logout')->name('donor.logout');
     
-    //dashboard routes
-    Route::group(['prefix' => 'dashboard'], function () {
+        //dashboard routes
+        Route::group(['prefix' => 'dashboard'], function () {
     
-    //url to dashboard page
-    Route::get('/', 'DashboardController@index')->name('donor.dashboard');
+            //url to dashboard page
+            Route::get('/', 'DashboardController@index')->name('donor.dashboard');
+
+            //blood requests routes
+            Route::get('/fetchRequestHistory/{nic}', 'requestController@fetchRequestHistory');
+
+            //news routes
+            Route::get('/donorNews', 'newsController@index')->name('donor.news');
         });
     });
 });
