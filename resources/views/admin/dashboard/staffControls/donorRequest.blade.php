@@ -109,13 +109,20 @@
               <div class="col-md-6">
                 <label class="form-label" for="">Venue</label>
                 <select id="appointmentVenue" class="form-control">
-                    <option value="5345">dasds</option>
+                    <option value="Peradeniya Hospital">Peradeniya Hospital</option>
+                    <option value="General Hospital Kandy">General Hospital Kandy</option>
+                    <option value="General Hospital Matale">General Hospital Matale</option>
                 </select>
               </div>
 
-              <div class="col-md-12">
+              <div class="col-md-12" id="scheduleButtonContainer">
                 <button class="btn btn-primary form-control center" type="submit"
                     id="btnSubmitSchedule">Schedule</button>
+              </div>
+
+              <div class="col-md-12" id="rescheduleButtonContainer">
+                <button class="btn btn-primary form-control center" type="submit"
+                    id="btnSubmitReschedule">Reschedule</button>
               </div>
           </div>
       </div>
@@ -131,7 +138,7 @@
 <script>
 $(document).ready(function(){
     
-    $('#appointmentNo').val(Math.floor(Math.random() * (11500000000 - 9950000000000 + 1) + 9950000000000));
+    $('#appointmentNo').val(Math.floor(Math.random() * (11500 - 99500 + 1) + 99500));
     //csrf token
     $.ajaxSetup({
         headers: {
@@ -211,7 +218,7 @@ $(document).ready(function(){
                     }else if(item.status=="scheduled"){
 
                         $statusBadge = '<span class="badge badge-light-primary">Scheduled</span>';
-                        $actionButton = '<button value="'+item.donorRequestNo+'" class="btn btn-outline-primary btn-sm" id="btnreSchedule">Reschedule Appointment</button>';
+                        $actionButton = '<button value="'+item.donorRequestNo+'" data-bs-toggle="modal" data-bs-target="#scheduleAppointmentModal" class="btn btn-outline-primary btn-sm" id="btnReschedule">Reschedule Appointment</button>';
                         
                     };
 
@@ -250,7 +257,7 @@ $(document).ready(function(){
                 $.each(response.donorRequests,function(key,item){
                     
                     $statusBadge = '<span class="badge badge-light-primary">Scheduled</span>';
-                    $actionButton = '<button value="'+item.donorRequestNo+'" data-bs-toggle="modal" data-bs-target="#scheduleAppointmentModal" class="btn btn-outline-primary btn-sm" id="btnreSchedule">Reschedule Appointment</button>';
+                    $actionButton = '<button value="'+item.donorRequestNo+'" data-bs-toggle="modal" data-bs-target="#scheduleAppointmentModal" class="btn btn-outline-primary btn-sm" id="btnReschedule">Reschedule Appointment</button>';
                     
                     var date_str = item.date;
                     var date_str = date_str.slice(0, 10); 
@@ -418,7 +425,7 @@ $(document).ready(function(){
                     }else if(item.status=="scheduled"){
                         
                         $statusBadge = '<span class="badge badge-light-primary">Scheduled</span>';
-                        $actionButton = '<button value="'+item.donorRequestNo+'" class="btn btn-outline-primary btn-sm" id="btnreSchedule">Reschedule Appointment</button>';
+                        $actionButton = '<button value="'+item.donorRequestNo+'" data-bs-toggle="modal" data-bs-target="#scheduleAppointmentModal" class="btn btn-outline-primary btn-sm" id="btnReschedule">Reschedule Appointment</button>';
                         
                     };
                     
@@ -452,11 +459,30 @@ $(document).ready(function(){
         var donorRequestEmail = $('#fetchEmail').val();
         $('#donorRequestNo').val(fetchedDonorRequestNo);
         $('#donorRequestEmail').val(donorRequestEmail);
+
+        $('#scheduleButtonContainer').removeClass('d-none');
+        $('#rescheduleButtonContainer').addClass('d-none');
     });
 
-    //schedule appointment
+    //fetch donor request no
+    $(document).on('click', '#btnReschedule',function(e){
+        e.preventDefault();
+
+        var fetchedDonorRequestNo = $(this).val();
+        var donorRequestEmail = $('#fetchEmail').val();
+        $('#donorRequestNo').val(fetchedDonorRequestNo);
+        $('#donorRequestEmail').val(donorRequestEmail);
+
+        $('#scheduleButtonContainer').addClass('d-none');
+        $('#rescheduleButtonContainer').removeClass('d-none');
+    });
+
+    //Schedule appointment
     $(document).on('click', '#btnSubmitSchedule',function(e){
         e.preventDefault();
+        
+        $('#btnSubmitSchedule').text('Scheduling...');
+
         var donorRequestNo = $('#donorRequestNo').val();
         var appointmentNo = $('#appointmentNo').val();
         var appointmentDate = $('#appointmentDate').val();
@@ -483,6 +509,8 @@ $(document).ready(function(){
             success:function(response){
                 if(response.status == 400)
                 {
+                    $('#btnSubmitSchedule').text('Schedule');
+
                     $('#scheduleAppointmentErrorList').html('');
                     $('#scheduleAppointmentErrorList').removeClass('d-none');
                     $.each(response.errors,function(key,err_value){
@@ -496,12 +524,71 @@ $(document).ready(function(){
                     $('#btnSubmitSchedule').text('Appointment Scheduled and Mail Sent!');
                     $('#btnSubmitSchedule').addClass('btn-success');
                     $('#btnSubmitSchedule').removeClass('btn-primary');
-                    $('#appointmentNo').val(Math.floor(Math.random() * (11500000000 - 9950000000000 + 1) + 9950000000000));
+                    $('#appointmentNo').val(Math.floor(Math.random() * (11500 - 99500 + 1) + 99500));
                     
                     setTimeout(function(){
                         $('#btnSubmitSchedule').text('Schedule');
                         $('#btnSubmitSchedule').addClass('btn-primary');
                         $('#btnSubmitSchedule').removeClass('btn-success');
+                    }, 3000);
+                }
+            }
+        });
+    });
+
+    //Reschedule appointment
+    $(document).on('click', '#btnSubmitReschedule',function(e){
+        e.preventDefault();
+        
+        $('#btnSubmitReschedule').text('Rescheduling...');
+
+        var donorRequestNo = $('#donorRequestNo').val();
+        var appointmentNo = $('#appointmentNo').val();
+        var appointmentDate = $('#appointmentDate').val();
+        var appointmentTime = $('#appointmentTime').val();
+        var appointmentVenue = $('#appointmentVenue').val();
+        var donorRequestEmail = $('#donorRequestEmail').val();
+
+        var data = {
+            'donorRequestNo' : donorRequestNo,
+            'appointment_no' : appointmentNo,
+            'appointmentDate' : appointmentDate,
+            'appointmentTime' : appointmentTime,
+            'appointmentVenue' : appointmentVenue,
+            'donorRequestEmail' : donorRequestEmail
+        }
+
+        var url = '{{ url("admin/dashboard/rescheduleAppointment") }}';
+
+        $.ajax({
+            type:"POST",
+            url:url,
+            data:data,
+            dataType:"json",
+            success:function(response){
+                if(response.status == 400)
+                {
+                    $('#btnSubmitReschedule').text('Schedule');
+
+                    $('#scheduleAppointmentErrorList').html('');
+                    $('#scheduleAppointmentErrorList').removeClass('d-none');
+                    $.each(response.errors,function(key,err_value){
+                        $('#scheduleAppointmentErrorList').append('<li>'+err_value+'</li>');
+                    });
+                }
+                else
+                {   
+                    $('#scheduleAppointmentErrorList').addClass('d-none');
+                    $('#scheduleAppointmentErrorList').html('');
+                    $('#btnSubmitReschedule').text('Appointment rescheduled and Mail Sent!');
+                    $('#btnSubmitReschedule').addClass('btn-success');
+                    $('#btnSubmitReschedule').removeClass('btn-primary');
+                    $('#appointmentNo').val(Math.floor(Math.random() * (11500 - 99500 + 1) + 99500));
+                    
+                    setTimeout(function(){
+                        $('#btnSubmitReschedule').text('Schedule');
+                        $('#btnSubmitReschedule').addClass('btn-primary');
+                        $('#btnSubmitReschedule').removeClass('btn-success');
                     }, 3000);
                 }
             }

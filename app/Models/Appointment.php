@@ -10,7 +10,7 @@ class Appointment extends Model
 {
     use HasFactory, Notifiable;
     
-    protected $table = ['appointments'];
+    protected $table = 'appointments';
 
     protected $fillable = [
         'appointment_no',

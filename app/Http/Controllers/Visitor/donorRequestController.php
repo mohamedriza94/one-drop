@@ -13,11 +13,11 @@ class donorRequestController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'donorRequestNo' => ['required','string','max:255','unique:donor_requests'],
-            'nic' => ['required','string','between:10,12'],
+            'nic' => ['required','string','between:10,12','unique:donor_requests'],
             'age' => ['required','numeric','max:45','min:18'],
             'dateOfBirth' => ['required','string','max:11'],
-            'telephone' => ['required','numeric','digits_between:9,10'],
-            'email' => ['required','email'],
+            'telephone' => ['required','numeric','digits_between:9,10','unique:donor_requests'],
+            'email' => ['required','email','unique:donor_requests'],
             'fullName' => ['required'],
         ]); //validate all the data
 

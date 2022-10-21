@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\DonorRequest;
 use App\Models\Appointment;
 use App\Models\Activity;
+use Illuminate\Support\Facades\Mail;
+
+use App\Mail\Staff\appointmentMail;
 
 class donorRequestController extends Controller
 {
@@ -91,19 +94,79 @@ class donorRequestController extends Controller
         else
         {
             $appointments = new Appointment;
-            $appointments->donorRequestNo = $request->input('donorRequestNo');
             $appointments->appointment_no = $request->input('appointment_no');
             $appointments->date = $request->input('appointmentDate');
             $appointments->time = $request->input('appointmentTime');
             $appointments->venue = $request->input('appointmentVenue');
             $appointments->status = 'Pending';
+            $appointments->donorRequestNo = $request->input('donorRequestNo');
 
             $appointments->save();
+
+            $appointmentMailNo = $request->input('appointment_no');
+            $appointmentMailDate = $request->input('appointmentDate');
+            $appointmentMailTime = $request->input('appointmentTime');
+            $appointmentMailVenue = $request->input('appointmentVenue');
+
+            Mail::to($request->input('donorRequestEmail'))->send(new appointmentMail ($appointmentMailNo, $appointmentMailDate, $appointmentMailTime, $appointmentMailVenue));
+             
+            $donorRequests = DonorRequest::where('donorRequestNo', $request->input('donorRequestNo'))->update(['status' => 'scheduled']);
 
             //record activity
             $activities = new Activity;
             $activities->user_id = auth()->guard('admin')->user()->id;
             $activities->task = 'Scheduled appointment to Donor Request No. '.$request->input('donorRequestNo');
+            $activities->date = NOW();
+            $activities->time = NOW();
+            $activities->save();
+
+            return response()->json([
+                'status'=>200
+            ]);
+        }
+    }
+
+    public function rescheduleAppointment(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'donorRequestNo' => ['required','string','max:255'],
+            'appointment_no' => ['required','string','max:15'],
+            'appointmentDate' => ['required'],
+            'appointmentTime' => ['required'],
+            'appointmentVenue' => ['required'],
+        ]); //validate all the data
+
+        if($validator->fails())
+        {
+            return response()->json([
+                'status'=>400,
+                'errors'=>$validator->messages()
+            ]);
+        }
+        else
+        {
+            $appointments = Appointment::where('donorRequestNo', $request->input('donorRequestNo'))
+            ->update(
+                    ['appointment_no' => $request->input('appointment_no'),
+                    'date' => $request->input('appointmentDate'),
+                    'time' => $request->input('appointmentTime'),
+                    'venue' => $request->input('appointmentVenue'),
+                    'status' => 'pending'
+                    ]);
+
+            $appointmentMailNo = $request->input('appointment_no');
+            $appointmentMailDate = $request->input('appointmentDate');
+            $appointmentMailTime = $request->input('appointmentTime');
+            $appointmentMailVenue = $request->input('appointmentVenue');
+
+            Mail::to($request->input('donorRequestEmail'))->send(new appointmentMail ($appointmentMailNo, $appointmentMailDate, $appointmentMailTime, $appointmentMailVenue));
+             
+            $donorRequests = DonorRequest::where('donorRequestNo', $request->input('donorRequestNo'))->update(['status' => 'scheduled']);
+
+            //record activity
+            $activities = new Activity;
+            $activities->user_id = auth()->guard('admin')->user()->id;
+            $activities->task = 'Rescheduled appointment to Donor Request No. '.$request->input('donorRequestNo');
             $activities->date = NOW();
             $activities->time = NOW();
             $activities->save();

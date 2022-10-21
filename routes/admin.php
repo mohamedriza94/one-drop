@@ -122,6 +122,7 @@ Route::group([
     Route::get('/fetchPendingDonorRequest', 'Staff\donorRequestController@fetchPendingDonorRequest');
     Route::get('/searchDonorRequest/{input}', 'Staff\donorRequestController@searchDonorRequest');
     Route::post('/scheduleAppointment', 'Staff\donorRequestController@scheduleAppointment');
+    Route::post('/rescheduleAppointment', 'Staff\donorRequestController@rescheduleAppointment');
     });
 
     });
