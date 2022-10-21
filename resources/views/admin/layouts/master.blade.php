@@ -476,7 +476,7 @@
                             <a href=""> Appointments </a>
                         </li>
                         <li>
-                            <a href=""> Donor Requests </a>
+                            <a href="{{ route('admin.staffControls.donorRequest') }}"> Donor Requests </a>
                         </li>
                         <li>
                             <a href=""> Donors </a>

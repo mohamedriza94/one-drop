@@ -61,6 +61,12 @@
                                     </a>
                                 </li><!-- .nk-menu-item -->
 
+                                <li class="nk-menu-item">
+                                    <a href="{{ Route('donor.news') }}" class="nk-menu-link">
+                                        <span class="nk-menu-text">Messages</span>
+                                    </a>
+                                </li><!-- .nk-menu-item -->
+
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-text">Request</span>
@@ -187,8 +193,8 @@
                                         </div>
                                         <div class="dropdown-inner">
                                             <ul class="link-list">
-                                                <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
-                                                <li><a href="html/user-profile-setting.html"><em class="icon ni ni-setting-alt"></em><span>Change Password</span></a></li>
+                                                <li><a href="#" data-bs-toggle="modal" data-bs-target="#editDonorProfileModal"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+                                                <li><a href="#" data-bs-toggle="modal" data-bs-target="#changePasswordModal"><em class="icon ni ni-setting-alt"></em><span>Change Password</span></a></li>
                                             </ul>
                                         </div>
                                         <div class="dropdown-inner">
@@ -399,6 +405,157 @@
                 </div><!-- .modal-dialog -->
             </div><!-- requestHistoryModal modal -->
 
+            <div class="modal fade" tabindex="-1" role="dialog" id="editDonorProfileModal">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <a href="#" class="close" data-bs-dismiss="modal"><em
+                                class="icon ni ni-cross-sm"></em></a>
+                        <div class="modal-body modal-body-md">
+                            <div class="mt-2">
+
+                                <h5 class="modal-title">View Profile</h5>
+                                <hr style="padding: 0.5px; background:black">
+
+                                <div class="row g-gs">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <img class="form-control" src="{{ Auth::guard('donor')->user()->photo }}" alt="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label" for="">Donor No.</label>
+                                            <input type="text" class="form-control"
+                                            readonly value="{{ Auth::guard('donor')->user()->no }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label" for="">NIC No.</label>
+                                            <input type="text" class="form-control"
+                                            readonly value="{{ Auth::guard('donor')->user()->nic }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="">Registered Date and Time</label>
+                                            <input type="text" class="form-control"
+                                            readonly value="{{ Auth::guard('donor')->user()->registered_time }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="">Full Name</label>
+                                            <input type="text" class="form-control"
+                                            readonly value="{{ Auth::guard('donor')->user()->fullname }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="">Address</label>
+                                            <input type="text" class="form-control"
+                                            readonly value="{{ Auth::guard('donor')->user()->address }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label" for="">Telephone</label>
+                                            <input type="text" class="form-control"
+                                            readonly value="{{ Auth::guard('donor')->user()->telephone }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label" for="">Email</label>
+                                            <input type="text" class="form-control"
+                                            readonly value="{{ Auth::guard('donor')->user()->email }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label" for="">Date of Birth</label>
+                                            <input type="text" class="form-control"
+                                            readonly value="{{ Auth::guard('donor')->user()->dateofbirth }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label" for="">Age</label>
+                                            <input type="text" class="form-control"
+                                            readonly value="{{ Auth::guard('donor')->user()->age }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label" for="">Gender</label>
+                                            <input type="text" class="form-control"
+                                            readonly value="{{ Auth::guard('donor')->user()->gender }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div><!-- .modal-body -->
+                    </div><!-- .modal-content -->
+                </div><!-- .modal-dialog -->
+            </div><!-- requestHistoryModal modal -->
+
+            <div class="modal fade" tabindex="-1" role="dialog" id="changePasswordModal">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <a href="#" class="close" data-bs-dismiss="modal"><em
+                                class="icon ni ni-cross-sm"></em></a>
+                        <div class="modal-body modal-body-md">
+                            <div class="mt-2">
+
+                                <h5 class="modal-title">Change Password</h5>
+                                <hr style="padding: 0.5px; background:black">
+
+                                <div class="row g-gs">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <ul class="alert alert-warning d-none" id="passwordValidation">
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="">New Password</label>
+                                            <input type="password" class="form-control" id="newPassword">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="">Confirm New Password</label>
+                                            <input type="password" class="form-control" id="confirmNewPassword">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <button class="btn btn-primary form-control center" type="submit"
+                                                id="btn_changePassword" name="btn_changePassword" value="{{ Auth::guard('donor')->user()->id }}">Change Password</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- .modal-body -->
+                    </div><!-- .modal-content -->
+                </div><!-- .modal-dialog -->
+            </div><!-- makeRequestModal modal -->
+
             <script>
                 $(document).ready(function() {
                     
@@ -569,6 +726,12 @@
                                 $.each(response.bloodrequests,function(key,item){
 
                                     var requestHistoryStatus = item.status;
+                                    
+                                    var date_str = item.time;
+                                    var date_str = date_str.slice(0, 10); 
+                                    
+                                    var time_str = item.time;
+                                    var time_str = time_str.slice(11, 19); 
 
                                     if(requestHistoryStatus == "pending")
                                     {
@@ -589,8 +752,8 @@
 
                                     $('#requestHistoryTbody').append('<tr>\
                                         <td><b>'+item.requestNo+'</b></td>\
-                                        <td>'+item.date+'</td>\
-                                        <td>'+item.time+'</td>\
+                                        <td>'+date_str+'</td>\
+                                        <td>'+time_str+'</td>\
                                         <td>'+$requestHistoryStatusBadge+'</td>\
                                     </tr>\
                                     ');
@@ -598,6 +761,69 @@
                             }
                         });
                     };
+                    
+                    //change password
+                    $(document).on('click', '#btn_changePassword',function(e){
+                        e.preventDefault();
+                        var id = $(this).val();
+                        var newPassword = $('#newPassword').val();
+                        var confirmNewPassword = $('#confirmNewPassword').val();
+                        var data = {
+                            'password' : newPassword
+                        }
+                        
+                        if(confirmNewPassword==newPassword)
+                        {
+                            var url = '{{ url("donor/dashboard/changePassword/:id") }}';
+                            url = url.replace(':id', id);
+                            
+                            $.ajax({
+                                type:"PUT",
+                                url: url,
+                                data:data,
+                                dataType:"json",
+                                success: function(response){
+                                    if(response.status==400)
+                                    {
+                                        
+                                        $('#btn_changePassword').text('Save');
+                                        $('#c').removeClass('btn-success');
+                                        $('#btn_changePassword').addClass('btn-primary');
+                                        
+                                        $('#passwordValidation').html('');
+                                        $('#passwordValidation').removeClass('d-none');
+                                        $.each(response.errors,function(key,err_value){
+                                            $('#passwordValidation').append('<li><strong>'+err_value+'</strong></li>');
+                                        });
+                                    }
+                                    else if(response.status==200)
+                                    {
+                                        $('#passwordValidation').html('');
+                                        $('#btn_changePassword').text('Changed');
+                                        $('#btn_changePassword').removeClass('btn-primary');
+                                        $('#btn_changePassword').addClass('btn-success');
+                                        $('#passwordValidation').addClass('d-none');
+                                        
+                                        setTimeout(function(){
+                                            $('#btn_changePassword').text('Save');
+                                            $('#btn_changePassword').removeClass('btn-success');
+                                            $('#btn_changePassword').addClass('btn-primary');
+                                        }, 3000);
+                                    }
+                                    else if(response.status==404)
+                                    {
+                                        alert('Profile Not Found');
+                                    }
+                                }
+                            });
+                        }
+                        else
+                        {
+                            $('#passwordValidation').removeClass('d-none');
+                            $('#passwordValidation').append('<li>Passwords do not match</li>');
+                        }
+                        
+                    });
                 });
             </script>
 

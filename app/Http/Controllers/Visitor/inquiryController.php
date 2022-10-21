@@ -42,7 +42,7 @@ class inquiryController extends Controller
             $messages->other_status = 'sent';
             $messages->reply_status = '0';
             $messages->sender_id = $request->input('email');
-            $messages->recipient_id = '';
+            $messages->recipient_id = 'common';
 
             $messages->save();
 

@@ -110,6 +110,18 @@ Route::group([
     Route::post('/updateNews/{id}', 'Staff\newsController@updateNews');
     Route::put('/changeStatus/{id}', 'Staff\newsController@changeStatus');
     Route::delete('/deleteNews/{id}/{news_no}', 'Staff\newsController@deleteNews');
+
+    
+    //donor request management routes
+    Route::get('staff/donorRequest', 'Staff\donorRequestController@index')->name('admin.staffControls.donorRequest');
+    
+    Route::get('/fetchDonorRequest', 'Staff\donorRequestController@fetchDonorRequest');
+    Route::get('/fetchScheduledDonorRequest', 'Staff\donorRequestController@fetchScheduledDonorRequest');
+    Route::get('/fetchDeclinedDonorRequest', 'Staff\donorRequestController@fetchDeclinedDonorRequest');
+    Route::get('/fetchAcceptedDonorRequest', 'Staff\donorRequestController@fetchAcceptedDonorRequest');
+    Route::get('/fetchPendingDonorRequest', 'Staff\donorRequestController@fetchPendingDonorRequest');
+    Route::get('/searchDonorRequest/{input}', 'Staff\donorRequestController@searchDonorRequest');
+    Route::post('/scheduleAppointment', 'Staff\donorRequestController@scheduleAppointment');
     });
 
     });

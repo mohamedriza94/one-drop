@@ -18,7 +18,10 @@ Route::group([
     
         //dashboard routes
         Route::group(['prefix' => 'dashboard'], function () {
-    
+
+            //change password
+            Route::put('/changePassword/{id}', 'profileController@changePassword');
+            
             //url to dashboard page
             Route::get('/', 'DashboardController@index')->name('donor.dashboard');
 

@@ -718,6 +718,9 @@ function fetchInboxMessages()
                 else if(item.sender=="donorToStaff"){
                     $party = 'Donor';
                 }
+                else if(item.sender=="otherToStaff"){
+                    $party = item.sender_id;
+                }
 
                 var messageSubject_str = item.subject;
                 var messageSubject_str = messageSubject_str.slice(0, 35)+'...'; 

@@ -22,7 +22,7 @@
             <div class="widget-content widget-content-area layout-top-spacing">
                 <div class="row">
                     <div class="col-6">
-                        <input type="text" class="form-control" placeholder="Search here..." id="searchBar" name="searchBar" value="">
+                        <form><input type="text" placeholder="Search here..." id="searchBar" class="form-control"></form>
                     </div>
                     <div class="col-3">
                         <a href="#" data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-primary btn-lg form-control" id="addPostModalOpen">Add a post</a>
