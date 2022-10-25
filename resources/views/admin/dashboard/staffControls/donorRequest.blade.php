@@ -233,7 +233,6 @@ $(document).ready(function(){
                         <td>'+item.nic+'</td>\
                         <td>'+item.age+'</td>\
                         <td>'+date_str+'</td>\
-                        <td class="d-none"><input value="'+item.email+'" id="fetchEmail"></td>\
                         <td>'+time_str+'</td>\
                         <td>'+$statusBadge+'</td>\
                         <td>'+$actionButton+'</td>\
@@ -271,7 +270,6 @@ $(document).ready(function(){
                         <td>'+item.age+'</td>\
                         <td>'+date_str+'</td>\
                         <td>'+time_str+'</td>\
-                        <td class="d-none"><input value="'+item.email+'" id="fetchEmail"></td>\
                         <td>'+$statusBadge+'</td>\
                         <td>'+$actionButton+'</td>\
                         </tr>\
@@ -308,7 +306,6 @@ $(document).ready(function(){
                         <td>'+item.age+'</td>\
                         <td>'+date_str+'</td>\
                         <td>'+time_str+'</td>\
-                        <td class="d-none"><input value="'+item.email+'" id="fetchEmail"></td>\
                         <td>'+$statusBadge+'</td>\
                         <td>'+$actionButton+'</td>\
                         </tr>\
@@ -345,7 +342,6 @@ $(document).ready(function(){
                         <td>'+item.age+'</td>\
                         <td>'+date_str+'</td>\
                         <td>'+time_str+'</td>\
-                        <td class="d-none"><input value="'+item.email+'" id="fetchEmail"></td>\
                         <td>'+$statusBadge+'</td>\
                         <td>'+$actionButton+'</td>\
                         </tr>\
@@ -382,7 +378,6 @@ $(document).ready(function(){
                         <td>'+item.age+'</td>\
                         <td>'+date_str+'</td>\
                         <td>'+time_str+'</td>\
-                        <td class="d-none"><input value="'+item.email+'" id="fetchEmail"></td>\
                         <td>'+$statusBadge+'</td>\
                         <td>'+$actionButton+'</td>\
                         </tr>\
@@ -441,7 +436,6 @@ $(document).ready(function(){
                         <td>'+item.age+'</td>\
                         <td>'+date_str+'</td>\
                         <td>'+time_str+'</td>\
-                        <td class="d-none"><input value="'+item.email+'" id="fetchEmail"></td>\
                         <td>'+$statusBadge+'</td>\
                         <td>'+$actionButton+'</td>\
                         </tr>\
@@ -456,12 +450,25 @@ $(document).ready(function(){
         e.preventDefault();
 
         var fetchedDonorRequestNo = $(this).val();
-        var donorRequestEmail = $('#fetchEmail').val();
         $('#donorRequestNo').val(fetchedDonorRequestNo);
-        $('#donorRequestEmail').val(donorRequestEmail);
 
         $('#scheduleButtonContainer').removeClass('d-none');
         $('#rescheduleButtonContainer').addClass('d-none');
+
+        //fetch donor request email
+        var url = '{{ url("admin/dashboard/fetchSingleDonorRequest/:id") }}';
+        url = url.replace(':id', fetchedDonorRequestNo);
+
+        $.ajax({
+            type:"GET",
+            url:url,
+            dataType:"json",
+            success:function(response){
+                $.each(response.donorRequests,function(key,item){
+                    $('#donorRequestEmail').val(item.email);
+                });
+            }
+        });
     });
 
     //fetch donor request no
@@ -469,12 +476,25 @@ $(document).ready(function(){
         e.preventDefault();
 
         var fetchedDonorRequestNo = $(this).val();
-        var donorRequestEmail = $('#fetchEmail').val();
         $('#donorRequestNo').val(fetchedDonorRequestNo);
-        $('#donorRequestEmail').val(donorRequestEmail);
 
         $('#scheduleButtonContainer').addClass('d-none');
         $('#rescheduleButtonContainer').removeClass('d-none');
+
+        //fetch donor request email
+        var url = '{{ url("admin/dashboard/fetchSingleDonorRequest/:id") }}';
+        url = url.replace(':id', fetchedDonorRequestNo);
+
+        $.ajax({
+            type:"GET",
+            url:url,
+            dataType:"json",
+            success:function(response){
+                $.each(response.donorRequests,function(key,item){
+                    $('#donorRequestEmail').val(item.email);
+                });
+            }
+        });
     });
 
     //Schedule appointment

@@ -1002,11 +1002,6 @@ $(document).on('click', '#btnAssign',function(e){
         });
 });
 
-
-
-
-
-
 });
 
 

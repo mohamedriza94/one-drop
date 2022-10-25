@@ -93,17 +93,19 @@ class donorRequestController extends Controller
         }
         else
         {
+            $ODAppointmentNo = 'OD'.$request->input('appointment_no');
+
             $appointments = new Appointment;
-            $appointments->appointment_no = $request->input('appointment_no');
+            $appointments->appointment_no = $ODAppointmentNo;
             $appointments->date = $request->input('appointmentDate');
             $appointments->time = $request->input('appointmentTime');
             $appointments->venue = $request->input('appointmentVenue');
-            $appointments->status = 'Pending';
+            $appointments->status = 'pending';
             $appointments->donorRequestNo = $request->input('donorRequestNo');
 
             $appointments->save();
 
-            $appointmentMailNo = $request->input('appointment_no');
+            $appointmentMailNo = $ODAppointmentNo;
             $appointmentMailDate = $request->input('appointmentDate');
             $appointmentMailTime = $request->input('appointmentTime');
             $appointmentMailVenue = $request->input('appointmentVenue');
@@ -130,7 +132,7 @@ class donorRequestController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'donorRequestNo' => ['required','string','max:255'],
-            'appointment_no' => ['required','string','max:15'],
+            'appointment_no' => ['required','string','max:15','unique:appointments'],
             'appointmentDate' => ['required'],
             'appointmentTime' => ['required'],
             'appointmentVenue' => ['required'],
@@ -145,16 +147,18 @@ class donorRequestController extends Controller
         }
         else
         {
+            $ODAppointmentNo = 'OD'.$request->input('appointment_no');
+
             $appointments = Appointment::where('donorRequestNo', $request->input('donorRequestNo'))
             ->update(
-                    ['appointment_no' => $request->input('appointment_no'),
+                    ['appointment_no' => $ODAppointmentNo,
                     'date' => $request->input('appointmentDate'),
                     'time' => $request->input('appointmentTime'),
                     'venue' => $request->input('appointmentVenue'),
                     'status' => 'pending'
                     ]);
 
-            $appointmentMailNo = $request->input('appointment_no');
+            $appointmentMailNo = $ODAppointmentNo;
             $appointmentMailDate = $request->input('appointmentDate');
             $appointmentMailTime = $request->input('appointmentTime');
             $appointmentMailVenue = $request->input('appointmentVenue');
@@ -175,5 +179,13 @@ class donorRequestController extends Controller
                 'status'=>200
             ]);
         }
+    }
+
+    public function fetchSingleDonorRequest($id)
+    {
+        $donorRequests = DonorRequest::where('donorRequestNo', '=', $id)->orderBy('id', 'DESC')->get();
+        return response()->json([
+            'donorRequests'=>$donorRequests,
+        ]);
     }
 }

@@ -473,7 +473,7 @@
                     </a>
                     <ul class="collapse submenu list-unstyled" id="donations" data-bs-parent="#accordionExample">
                         <li>
-                            <a href=""> Appointments </a>
+                            <a href="{{ route('admin.staffControls.appointments') }}"> Appointments </a>
                         </li>
                         <li>
                             <a href="{{ route('admin.staffControls.donorRequest') }}"> Donor Requests </a>

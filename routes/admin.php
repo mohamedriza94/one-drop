@@ -123,6 +123,19 @@ Route::group([
     Route::get('/searchDonorRequest/{input}', 'Staff\donorRequestController@searchDonorRequest');
     Route::post('/scheduleAppointment', 'Staff\donorRequestController@scheduleAppointment');
     Route::post('/rescheduleAppointment', 'Staff\donorRequestController@rescheduleAppointment');
+    Route::get('/fetchSingleDonorRequest/{id}', 'Staff\donorRequestController@fetchSingleDonorRequest');
+
+    
+    //appointment management routes
+    Route::get('staff/appointments', 'Staff\appointmentController@index')->name('admin.staffControls.appointments');
+    
+    Route::get('/fetchAppointment', 'Staff\appointmentController@fetchAppointment');
+    Route::get('/fetchPendingAppointment', 'Staff\appointmentController@fetchPendingAppointment');
+    Route::get('/fetchCompletedAppointment', 'Staff\appointmentController@fetchCompletedAppointment');
+    Route::get('/fetchCancelledAppointment', 'Staff\appointmentController@fetchCancelledAppointment');
+    Route::get('/searchAppointment/{input}', 'Staff\appointmentController@searchAppointment');
+    Route::put('/cancelAppointment/{id}', 'Staff\appointmentController@cancelAppointment');
+    Route::post('/registerDonor', 'Staff\appointmentController@registerDonor');
     });
 
     });

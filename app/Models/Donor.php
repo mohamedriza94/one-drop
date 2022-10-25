@@ -11,7 +11,6 @@ class Donor extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    
     protected $table = 'donors';
 
     protected $fillable = [
