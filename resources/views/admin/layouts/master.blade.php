@@ -479,7 +479,7 @@
                             <a href="{{ route('admin.staffControls.donorRequest') }}"> Donor Requests </a>
                         </li>
                         <li>
-                            <a href=""> Donors </a>
+                            <a href="{{ route('admin.staffControls.donor') }}"> Donors </a>
                         </li>
                         <li>
                             <a href=""> Requests </a>

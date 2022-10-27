@@ -136,6 +136,15 @@ Route::group([
     Route::get('/searchAppointment/{input}', 'Staff\appointmentController@searchAppointment');
     Route::put('/cancelAppointment/{id}', 'Staff\appointmentController@cancelAppointment');
     Route::post('/registerDonor', 'Staff\appointmentController@registerDonor');
+
+    //donor management routes
+    Route::get('staff/donor', 'Staff\donorController@index')->name('admin.staffControls.donor');
+    Route::get('/fetchDonor', 'Staff\donorController@fetchDonor');
+    Route::get('/fetchActiveDonor', 'Staff\donorController@fetchActiveDonor');
+    Route::get('/fetchInactiveDonor', 'Staff\donorController@fetchInactiveDonor');
+    Route::get('/fetchSingleDonor/{id}', 'Staff\donorController@fetchSingleDonor');
+    Route::get('/searchDonor/{input}', 'Staff\donorController@searchDonor');
+    Route::put('/changeDonorStatus/{id}', 'Staff\donorController@changeDonorStatus');
     });
 
     });
