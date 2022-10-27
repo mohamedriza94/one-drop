@@ -32,6 +32,11 @@ class RedirectIfAuthenticated
                         return redirect('/donor/dashboard');
                     }
                     break;
+                case 'hospital':
+                    if (Auth::guard($guard)->check()) {
+                        return redirect('/hospital/dashboard');
+                    }
+                    break;
                 default:
                     if (Auth::guard($guard)->check()) {
                         return redirect('/dashboard');

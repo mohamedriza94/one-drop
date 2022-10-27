@@ -18,6 +18,10 @@ return [
             'driver' => 'session',
             'provider' => 'donors',
         ],
+        'hospital' => [
+            'driver' => 'session',
+            'provider' => 'hospitals',
+        ],
     ],
 
     'providers' => [
@@ -32,6 +36,10 @@ return [
         'donors' => [
             'driver' => 'eloquent',
             'model' => App\Models\Donor::class,
+        ],
+        'hospitals' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Hospital::class,
         ],
     ],
 
@@ -50,6 +58,12 @@ return [
         ],
         'donors' => [
             'provider' => 'donors',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'hospitals' => [
+            'provider' => 'hospitals',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

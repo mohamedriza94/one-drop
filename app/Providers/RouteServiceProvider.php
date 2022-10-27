@@ -18,6 +18,7 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/dashboard';
     public const ADMIN = '/admin/dashboard';
     public const DONOR = '/donor/dashboard';
+    public const HOSPITAL = '/hospital/dashboard';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -47,6 +48,10 @@ class RouteServiceProvider extends ServiceProvider
             // route model binding for donors
             Route::middleware('web')
                 ->group(base_path('routes/donor.php'));
+            
+                // route model binding for donors
+                Route::middleware('web')
+                    ->group(base_path('routes/hospital.php'));
         });
     }
 

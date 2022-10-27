@@ -82,7 +82,11 @@
                       </div>
 
                       <div class="col-md-12">
-                          <label class="form-label" id="view_name"><b>Name. : </b></label>
+                          <label class="form-label" id="view_name"><b>Name : </b></label>
+                      </div>
+
+                      <div class="col-md-12">
+                          <label class="form-label" id="view_email"><b>Email : </b></label>
                       </div>
 
                       <div class="col-md-12">
@@ -129,9 +133,14 @@
               
                 <input type="hidden" class="form-control" id="updateId" name="updateId" value="">
 
-                <div class="col-md-12">
+                <div class="col-md-6">
                   <label class="form-label">Landline</label>
-                  <input  type="text" class="form-control" id="update_landline" name="update_landline" value="">
+                  <input  type="text" class="form-control" id="update_landline" name="landline" value="">
+              </div>
+
+              <div class="col-md-6">
+                  <label class="form-label">Email</label>
+                  <input  type="text" class="form-control" id="update_email" name="email">
               </div>
 
               <div class="col-md-12">
@@ -141,7 +150,7 @@
 
               <div class="col-md-12">
                   <label class="form-label">Address</label>
-                  <input type="text" class="form-control" id="update_address" name="update_address" value="">
+                  <input type="text" class="form-control" id="update_address" name="address" value="">
               </div>
 
               <div class="col-md-12">
@@ -160,14 +169,19 @@
 
         <form id="addForm" class="row g-3" method="POST" enctype="multipart/form-data">
          
-            <div class="col-md-6">
+            <div class="col-md-3">
               <label class="form-label">Hospital No.</label>
               <input type="text" class="form-control" id="no" name="no" readonly>
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-3">
               <label class="form-label">Landline</label>
               <input  type="text" class="form-control" id="landline" name="landline">
+          </div>
+
+          <div class="col-md-6">
+              <label class="form-label">Email</label>
+              <input  type="text" class="form-control" id="email" name="email">
           </div>
 
           <div class="col-md-12">
@@ -241,7 +255,7 @@ $(document).on('click', '#addModalOpen',function(e){
  $('#contentLabel').text('Hospital Registration');
 
  //generate random number
- $('#no').val(Math.floor(Math.random() * (11500000000 - 9950000000000 + 1) + 9950000000000));
+ $('#no').val(Math.floor(Math.random() * (11500000 - 995000000 + 1) + 995000000));
 });
 
 //insert data
@@ -256,7 +270,7 @@ $(document).on('submit','#addForm',function(e){
     if(confirmPassword == password)
     {
         $('#passwordError').text('');
-        $('#btnAdd').text('Registering');
+        $('#btnAdd').text('Registering...');
 
         $.ajax({
             type: "POST",
@@ -287,15 +301,16 @@ $(document).on('submit','#addForm',function(e){
 
                     $('#btnAdd').removeClass('btn-primary');
                     $('#btnAdd').addClass('btn-success');
-                    $('#btnAdd').text('Registered');
+                    $('#btnAdd').text('Registered and Mailed Credentials');
 
                     $('#name').val('');
                     $('#address').val('');
+                    $('#email').val('');
                     $('#landline').val('');
                     $('#password').val('');
                     $('#confirmPassword').val('');
                     
-                    $('#no').val(Math.floor(Math.random() * (11500000000 - 9950000000000 + 1) + 9950000000000));
+                    $('#no').val(Math.floor(Math.random() * (11500000 - 995000000 + 1) + 995000000));
                     
                     fetchHospital();
 
@@ -373,6 +388,7 @@ $(document).on('click', '#editModalOpen',function(e){
             $('#updateId').val(id);
             $('#update_name').val(response.hospitals.name);
             $('#update_landline').val(response.hospitals.landline);
+            $('#update_email').val(response.hospitals.email);
             $('#update_address').val(response.hospitals.address);
             $('#update_description').val(response.hospitals.description);
         }
@@ -443,6 +459,7 @@ $(document).on('click', '#viewModalOpen',function(e){
 
             $('#view_hospitalNo').html('<b>Hospital No. : </b>'+response.hospitals.no);
             $('#view_name').html('<b>Name : </b>'+response.hospitals.name);
+            $('#view_email').html('<b>Email : </b>'+response.hospitals.email);
             $('#view_landline').html('<b>Landline : </b>'+response.hospitals.landline);
             $('#view_address').html('<b>Address : </b>'+response.hospitals.address);
             $('#view_description').html(response.hospitals.description);

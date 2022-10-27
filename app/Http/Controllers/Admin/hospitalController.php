@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 
+use App\Mail\Admin\hospitalCredentials;
+
 class hospitalController extends Controller
 {
     public function index()
@@ -32,6 +34,7 @@ class hospitalController extends Controller
             'landline' => ['required','numeric','digits_between:9,10','unique:hospitals'],
             'hospitalName' => ['required','max:100'],
             'address' => ['required','max:255','unique:hospitals'],
+            'email' => ['required','email','unique:hospitals'],
             'password' => ['required','string','min:6'],
             
         ]); //validate all the data
@@ -45,15 +48,21 @@ class hospitalController extends Controller
         }
         else
         {
+            $hospitalNo = $request->input('no');
+            $hospitalPassword = $request->input('password');
+
             $hospitals = new Hospital;
             $hospitals->no = $request->input('no');
             $hospitals->name = $request->input('hospitalName');
             $hospitals->address = $request->input('address');
             $hospitals->landline = $request->input('landline');
             $hospitals->description = $request->input('description');
+            $hospitals->email = $request->input('email');
             $hospitals->password = Hash::make($request->input('password'));
 
             $hospitals->save();
+
+            Mail::to($request->input('email'))->send(new hospitalCredentials($hospitalNo, $hospitalPassword));
 
             return response()->json([
                 'status'=>200
@@ -91,8 +100,9 @@ class hospitalController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'update_name' => ['required','max:100'],
-            'update_address' => ['required','max:255'],
-            'update_landline' => ['required','numeric','digits_between:9,10'],
+            'address' => ['required','max:255','unique:hospitals'],
+            'landline' => ['required','numeric','digits_between:9,10','unique:hospitals'],
+            'email' => ['required','email','unique:hospitals'],
         ]); //validate all the data
 
         if($validator->fails())
@@ -109,9 +119,10 @@ class hospitalController extends Controller
             if($hospitals)
             {
                 $hospitals->name = $request->input('update_name');
-                $hospitals->address = $request->input('update_address');
-                $hospitals->landline = $request->input('update_landline');
+                $hospitals->address = $request->input('address');
+                $hospitals->landline = $request->input('landline');
                 $hospitals->description = $request->input('update_description');
+                $hospitals->email = $request->input('email');
 
                 $hospitals->save();
 

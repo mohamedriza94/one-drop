@@ -19,6 +19,7 @@ class Hospital extends Authenticatable
         'address',
         'landline',
         'description',
+        'email',
     ];
 
     protected $hidden = [

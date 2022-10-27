@@ -70,6 +70,10 @@ class Handler extends ExceptionHandler
             case 'donor':
             $login = 'donor.login';
             break;
+
+            case 'hospital':
+            $login = 'hospital.login';
+            break;
             
             default:
                 $login = 'login';
