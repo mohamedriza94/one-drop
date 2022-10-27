@@ -144,8 +144,7 @@ class staffController extends Controller
         $admins->update();
 
         return response()->json([
-            'status'=>200,
-            'message'=>'done'
+            'status'=>200
         ]);
     }
 

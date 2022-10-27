@@ -57,7 +57,7 @@
                                 <div class="col-12">
                                     <div class="text-center">
                                     <p class="mb-0">
-                                    <a class="" href="">
+                                    <a class="" href="{{ Route('hospital.forgotPassword') }}">
                                         Forgot Password
                                     </a>
                                     </p>
