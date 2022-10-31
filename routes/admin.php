@@ -150,6 +150,12 @@ Route::group([
 
     //blood request management routes
     Route::get('staff/bloodRequest', 'Staff\bloodRequestController@index')->name('admin.staffControls.bloodRequest');
+    Route::get('/fetchRequest', 'Staff\bloodRequestController@fetchRequest');
+    Route::get('/fetchPendingRequest', 'Staff\bloodRequestController@fetchPendingRequest');
+    Route::get('/fetchWaitingRequest', 'Staff\bloodRequestController@fetchWaitingRequest');
+    Route::get('/fetchFulfilledRequest', 'Staff\bloodRequestController@fetchFulfilledRequest');
+    Route::get('/fetchDeclinedRequest', 'Staff\bloodRequestController@fetchDeclinedRequest');
+    Route::get('/searchRequest/{input}', 'Staff\bloodRequestController@searchRequest');
     });
 
     });

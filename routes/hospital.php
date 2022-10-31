@@ -22,6 +22,19 @@ Route::group([
             
             //url to dashboard page
             Route::get('/', 'DashboardController@index')->name('hospital.dashboard');
+
+            
+            //donor request management routes
+            Route::post('/registerDonor', 'donorRegistrationController@registerDonor');
+
+            //donor management routes
+            Route::get('/donor', 'donorController@index')->name('hospital.donor');
+            Route::get('/fetchDonor', 'donorController@fetchDonor');
+            Route::get('/fetchActiveDonor', 'donorController@fetchActiveDonor');
+            Route::get('/fetchInactiveDonor', 'donorController@fetchInactiveDonor');
+            Route::get('/fetchSingleDonor/{id}', 'donorController@fetchSingleDonor');
+            Route::get('/searchDonor/{input}', 'donorController@searchDonor');
+            Route::put('/changeDonorStatus/{id}', 'donorController@changeDonorStatus');
         });
     });
 });

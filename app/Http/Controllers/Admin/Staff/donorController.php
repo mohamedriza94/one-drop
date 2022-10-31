@@ -25,7 +25,7 @@ class donorController extends Controller
 
     public function fetchDonor()
     {
-        $donors = Donor::orderBy('id', 'DESC')->get();
+        $donors = Donor::where('no','LIKE','%'.'OD'.'%')->orderBy('id', 'DESC')->get();
         return response()->json([
             'donors'=>$donors,
         ]);
@@ -33,7 +33,7 @@ class donorController extends Controller
 
     public function fetchActiveDonor()
     {
-        $donors = Donor::where('status', '=', "active")->orderBy('id', 'DESC')->get();
+        $donors = Donor::where('no','LIKE','%'.'OD'.'%')->where('status', '=', "active")->orderBy('id', 'DESC')->get();
         return response()->json([
             'donors'=>$donors,
         ]);
@@ -41,7 +41,7 @@ class donorController extends Controller
 
     public function fetchInactiveDonor()
     {
-        $donors = Donor::where('status', '=', "inactive")->orderBy('id', 'DESC')->get();
+        $donors = Donor::where('no','LIKE','%'.'OD'.'%')->where('status', '=', "inactive")->orderBy('id', 'DESC')->get();
         return response()->json([
             'donors'=>$donors,
         ]);
@@ -49,7 +49,7 @@ class donorController extends Controller
 
     public function fetchSingleDonor($id)
     {
-        $donors = Donor::where('no', '=', $id)->orderBy('id', 'DESC')->get();
+        $donors = Donor::where('no','LIKE','%'.'OD'.'%')->where('no', '=', $id)->orderBy('id', 'DESC')->get();
         return response()->json([
             'donors'=>$donors,
         ]);
@@ -57,7 +57,7 @@ class donorController extends Controller
 
     public function searchDonor($input)
     {
-        $donors = Donor::where('nic','LIKE','%'.$input.'%')->orWhere('telephone','LIKE','%'.$input.'%')->orderBy('id', 'DESC')->get();
+        $donors = Donor::where('no','LIKE','%'.'OD'.'%')->where('nic','LIKE','%'.$input.'%')->orWhere('telephone','LIKE','%'.$input.'%')->orderBy('id', 'DESC')->get();
         return response()->json([
             'donors'=>$donors,
         ]);

@@ -153,13 +153,10 @@
                     </a>
                     <ul class="collapse submenu list-unstyled" id="donations" data-bs-parent="#accordionExample">
                         <li>
-                            <a href="{{ route('admin.staffControls.appointments') }}"> Appointments </a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#donorRegistrationModal"> Donor Registration </a>
                         </li>
                         <li>
-                            <a href="{{ route('admin.staffControls.donorRequest') }}"> Donor Registration </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('admin.staffControls.donor') }}"> Donors </a>
+                            <a href="{{ route('hospital.donor') }}"> Donors </a>
                         </li>
                         <li>
                             <a href=""> Requests </a>
@@ -206,9 +203,6 @@
 
           <div class="modal-body">
 
-            <ul id="passwordValidation" class="list-unstyled bg-danger form-control d-none">
-            </ul>
-
             <div class="row g-3">
                 <div class="col-md-12">
                   <label class="form-label"><strong>Hospital No.:</strong>&nbsp; {{ Auth::guard('hospital')->user()->no }}</label>
@@ -235,10 +229,160 @@
 </div>
 </div>
 
+<!-- Donor Registration Modal -->
+<div class="modal fade bd-example-modal-xl" id="donorRegistrationModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Donor Registration</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                  <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+          </div>
+
+          <div class="modal-body">
+
+            <ul id="errorList" class="list-unstyled bg-danger form-control d-none">
+            </ul>
+
+            <form method="POST" id="donorRegistrationForm" enctype="multipart/form-data">
+                <div class="row g-3">
+                    
+                    <div class="col-md-6">
+                        <label class="form-label" for="">Hospital</label>
+                        <input type="text" class="form-control" readonly value="{{ Auth::guard('hospital')->user()->name }}">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label" for="">Donor No.</label>
+                        <input type="text" class="form-control" readonly id="regDonorNo" name="no">
+                    </div>
+            
+                    <div class="col-md-3">
+                        <label class="form-label" for="">NIC</label>
+                        <input type="text" class="form-control" id="regDonornic" name="nic">
+                    </div>
+            
+                    <div class="col-md-4">
+                        <label class="form-label" for="">Date of Birth</label>
+                        <input type="date" class="form-control" id="regDonordateofbirth" name="dateofbirth">
+                    </div>
+            
+                    <div class="col-md-4">
+                        <label class="form-label" for="">Age</label>
+                        <input type="text" class="form-control" id="regDonorage" name="age">
+                    </div>
+            
+                    <div class="col-md-4">
+                        <label class="form-label" for="">Gender</label>
+                        <select class="form-control" id="regDonorgender" name="gender">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+            
+                    <div class="col-md-12">
+                        <label class="form-label" for="">Full Name</label>
+                        <input type="text" class="form-control" id="regDonorfullName" name="fullname">
+                    </div>
+            
+                    <div class="col-md-12">
+                        <label class="form-label" for="">Address</label>
+                        <textarea class="form-control" rows="3" id="regDonoraddress" name="address"></textarea>
+                    </div>
+            
+                    <div class="col-md-12">
+                        <label class="form-label" for="">Photo</label>
+                        <input type="file" class="form-control" id="regDonorphoto" name="photo">
+                    </div>
+            
+                    <div class="col-md-6">
+                        <label class="form-label" for="">Telephone</label>
+                        <input type="text" class="form-control" id="regDonortelephone" name="telephone">
+                    </div>
+            
+                    <div class="col-md-6">
+                        <label class="form-label" for="">Email</label>
+                        <input type="email" class="form-control" id="regDonoremail" name="email">
+                    </div>
+                    
+                    <div class="col-md-12" id="rescheduleButtonContainer">
+                      <button class="btn btn-primary form-control center" type="submit"
+                          id="btnRegister">Register</button>
+                    </div>
+                </div>
+            </form>
+      </div>
+  </div>
+</div>
+</div>
 
 
+<script>
 
+    $(document).ready(function(){
+        
+        $('#regDonorNo').val(Math.floor(Math.random() * (11500000 - 99500000 + 1) + 99500000));
 
+        //csrf token
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        //insert data
+        $(document).on('submit','#donorRegistrationForm',function(e){
+            e.preventDefault();
+            
+            let registerFormData = new FormData($('#donorRegistrationForm')[0]);
+            
+            $('#btnRegister').text('Registering....');
+            
+            $.ajax({
+                type: "POST",
+                url: "{{ url('hospital/dashboard/registerDonor') }}",
+                data: registerFormData,
+                contentType:false,
+                processData:false,
+                success: function(response) {
+                    if(response.status==400)
+                    {
+                        $('#errorList').html('');
+                        $('#errorList').removeClass('d-none');
+                        
+                        $.each(response.errors,function(key,err_value){
+                            $('#errorList').append('<li><strong>'+err_value+'</strong></li>');
+                        });
+                        
+                        $('#btnRegister').removeClass('btn-success');
+                        $('#btnRegister').addClass('btn-primary');
+                        $('#btnRegister').text('Register');
+                    }
+                    else if(response.status==200)
+                    {
+                        $('#errorList').html('');
+                        $('#errorList').addClass('d-none');
+                        
+                        $('#btnRegister').removeClass('btn-primary');
+                        $('#btnRegister').addClass('btn-success');
+                        $('#btnRegister').text('Registered and Mailed credentials to donor!');
+
+                        $('#regDonorNo').val(Math.floor(Math.random() * (11500000 - 99500000 + 1) + 99500000));
+                        
+                        setTimeout(function(){
+                            $('#btnRegister').removeClass('btn-success');
+                            $('#btnRegister').addClass('btn-primary');
+                            $('#btnRegister').text('Register');
+                        }, 3000);
+                    }
+                }
+            });
+        });
+
+    });
+
+</script>
 
 
 

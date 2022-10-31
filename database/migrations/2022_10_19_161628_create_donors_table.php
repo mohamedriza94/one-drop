@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('password')->nullable();
             $table->string('status')->nullable();
+            $table->string('hospital')->nullable();
             $table->timestamps();
         });
     }

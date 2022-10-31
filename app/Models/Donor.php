@@ -27,6 +27,7 @@ class Donor extends Authenticatable
         'telephone',
         'email',
         'status',
+        'hospital',
     ];
 
     protected $hidden = [

@@ -106,7 +106,7 @@ class appointmentController extends Controller
         }
         else
         {
-            $donorNumber = 'AD'.$request->input('no');
+            $donorNumber = 'OD'.$request->input('no');
             $donorPassword = rand(1500000,9515959);
             $donorEmail = $request->input('email');
             
