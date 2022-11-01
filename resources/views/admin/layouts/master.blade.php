@@ -488,7 +488,7 @@
                             <a href=""> Donations </a>
                         </li>                          
                         <li>
-                            <a href=""> Donate </a>
+                            <a href="{{ route('admin.staffControls.donate') }}"> Donate </a>
                         </li>                         
                     </ul>
                 </li>

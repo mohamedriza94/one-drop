@@ -75,9 +75,6 @@
 
           <div class="modal-body">
 
-            <ul id="scheduleAppointmentErrorList" class="list-unstyled bg-danger form-control d-none">
-            </ul>
-
             <div class="row g-3">
 
                 <div class="col-md-3">

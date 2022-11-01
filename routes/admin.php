@@ -156,6 +156,11 @@ Route::group([
     Route::get('/fetchFulfilledRequest', 'Staff\bloodRequestController@fetchFulfilledRequest');
     Route::get('/fetchDeclinedRequest', 'Staff\bloodRequestController@fetchDeclinedRequest');
     Route::get('/searchRequest/{input}', 'Staff\bloodRequestController@searchRequest');
+
+    //donation routes
+    Route::get('staff/donate', 'Staff\donationController@OpenDonatePage')->name('admin.staffControls.donate');
+    Route::get('/getDonor/{id}', 'Staff\donationController@getDonor');
+    Route::post('/donate', 'Staff\donationController@donate');
     });
 
     });

@@ -16,6 +16,12 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+
+        //check expiry date of blood bag
+        $schedule->call('App\Http\Controllers\Admin\Staff\bloodBagController@checkBloodExpiryDate')->everyMinute();
+
+        //update checking status
+        $schedule->call('App\Http\Controllers\Admin\Staff\bloodBagController@updateCheckStatus')->daily();
     }
 
     /**
