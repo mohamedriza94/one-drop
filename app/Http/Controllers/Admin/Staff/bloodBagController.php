@@ -14,6 +14,18 @@ use Carbon\Carbon;
 
 class bloodBagController extends Controller
 {
+    public function index()
+    {
+        if(auth()->guard('admin')->user()->role == 'staff')
+        {
+        return view('admin.dashboard.staffControls.bloodBag');
+        }
+        else
+        {
+            return back();
+        }
+    }
+    
     public function checkBloodExpiryDate()
     {
         $bloodBags = BloodBag::where('status', '!=', 'expired')->where('status', '!=', 'used')->where('dateCheck','=','unchecked')->orderBy('id', 'DESC')->first();
@@ -36,5 +48,61 @@ class bloodBagController extends Controller
     public function updateCheckStatus()
     {
         BloodBag::where('status', '!=', 'expired')->where('status', '!=', 'used')->where('dateCheck', '=', 'checked')->update(['dateCheck' => 'unchecked']);
+    }
+
+    public function fetchBloodBags()
+    {
+        $bloodBags = BloodBag::where('bag_no','LIKE','%'.'OD'.'%')->orderBy('id','DESC')->get();
+
+        return response()->json([
+            'blood_bags'=>$bloodBags
+        ]);
+    }
+
+    public function fetchAvailableBloodBags()
+    {
+        $bloodBags = BloodBag::where('bag_no','LIKE','%'.'OD'.'%')->where('status','=','available')->orderBy('id','DESC')->get();
+
+        return response()->json([
+            'blood_bags'=>$bloodBags
+        ]);
+    }
+
+    public function fetchExpiredBloodBags()
+    {
+        $bloodBags = BloodBag::where('bag_no','LIKE','%'.'OD'.'%')->where('status','=','expired')->orderBy('id','DESC')->get();
+
+        return response()->json([
+            'blood_bags'=>$bloodBags
+        ]);
+    }
+
+    public function fetchUsedBloodBags()
+    {
+        $bloodBags = BloodBag::where('bag_no','LIKE','%'.'OD'.'%')->where('status','=','used')->orderBy('id','DESC')->get();
+
+        return response()->json([
+            'blood_bags'=>$bloodBags
+        ]);
+    }
+
+    public function fetchCustomBloodBags($bloodGroup)
+    {
+        $bloodBags = BloodBag::where('bag_no','LIKE','%'.'OD'.'%')->where('status','=','available')->where('bloodGroup','=',$bloodGroup)->orderBy('id','DESC')->get();
+
+        return response()->json([
+            'blood_bags'=>$bloodBags
+        ]);
+    }
+    
+    public function fetchSingleBloodBag($bloodBagNo)
+    {
+        $bloodBags = BloodBag::join('donations', 'blood_bags.bag_no', '=', 'donations.bloodBagNo')
+        ->join('donors', 'donations.donorNo', '=', 'donors.no')
+        ->where('blood_bags.bag_no', $bloodBagNo)
+        ->get();
+        return response()->json([
+            'blood_bags'=>$bloodBags
+        ]);
     }
 }

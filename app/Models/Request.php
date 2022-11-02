@@ -24,5 +24,6 @@ class Request extends Model
         'status',
         'fulfilDate',
         'remark',
+        'bloodBagNo',
     ];
 }

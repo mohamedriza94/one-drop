@@ -161,6 +161,24 @@ Route::group([
     Route::get('staff/donate', 'Staff\donationController@OpenDonatePage')->name('admin.staffControls.donate');
     Route::get('/getDonor/{id}', 'Staff\donationController@getDonor');
     Route::post('/donate', 'Staff\donationController@donate');
+
+    //donation details routes
+    Route::get('staff/donation', 'Staff\donationController@index')->name('admin.staffControls.donation');
+    Route::get('/fetchDonation', 'Staff\donationController@fetchDonation');
+
+    //blood bag management routes
+    Route::get('staff/bloodBag', 'Staff\bloodBagController@index')->name('admin.staffControls.bloodBag');
+    Route::get('/fetchBloodBags', 'Staff\bloodBagController@fetchBloodBags');
+    Route::get('/fetchAvailableBloodBags', 'Staff\bloodBagController@fetchAvailableBloodBags');
+    Route::get('/fetchExpiredBloodBags', 'Staff\bloodBagController@fetchExpiredBloodBags');
+    Route::get('/fetchUsedBloodBags', 'Staff\bloodBagController@fetchUsedBloodBags');
+    Route::get('/fetchCustomBloodBags/{bloodGroup}', 'Staff\bloodBagController@fetchCustomBloodBags');
+    Route::get('/fetchSingleBloodBag/{bloodBagNo}', 'Staff\bloodBagController@fetchSingleBloodBag');
+
+    //donation tracking routes
+    Route::get('staff/tracking', 'Staff\donationController@trackingPage')->name('admin.staffControls.tracking');
+    Route::get('/trackDonation/{donationNo}', 'Staff\donationController@trackDonation');
+    Route::get('/trackDonationReceiver/{receivedBloodBagNo}', 'Staff\donationController@trackDonationReceiver');
     });
 
     });

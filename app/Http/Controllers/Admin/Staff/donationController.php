@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Donation;
 use App\Models\Donor;
+use App\Models\Request as BloodRequest;
 use App\Models\Activity;
 use App\Models\BloodBag;
 use Illuminate\Support\Facades\Mail;
@@ -15,6 +16,30 @@ use App\Mail\Admin\donationNotificationMail;
 
 class donationController extends Controller
 {
+    public function index()
+    {
+        if(auth()->guard('admin')->user()->role == 'staff')
+        {
+        return view('admin.dashboard.staffControls.donation');
+        }
+        else
+        {
+            return back();
+        }
+    }
+
+    public function trackingPage()
+    {
+        if(auth()->guard('admin')->user()->role == 'staff')
+        {
+        return view('admin.dashboard.staffControls.tracking');
+        }
+        else
+        {
+            return back();
+        }
+    }
+
     public function OpenDonatePage()
     {
         if(auth()->guard('admin')->user()->role == 'staff')
@@ -29,7 +54,7 @@ class donationController extends Controller
 
     public function getDonor($id)
     {
-        $donors = Donor::where('no','LIKE','%'.'HS'.'%')->where('nic','LIKE','%'.$id.'%')->orderBy('id', 'DESC')->get();
+        $donors = Donor::where('no','LIKE','%'.'OD'.'%')->where('nic','LIKE','%'.$id.'%')->orderBy('id', 'DESC')->get();
         
         return response()->json([
             'donors'=>$donors,
@@ -95,5 +120,56 @@ class donationController extends Controller
                 'status'=>200
             ]);
         }
+    }
+
+    public function fetchDonation()
+    {
+        $donation = Donation::leftJoin('blood_bags', 'donations.bloodBagNo', '=', 'blood_bags.bag_no')->orderBy('donations.id','DESC')->get();
+
+        return response()->json([
+            'donations'=>$donation
+        ]);
+    }
+
+    public function trackDonation($donationNo)
+    {
+        $donations = Donation::join('donors', 'donations.donorNo', '=', 'donors.no')
+        ->join('blood_bags', 'donations.bloodBagNo', '=', 'blood_bags.bag_no')
+        ->where('donations.donationNo', $donationNo)
+        ->get(
+            [
+                //aliasing names
+                'donors.no AS donorNo',
+                'donors.photo AS photo',
+                'donors.fullname AS fullname',
+                'donors.address AS address',
+                'donors.telephone AS telephone',
+                'donors.email AS email',
+                'donors.gender AS gender',
+                'donors.dateofbirth AS dateofbirth',
+                'donors.age AS age',
+                'donors.status AS donorStatus',
+
+                'donations.donationNo AS donationNo',
+                'donations.date AS received_date',
+                'donations.time AS received_time',
+                
+                'blood_bags.bag_no AS bag_no',
+                'blood_bags.bloodGroup AS bloodGroup',
+                'blood_bags.status AS blood_status',
+            ]
+        );
+        return response()->json([
+            'donations'=>$donations
+        ]);
+    }
+
+    public function trackDonationReceiver($receivedBloodBagNo)
+    {
+        $requests = BloodRequest::where('bloodBagNo', $receivedBloodBagNo)->get();
+        
+        return response()->json([
+            'requests'=>$requests
+        ]);
     }
 }

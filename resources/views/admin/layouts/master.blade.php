@@ -453,7 +453,7 @@
                 </li>
 
                 <li class="menu">
-                    <a href="" aria-expanded="false" class="dropdown-toggle d-flex align-items-baseline">
+                    <a href="{{ route('admin.staffControls.bloodBag') }}" aria-expanded="false" class="dropdown-toggle d-flex align-items-baseline">
                         <div class="">
                             <i class="fa-solid fa-droplet" style="width:50px; height:100%;"></i>    
                             <span>Blood Bags</span>
@@ -485,7 +485,7 @@
                             <a href="{{ route('admin.staffControls.bloodRequest') }}"> Blood Requests </a>
                         </li>                          
                         <li>
-                            <a href=""> Donations </a>
+                            <a href="{{ route('admin.staffControls.donation') }}"> Donations </a>
                         </li>                          
                         <li>
                             <a href="{{ route('admin.staffControls.donate') }}"> Donate </a>
@@ -505,7 +505,7 @@
                 </li>
 
                 <li class="menu">
-                    <a href="" aria-expanded="false" class="dropdown-toggle">
+                    <a href="{{ route('admin.staffControls.tracking') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
                             <i class="fa-solid fa-chalkboard" style="width:50px; height:100%;"></i>
                             <span>Tracking</span>
