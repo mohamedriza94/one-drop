@@ -133,7 +133,7 @@
                 </li>
 
                 <li class="menu">
-                    <a href="" aria-expanded="false" class="dropdown-toggle d-flex align-items-baseline">
+                    <a href="{{ route('hospital.bloodBag') }}" aria-expanded="false" class="dropdown-toggle d-flex align-items-baseline">
                         <div class="">
                             <i class="fa-solid fa-droplet" style="width:50px; height:100%;"></i>    
                             <span>Blood Bank</span>
@@ -159,13 +159,13 @@
                             <a href="{{ route('hospital.donor') }}"> Donors </a>
                         </li>
                         <li>
-                            <a href=""> Requests </a>
+                            <a href=""> Blood Requests </a>
                         </li>                          
                         <li>
-                            <a href=""> Donations </a>
+                            <a href="{{ route('hospital.donation') }}"> Donations </a>
                         </li>                          
                         <li>
-                            <a href=""> Donate </a>
+                            <a href="{{ route('hospital.donate') }}"> Donate </a>
                         </li>                         
                     </ul>
                 </li>
@@ -173,7 +173,7 @@
                 <hr>
 
                 <li class="menu">
-                    <a href="" aria-expanded="false" class="dropdown-toggle">
+                    <a href="{{ route('hospital.tracking') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
                             <i class="fa-solid fa-chalkboard" style="width:50px; height:100%;"></i>
                             <span>Tracking</span>

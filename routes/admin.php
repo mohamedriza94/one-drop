@@ -41,7 +41,7 @@ Route::group([
     Route::get('/fetchInactiveStaff', 'staffController@fetchInactiveStaff');
     Route::get('/searchStaff/{input}', 'staffController@searchStaff');
     Route::get('/fetchSingleStaff/{id}', 'staffController@fetchSingleStaff');
-    Route::put('/changeStatus/{id}', 'staffController@changeStatus');
+    Route::put('/staffChangeStatus/{id}', 'staffController@changeStatus');
     Route::post('/updateStaff/{id}', 'staffController@updateStaff');
     Route::delete('/deleteStaff/{id}', 'staffController@deleteStaff');
     Route::get('/fetchHospitalToAssign', 'staffController@fetchHospitalToAssign');

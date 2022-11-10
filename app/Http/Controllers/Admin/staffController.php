@@ -138,10 +138,7 @@ class staffController extends Controller
 
     public function changeStatus(Request $request, $id)
     {
-        $admins = Admin::find($id);
-        
-        $admins->status = $request->input('status');
-        $admins->update();
+        $admins = Admin::where('id', $id)->update(['status' => $request->input('status')]);
 
         return response()->json([
             'status'=>200

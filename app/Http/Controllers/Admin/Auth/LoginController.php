@@ -52,13 +52,13 @@ class LoginController extends Controller
     public function validateLogin(Request $request)
     {
         // Attempt to log the user in
-        if ($this->guard()->attempt(['email' => $request->email, 'password' => $request->password])) {
+        if ($this->guard()->attempt(['email' => $request->email, 'password' => $request->password, 'status' =>'active'])) {
             return redirect()->intended(route('admin.dashboard'));
         } 
 
         // if unsuccessful, then redirect back to the login with the form data
         return redirect()->back()->withInput($request->only('email'))->withErrors([
-            'password' => 'Invalid Email or Password!'
+            'password' => 'Invalid Email or Password!',
         ]);
     }
 

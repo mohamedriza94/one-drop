@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('time');
             $table->string('venue')->nullable();
             $table->string('bloodBagNo');
+            $table->string('hospitalDonatedTo')->nullable();
             $table->timestamps();
         });
     }

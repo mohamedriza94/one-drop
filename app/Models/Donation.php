@@ -20,5 +20,6 @@ class Donation extends Model
         'time',
         'venue',
         'bloodBagNo',
+        'hospitalDonatedTo',
     ];
 }

@@ -16,7 +16,6 @@
             </div>
             
             <div class="widget-content widget-content-area">
-                <div class="row">
                     <div class="col-lg-12 col-12 ">
                         <form>
                             <div class="row">
@@ -25,7 +24,7 @@
                                 </div>
 
                                 <div class="col-3">
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-primary btn-lg form-control" id="addModalOpen">Add New Staff Member</a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-primary btn-lg form-control" id="addModalOpen">Add Staff Member</a>
                                 </div>
 
                                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-4">
@@ -40,8 +39,6 @@
                             </div>
                         </form>
                     </div>
-                </div>
-
             </div>
 
             <div class="row layout-top-spacing">
@@ -165,9 +162,12 @@
                     
 
                   <div class="col-md-6">
-                      <a class="btn btn-primary form-control" id="btnDelete">Yes</a>
-                      <a class="btn btn-primary form-control" data-bs-dismiss="modal">No</a>
+                      <a class="btn btn-danger form-control" id="btnDelete">Yes</a>
                   </div>
+
+                  <div class="col-md-6">
+                    <a class="btn btn-primary form-control" data-bs-dismiss="modal">No</a>
+                </div>
                   
                 </div>
           </div>
@@ -789,7 +789,7 @@ $(document).on('click', '#changeStatusActive',function(e){
             'status' : status_active
         }
 
-        var url = '{{ url("admin/dashboard/changeStatus/:id") }}';
+        var url = '{{ url("admin/dashboard/staffChangeStatus/:id") }}';
         url = url.replace(':id', id);
 
         $.ajax({
@@ -810,7 +810,7 @@ $(document).on('click', '#changeStatusDeactive',function(e){
             'status' : status_active
         }
 
-        var url = '{{ url("admin/dashboard/changeStatus/:id") }}';
+        var url = '{{ url("admin/dashboard/staffChangeStatus/:id") }}';
         url = url.replace(':id', id);
 
         $.ajax({
