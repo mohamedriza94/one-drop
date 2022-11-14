@@ -69,15 +69,12 @@ Route::group([
     Route::get('/staff_fetchSingleMessage/{id}', 'staffMessageController@staff_fetchSingleMessage');
     Route::get('/staff_fetchSender/{senderId}/{sender}', 'staffMessageController@staff_fetchSender');
 
-    
     //universal message reply route
     Route::post('/replyToMessage', 'staffMessageController@replyToMessage');
     Route::get('/fetchReply/{messageId}', 'staffMessageController@fetchReply');
     Route::put('/viewedReplyUpdateStatus/{id}', 'staffMessageController@viewedReplyUpdateStatus');
     
 
-
-    
     //===========================================================================
     //Staff routes---------------------------------------------------------------
     //
@@ -92,11 +89,9 @@ Route::group([
     Route::get('/fetchSender/{senderId}/{sender}', 'Staff\messageController@fetchSender');
     Route::put('/moveToTrash/{id}', 'Staff\messageController@moveToTrash');
 
-    
     //activity log routes
     Route::get('/activity', 'activityController@index')->name('admin.activity');
     Route::get('/fetchActivities', 'activityController@fetchActivities');
-
 
     //news and updates management routes
     Route::get('staff/news', 'Staff\newsController@index')->name('admin.staffControls.news');
@@ -111,7 +106,6 @@ Route::group([
     Route::put('/changeStatus/{id}', 'Staff\newsController@changeStatus');
     Route::delete('/deleteNews/{id}/{news_no}', 'Staff\newsController@deleteNews');
 
-    
     //donor request management routes
     Route::get('staff/donorRequest', 'Staff\donorRequestController@index')->name('admin.staffControls.donorRequest');
     
@@ -125,7 +119,6 @@ Route::group([
     Route::post('/rescheduleAppointment', 'Staff\donorRequestController@rescheduleAppointment');
     Route::get('/fetchSingleDonorRequest/{id}', 'Staff\donorRequestController@fetchSingleDonorRequest');
 
-    
     //appointment management routes
     Route::get('staff/appointments', 'Staff\appointmentController@index')->name('admin.staffControls.appointments');
     
@@ -137,7 +130,6 @@ Route::group([
     Route::put('/cancelAppointment/{id}', 'Staff\appointmentController@cancelAppointment');
     Route::post('/registerDonor', 'Staff\appointmentController@registerDonor');
 
-
     //donor management routes
     Route::get('staff/donor', 'Staff\donorController@index')->name('admin.staffControls.donor');
     Route::get('/fetchDonor', 'Staff\donorController@fetchDonor');
@@ -147,7 +139,6 @@ Route::group([
     Route::get('/searchDonor/{input}', 'Staff\donorController@searchDonor');
     Route::put('/changeDonorStatus/{id}', 'Staff\donorController@changeDonorStatus');
 
-
     //blood request management routes
     Route::get('staff/bloodRequest', 'Staff\bloodRequestController@index')->name('admin.staffControls.bloodRequest');
     Route::get('/fetchRequest', 'Staff\bloodRequestController@fetchRequest');
@@ -156,6 +147,9 @@ Route::group([
     Route::get('/fetchFulfilledRequest', 'Staff\bloodRequestController@fetchFulfilledRequest');
     Route::get('/fetchDeclinedRequest', 'Staff\bloodRequestController@fetchDeclinedRequest');
     Route::get('/searchRequest/{input}', 'Staff\bloodRequestController@searchRequest');
+    Route::get('/fetchSingleRequest/{id}', 'Staff\bloodRequestController@fetchSingleRequest');
+    Route::get('/fetchAvailableBlood/{bloodGroup}', 'Staff\bloodRequestController@fetchAvailableBlood');
+    Route::put('/requestChangeStatus/{id}', 'Staff\bloodRequestController@requestChangeStatus');
 
     //donation routes
     Route::get('staff/donate', 'Staff\donationController@OpenDonatePage')->name('admin.staffControls.donate');
