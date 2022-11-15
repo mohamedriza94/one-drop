@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('status');
             $table->string('fulfilDate')->nullable();
             $table->string('bloodBagNo')->nullable();
+            $table->string('hospitalNo')->nullable();
+            $table->string('hospitalResponse')->nullable();
             $table->text('remark')->nullable();
             $table->timestamps();
         });

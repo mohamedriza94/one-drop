@@ -10,6 +10,8 @@ use App\Models\BloodBag;
 use App\Models\Activity;
 use Illuminate\Support\Facades\Mail;
 
+use App\Mail\Staff\requestUpdateMail;
+
 class bloodRequestController extends Controller
 {
     public function index()
@@ -110,25 +112,109 @@ class bloodRequestController extends Controller
             ]);
         }
     }
-
+    
     public function requestChangeStatus(Request $request, $id)
     {
-        $requests = bloodRequest::find($id);
+        $status = $request->input('status');
+        $email = $request->input('email');
+        $requests = bloodRequest::where('requestNo', $id)->update(['status' => $status]);
         
-        $requests->status = $request->input('status');
-        $requests->update();
-
+        $task = '';
+        $requestUpdateMessage = '';
+        
+        if($status == 'waiting')
+        {
+            $requestUpdateMessage = 'Dear Requestor, Your Blood Request No. '.$id.' has been put on the waiting list due to 
+            unavailability of blood at the moment. We will get back to you immediately once the blood becomes available. We are
+            sorry for the inconvenience caused. Thank you for your understanding.';
+            
+            $task = 'Put Request No. '.$id.' on waiting list due to unavailability of blood';
+        }
+        else if($status == 'declined')
+        {
+            $requestUpdateMessage = 'Dear Requestor, Your Blood Request No. '.$id.' has been declined upon your request due to the 
+            unavailability of blood at the moment. We are sorry for the inconvenience caused. Thank you for your understanding.';
+            
+            $task = 'Put Request No. '.$id.' on declined list due to unavailability of blood';
+        }
+        else if($status == 'requestedHospital')
+        {
+            $requestUpdateMessage = 'Dear Requestor, Your Blood Request No. '.$id.' has been put on the waiting list due to 
+            unavailability of blood at the moment. We will get back to you immediately once the blood becomes available. We are
+            sorry for the inconvenience caused. Thank you for your understanding.';
+            
+            $task = 'Forwarded Request No. '.$id.' to Hospital No. '.auth()->guard('admin')->user()->hospital_id.' due to unavailability of blood';
+            
+            $requests = bloodRequest::where('requestNo', $id)->update(['hospitalNo' => auth()->guard('admin')->user()->hospital_id, 'hospitalResponse' => 'pending']);
+        }
+        
+        Mail::to($email)->send(new requestUpdateMail($requestUpdateMessage));
+        
         //record activity
         $activities = new Activity;
         $activities->user_id = auth()->guard('admin')->user()->id;
-        $activities->task = 'Put Request No. '.$id.' on waiting list due to unavailability of blood';
+        $activities->task = $task;
         $activities->date = NOW();
         $activities->time = NOW();
         $activities->save();
-
+        
         return response()->json([
             'status'=>200
         ]);
     }
     
+    public function fetchChosenBlood($bloodBagId)
+    {
+        $bloodBags = BloodBag::where('bag_no','=',$bloodBagId)->first();
+        
+        return response()->json([
+            'blood_bags'=>$bloodBags
+        ]);
+    }
+    
+    public function acceptBloodRequest(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'requestId' => ['required'],
+            'bloodBagNo' => ['required'],
+            'email' => ['required'],
+        ]); //validate all the data
+        
+        if($validator->fails())
+        {
+            return response()->json([
+                'status'=>400
+            ]);
+        }
+        else
+        {
+            $requestId = $request->input('requestId');
+            $bloodBagNo = $request->input('bloodBagNo');
+            $email = $request->input('email');
+            $requestStatus = 'fulfilled';
+            $fulfilDate = NOW();
+            
+            $requests = bloodRequest::where('requestNo', $requestId)->update(['status' => $requestStatus,'fulfilDate' => $fulfilDate,'bloodBagNo' => $bloodBagNo]);
+            
+            $bloodBags = BloodBag::where('bag_no', $bloodBagNo)->update(['status' => 'used']);
+            
+            
+            $requestUpdateMessage = 'Dear Requestor, Your Blood Request No. '.$requestId.' has been fulfilled with the Blood bag no.
+             '.$bloodBagNo.'. Thank you.';
+
+            Mail::to($email)->send(new requestUpdateMail($requestUpdateMessage));
+            
+            //record activity
+            $activities = new Activity;
+            $activities->user_id = auth()->guard('admin')->user()->id;
+            $activities->task = 'Fulfilled Request No. '.$requestId.'';
+            $activities->date = NOW();
+            $activities->time = NOW();
+            $activities->save();
+
+            return response()->json([
+                'status'=>200
+            ]);
+        }
+    }
 }

@@ -29,6 +29,8 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/src/assets/css/dark/elements/alert.css')}}">
     <link href="{{asset('assets/admin/src/assets/css/dark/components/timeline.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/admin/src/assets/css/light/components/timeline.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('assets/admin/src/assets/css/light/apps/invoice-preview.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/admin/src/assets/css/dark/apps/invoice-preview.css')}}" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
@@ -684,7 +686,9 @@
 
 <script src="{{asset('assets/admin/src/assets/js/apps/blog-create.js')}}"></script>
 <script src="{{asset('assets/admin/src/assets/js/scrollspyNav.js')}}"></script>
+<script src="{{asset('assets/admin/src/assets/js/apps/invoice-preview.js')}}"></script>
 <!-- END PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
+<script src="{{asset('assets/print/printThis.js')}}"></script>
 
 <script>
     $(document).ready(function(){

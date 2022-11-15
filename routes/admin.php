@@ -150,6 +150,8 @@ Route::group([
     Route::get('/fetchSingleRequest/{id}', 'Staff\bloodRequestController@fetchSingleRequest');
     Route::get('/fetchAvailableBlood/{bloodGroup}', 'Staff\bloodRequestController@fetchAvailableBlood');
     Route::put('/requestChangeStatus/{id}', 'Staff\bloodRequestController@requestChangeStatus');
+    Route::get('/fetchChosenBlood/{bloodBagId}', 'Staff\bloodRequestController@fetchChosenBlood');
+    Route::put('/acceptBloodRequest', 'Staff\bloodRequestController@acceptBloodRequest');
 
     //donation routes
     Route::get('staff/donate', 'Staff\donationController@OpenDonatePage')->name('admin.staffControls.donate');

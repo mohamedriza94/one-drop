@@ -949,7 +949,7 @@ function fetchHospitalToAssign()
         url:"{{ url('admin/dashboard/fetchHospitalToAssign') }}",
         success:function(response){
             $.each(response.hospitals,function(key,item){
-                $('#chooseHospital').append('<option value="'+item.id+'">'+item.name+'</option>\
+                $('#chooseHospital').append('<option value="'+item.no+'">'+item.name+'</option>\
                 ');
             });
         }
