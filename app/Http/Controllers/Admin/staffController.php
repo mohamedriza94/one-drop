@@ -230,9 +230,7 @@ class staffController extends Controller
 
     public function appoint(Request $request, $id)
     {
-        $isExist = Hospital::select("*")
-                        ->where("id", $request->input('hospital_id'))
-                        ->exists();
+        $isExist = Hospital::select("*")->where("no", $request->input('hospital_id'))->exists();
 
         if ($isExist) {
 
@@ -243,20 +241,18 @@ class staffController extends Controller
     
             return response()->json([
                 'status'=>200,
-                'message'=>'done'
             ]);
 
         }else{
             return response()->json([
                 'status'=>400,
-                'message'=>'done'
             ]);
         }
     }
 
     public function fetchAssignedHospital($id)
     {
-        $hospitals = Hospital::find($id);
+        $hospitals = Hospital::where("no",'=', $id)->first();
         if($hospitals)
         {
             return response()->json([
