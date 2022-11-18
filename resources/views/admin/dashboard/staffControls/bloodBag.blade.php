@@ -403,7 +403,6 @@
                         else if(item.status=="used"){
                             
                             $statusBadge = '<span class="badge badge-light-dark">Used</span>';
-                            
                         }
                         
                         var date_str = item.received_date;

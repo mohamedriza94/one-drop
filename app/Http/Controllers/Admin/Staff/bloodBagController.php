@@ -105,4 +105,6 @@ class bloodBagController extends Controller
             'blood_bags'=>$bloodBags
         ]);
     }
+
+    
 }

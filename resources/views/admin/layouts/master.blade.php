@@ -505,6 +505,15 @@
                         </div>
                     </a>
                 </li>
+                
+                <li class="menu">
+                    <a href="{{ route('admin.invoice') }}" aria-expanded="false" class="dropdown-toggle">
+                        <div class="">
+                            <i class="fa-solid fa-newspaper" style="width:50px; height:100%;"></i>
+                            <span>Invoice</span>
+                        </div>
+                    </a>
+                </li>
 
                 <li class="menu">
                     <a href="{{ route('admin.staffControls.tracking') }}" aria-expanded="false" class="dropdown-toggle">

@@ -250,6 +250,9 @@
                                                                     <p><b>STAFF MEMBER:</b> Name: {{ auth()->guard('admin')->user()->fullname }} &nbsp;&nbsp;
                                                                         Telephone: {{ auth()->guard('admin')->user()->telephone }}</p>
                                                                         <p>Thank you for using One Drop Services.</p>
+
+                                                                        <input type="hidden" id="staffName" value="{{ auth()->guard('admin')->user()->fullname }}">
+                                                                        <input type="hidden" id="staffTelephone" value="{{ auth()->guard('admin')->user()->telephone }}">
                                                                     </div>
                                                                 </div>
                                                                 
@@ -623,11 +626,38 @@
             e.preventDefault();
             var requestId = $(this).val();
             var bloodBagNo = $('#availableBlood').val();
-            var email = $('#email').val();
+
+            //invoice
+            var requestNo = $(this).val();
+            var date = new Date().toLocaleDateString(); 
+            var time = new Date().toLocaleTimeString(); 
+            var fullname = $('#invFullname').text();
+            var nic = $('#invNic').text();
+            var email = $('#invEmail').text();
+            var telephone = $('#invTelephone').text();
+            var bagNo = $('#invTableBagNo').text();
+            var bloodGroup = $('#invTableBloodGroup').text();
+            var expiryDate = $('#invTableExpiryDate').text();
+            var staffName = $('#staffName').val();
+            var staffTelephone = $('#staffTelephone').val();
+
             var data = {
                 'requestId' : requestId, 
                 'bloodBagNo' : bloodBagNo, 
-                'email' : email
+                
+                //invoice
+                'requestNo' : requestNo,
+                'date' : date,
+                'time' : time,
+                'fullname' : fullname,
+                'nic' : nic,
+                'email' : email,
+                'telephone' : telephone,
+                'bagNo' : bagNo,
+                'bloodGroup' : bloodGroup,
+                'expiryDate' : expiryDate,
+                'staffName' : staffName,
+                'staffTelephone' : staffTelephone
             }
             
             $('#btnYes').text('Loading...');

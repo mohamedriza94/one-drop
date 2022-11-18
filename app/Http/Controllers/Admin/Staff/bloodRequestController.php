@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Request as bloodRequest;
 use App\Models\BloodBag;
 use App\Models\Activity;
+use App\Models\Invoice;
 use Illuminate\Support\Facades\Mail;
 
 use App\Mail\Staff\requestUpdateMail;
@@ -200,8 +201,23 @@ class bloodRequestController extends Controller
             
             
             $requestUpdateMessage = 'Dear Requestor, Your Blood Request No. '.$requestId.' has been fulfilled with the Blood bag no.
-             '.$bloodBagNo.'. Thank you.';
-
+            '.$bloodBagNo.'. Thank you.';
+            
+            $invoices = new Invoice;
+            $invoices->requestNo = $request->input('requestNo');
+            $invoices->date = $request->input('date');
+            $invoices->time = $request->input('time');
+            $invoices->fullname = $request->input('fullname');
+            $invoices->nic = $request->input('nic');
+            $invoices->email = $request->input('email');
+            $invoices->telephone = $request->input('telephone');
+            $invoices->bagNo = $request->input('bagNo');
+            $invoices->bloodGroup = $request->input('bloodGroup');
+            $invoices->expiryDate = $request->input('expiryDate');
+            $invoices->staffName = $request->input('staffName');
+            $invoices->staffTelephone = $request->input('staffTelephone');
+            $invoices->save();
+            
             Mail::to($email)->send(new requestUpdateMail($requestUpdateMessage));
             
             //record activity
@@ -211,7 +227,7 @@ class bloodRequestController extends Controller
             $activities->date = NOW();
             $activities->time = NOW();
             $activities->save();
-
+            
             return response()->json([
                 'status'=>200
             ]);

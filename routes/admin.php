@@ -175,6 +175,11 @@ Route::group([
     Route::get('staff/tracking', 'Staff\donationController@trackingPage')->name('admin.staffControls.tracking');
     Route::get('/trackDonation/{donationNo}', 'Staff\donationController@trackDonation');
     Route::get('/trackDonationReceiver/{receivedBloodBagNo}', 'Staff\donationController@trackDonationReceiver');
+
+    
+    //invoice routes
+    Route::get('/invoice', 'Staff\invoiceController@index')->name('admin.invoice');
+    Route::get('/getInvoice/{input}', 'Staff\invoiceController@searchRequest');
     });
 
     });
