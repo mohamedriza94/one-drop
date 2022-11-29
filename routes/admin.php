@@ -188,6 +188,9 @@ Route::group([
     Route::get('/countAppointments', 'countController@countAppointments');
     Route::get('/countDonorRequests', 'countController@countDonorRequests');
     Route::get('/countDonations', 'countController@countDonations');
+    Route::get('/countHospital', 'countController@countHospital');
+    Route::get('/countStaff', 'countController@countStaff');
+    Route::get('/countDonors', 'countController@countDonors');
 
     //blood group count routes
     Route::get('/countBloodBags_Apos', 'countController@countBloodBags_Apos');

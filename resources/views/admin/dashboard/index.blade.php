@@ -83,6 +83,22 @@
                                             <i class="fa fa-home" aria-hidden="true"></i>
                                         </div>
                                         <div class="">
+                                            <p class="w-value" id="countDonors"></p>
+                                            <p class=""><b>Donors</b></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 layout-spacing">
+                            <div class="widget widget-one_hybrid widget-followers">
+                                <div class="widget-heading">
+                                    <div class="w-title">
+                                        <div class="w-icon">
+                                            <i class="fa fa-home" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="">
                                             <p class="w-value" id="countUnreadMessages"></p>
                                             <p class=""><b>Unread Messages</b></p>
                                         </div>
@@ -106,6 +122,42 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        @if (Auth::user()->role=='admin')
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 layout-spacing">
+                            <div class="widget widget-one_hybrid widget-followers">
+                                <div class="widget-heading">
+                                    <div class="w-title">
+                                        <div class="w-icon">
+                                            <i class="fa fa-home" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="">
+                                            <p class="w-value" id="countStaff"></p>
+                                            <p class=""><b>Active Staff</b></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 layout-spacing">
+                            <div class="widget widget-one_hybrid widget-followers">
+                                <div class="widget-heading">
+                                    <div class="w-title">
+                                        <div class="w-icon">
+                                            <i class="fa fa-home" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="">
+                                            <p class="w-value" id="countHospital"></p>
+                                            <p class=""><b>Active Hospitals</b></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                        
                     </div>
                 </div>
                 
@@ -252,6 +304,45 @@
                 });
             }
             
+            function countStaff()
+            {
+                $.ajax({
+                    type:"GET",
+                    url:'{{ url("admin/dashboard/countStaff") }}',
+                    dataType:"json",
+                    success:function(response){
+                        var response = JSON.parse(response);
+                        $('#countStaff').text(response);
+                    }
+                });
+            }
+            
+            function countHospital()
+            {
+                $.ajax({
+                    type:"GET",
+                    url:'{{ url("admin/dashboard/countHospital") }}',
+                    dataType:"json",
+                    success:function(response){
+                        var response = JSON.parse(response);
+                        $('#countHospital').text(response);
+                    }
+                });
+            }
+            
+            function countDonors()
+            {
+                $.ajax({
+                    type:"GET",
+                    url:'{{ url("admin/dashboard/countDonors") }}',
+                    dataType:"json",
+                    success:function(response){
+                        var response = JSON.parse(response);
+                        $('#countDonors').text(response);
+                    }
+                });
+            }
+            
             //BLOOD COUNT================================================================================
             function countBloodBags_Apos()
             {
@@ -364,6 +455,9 @@
                 countDonorRequests();
                 countDonations();
                 countUnreadMessages();
+                countStaff();
+                countHospital();
+                countDonors();
                 
                 countBloodBags_Apos();
                 countBloodBags_Aneg();

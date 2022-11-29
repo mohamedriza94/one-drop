@@ -10,16 +10,18 @@ use App\Models\Activity;
 use App\Models\BloodBag;
 use App\Models\Appointment;
 use App\Models\DonorRequest;
+use App\Models\Message;
 use App\Models\Admin;
+use App\Models\Hospital;
 use App\Models\Request as bloodRequest;
 
 class countController extends Controller
 {
     public function countUnreadMessages()
     {
-        $admin = Admin::where('sender','LIKE','%'.'ToStaff'.'%')->where('staff_side_status', '=', 'unread')->where('recipient_id', '=', auth()->guard('admin')->user()->id)->count();
+        $messages = Message::where('sender','LIKE','%'.'ToStaff'.'%')->where('staff_side_status', '=', 'unread')->where('recipient_id', '=', auth()->guard('admin')->user()->id)->count();
 
-        echo json_encode($admin);
+        echo json_encode($messages);
     }
 
     public function countBloodRequests()
@@ -27,6 +29,27 @@ class countController extends Controller
         $bloodRequests = bloodRequest::where('status', '=', 'pending')->count();
 
         echo json_encode($bloodRequests);
+    }
+
+    public function countHospital()
+    {
+        $hospitals = Hospital::count();
+
+        echo json_encode($hospitals);
+    }
+
+    public function countStaff()
+    {
+        $admins = Admin::where('role', '=', 'staff')->where('status', '=', 'active')->count();
+
+        echo json_encode($admins);
+    }
+    
+    public function countDonors()
+    {
+        $donors = Donor::where('no','LIKE','%'.'OD'.'%')->where('status', '=', 'active')->count();
+
+        echo json_encode($donors);
     }
     
     public function countAppointments()

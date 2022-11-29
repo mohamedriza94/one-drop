@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('expiry_date')->nullable();
             $table->string('status');
             $table->string('dateCheck')->nullable();
+            $table->string('hospital')->nullable();
         });
     }
 

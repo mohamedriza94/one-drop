@@ -19,6 +19,7 @@ class BloodBag extends Model
         'received_time',
         'expiry_date',
         'status',
-        'dateCheck'
+        'dateCheck',
+        'hospital'
     ];
 }
