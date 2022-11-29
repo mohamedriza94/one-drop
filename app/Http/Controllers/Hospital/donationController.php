@@ -74,6 +74,7 @@ class donationController extends Controller
             $bloodBags = new BloodBag;
             $bloodBags->bag_no = $bloodBagNo;
             $bloodBags->bloodGroup = $request->input('bloodGroup');
+            $bloodBags->hospital = auth()->guard('hospital')->user()->no;
             $bloodBags->received_date = NOW();
             $bloodBags->received_time = NOW();
             
@@ -90,8 +91,8 @@ class donationController extends Controller
 
             //record activity
             $activities = new Activity;
-            $activities->user_id = auth()->guard('hospital')->user()->id;
-            $activities->task = 'Hospital No. '.auth()->guard('hospital')->user()->id.' Made a donation for Donor No. '.$request->input('donorNo').'.';
+            $activities->user_id = auth()->guard('hospital')->user()->no;
+            $activities->task = 'Hospital No. '.auth()->guard('hospital')->user()->no.' Made a donation for Donor No. '.$request->input('donorNo').'.';
             $activities->date = NOW();
             $activities->time = NOW();
             $activities->save();
@@ -104,7 +105,7 @@ class donationController extends Controller
 
     public function fetchDonation()
     {
-        $donation = Donation::leftJoin('blood_bags', 'donations.bloodBagNo', '=', 'blood_bags.bag_no')->orderBy('donations.id','DESC')->get();
+        $donation = Donation::leftJoin('blood_bags', 'donations.bloodBagNo', '=', 'blood_bags.bag_no')->where('blood_bags.hospital','=',auth()->guard('hospital')->user()->no)->orderBy('donations.id','DESC')->get();
 
         return response()->json([
             'donations'=>$donation

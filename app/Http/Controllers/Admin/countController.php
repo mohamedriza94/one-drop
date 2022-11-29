@@ -19,7 +19,7 @@ class countController extends Controller
 {
     public function countUnreadMessages()
     {
-        $messages = Message::where('sender','LIKE','%'.'ToStaff'.'%')->where('staff_side_status', '=', 'unread')->where('recipient_id', '=', auth()->guard('admin')->user()->id)->count();
+        $messages = Message::where('sender','LIKE','%'.'ToStaff'.'%')->where('staff_side_status', '=', 'unread')->where('recipient_id', '=', auth()->guard('admin')->user()->no)->count();
 
         echo json_encode($messages);
     }

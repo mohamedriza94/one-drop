@@ -106,7 +106,7 @@
                 <!-- view data -->
                 <div class="modal-body d-none" id="viewModalBody">
 
-                    <form id="" class="row g-3" method="POST" enctype="multipart/form-data">
+                    <form class="row g-3" method="POST" enctype="multipart/form-data">
 
                         <input type="hidden" id="viewHospitalId">
 

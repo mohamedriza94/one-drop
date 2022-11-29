@@ -109,19 +109,24 @@
                     <input type="text" class="form-control text-dark" readonly id="viewAddress">
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label class="form-label" for="">Gender</label>
                     <input type="text" class="form-control text-dark" readonly id="viewGender">
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label class="form-label" for="">Date of Birth</label>
                     <input type="text" class="form-control text-dark" readonly id="viewDateofbirth">
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label class="form-label" for="">Age</label>
                     <input type="text" class="form-control text-dark" readonly id="viewAge">
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label" for="">Blood Group</label>
+                    <input type="text" class="form-control text-dark" readonly id="viewBloodGroup">
                 </div>
 
                 <div class="col-md-3">
@@ -220,6 +225,7 @@ $(document).ready(function(){
                     $('#viewFullname').val(item.fullname);
                     $('#viewAddress').val(item.address);
                     $('#viewGender').val(item.gender);
+                    $('#viewBloodGroup').val(item.bloodGroup);
                     $('#viewDateofbirth').val(item.dateofbirth);
                     $('#viewAge').val(item.age);
                     $('#viewRegisteredDate').val(date_str);

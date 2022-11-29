@@ -146,7 +146,7 @@ class bloodRequestController extends Controller
             
             $task = 'Forwarded Request No. '.$id.' to Hospital No. '.auth()->guard('admin')->user()->hospital_id.' due to unavailability of blood';
             
-            $requests = bloodRequest::where('requestNo', $id)->update(['hospitalNo' => auth()->guard('admin')->user()->hospital_id, 'hospitalResponse' => 'pending']);
+            $requests = bloodRequest::where('requestNo', $id)->update(['hospitalNo' => auth()->guard('admin')->user()->hospital_id, 'hospitalResponse' => 'pending', 'status' => 'waiting']);
         }
         
         Mail::to($email)->send(new requestUpdateMail($requestUpdateMessage));
@@ -173,6 +173,15 @@ class bloodRequestController extends Controller
         ]);
     }
     
+    public function fetchHospitalProvidedBlood($bloodBagId)
+    {
+        $bloodBags = BloodBag::where('bag_no','=',$bloodBagId)->get();
+        
+        return response()->json([
+            'blood_bags'=>$bloodBags
+        ]);
+    }
+
     public function acceptBloodRequest(Request $request)
     {
         $validator = Validator::make($request->all(), [

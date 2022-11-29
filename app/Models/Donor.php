@@ -28,6 +28,7 @@ class Donor extends Authenticatable
         'email',
         'status',
         'hospital',
+        'bloodGroup',
     ];
 
     protected $hidden = [

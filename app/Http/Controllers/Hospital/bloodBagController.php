@@ -72,4 +72,25 @@ class bloodBagController extends Controller
             'blood_bags'=>$bloodBags
         ]);
     }
+
+    public function fetchAvailableBlood($bloodGroup)
+    {
+        $checkbloodBags = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('bloodGroup','=',$bloodGroup)->orderBy('id','DESC')->first();
+        
+        if($checkbloodBags)
+        {
+            $bloodBags = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('bloodGroup','=',$bloodGroup)->orderBy('id','DESC')->get();
+            
+            return response()->json([
+                'status'=>200,
+                'blood_bags'=>$bloodBags
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status'=>404
+            ]);
+        }
+    }
 }

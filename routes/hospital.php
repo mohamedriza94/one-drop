@@ -54,6 +54,20 @@ Route::group([
                 //donation details routes
                 Route::get('/donation', 'donationController@index')->name('hospital.donation');
                 Route::get('/fetchDonation', 'donationController@fetchDonation');
+
+                //bloodRequest Routes
+                Route::get('/bloodRequest', 'bloodRequestController@index')->name('hospital.bloodRequest');
+                Route::get('/fetchRequest', 'bloodRequestController@fetchRequest');
+                Route::get('/fetchPendingRequest', 'bloodRequestController@fetchPendingRequest');
+                Route::get('/fetchRespondedRequest', 'bloodRequestController@fetchRespondedRequest');
+                Route::get('/fetchRequest', 'bloodRequestController@fetchRequest');
+                Route::get('/searchRequest/{input}', 'bloodRequestController@searchRequest');
+                Route::get('/fetchSingleRequest/{id}', 'bloodRequestController@fetchSingleRequest');
+                Route::put('/declineBloodRequest', 'bloodRequestController@declineBloodRequest');
+                Route::put('/acceptBloodRequest', 'bloodRequestController@acceptBloodRequest');
+
+                //bloodRequest - check blood availability
+                Route::get('/fetchAvailableBlood/{bloodGroup}', 'bloodBagController@fetchAvailableBlood');
                 
                 //count routes {
                     Route::get('/countUnreadMessages', 'countController@countUnreadMessages');

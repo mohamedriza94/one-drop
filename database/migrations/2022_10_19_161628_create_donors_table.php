@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('status')->nullable();
             $table->string('hospital')->nullable();
+            $table->string('bloodGroup');
             $table->timestamps();
         });
     }

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 
 use App\Mail\Staff\registeredDonorMail;
+use App\Mail\Staff\declinedDonorEmail;
 
 class appointmentController extends Controller
 {
@@ -82,6 +83,28 @@ class appointmentController extends Controller
         $activities->save();
     }
 
+    public function declineDonorRequest(Request $request, $id)
+    {
+        $donorRequestDeclineId = $id;
+        Mail::to($request->input('email'))->send(new declinedDonorEmail($donorRequestDeclineId));
+
+        $appointments = Appointment::where('donorRequestNo', $id)->update(['status' => 'cancelled']);
+        $donorRequests = donorRequest::where('donorRequestNo', $id)->update(['status' => 'declined']);
+
+
+        //record activity
+        $activities = new Activity;
+        $activities->user_id = auth()->guard('admin')->user()->id;
+        $activities->task = 'Declined Donor Request No. '.$id.'.';
+        $activities->date = NOW();
+        $activities->time = NOW();
+        $activities->save();
+
+        return response()->json([
+            'status'=>200,
+        ]);
+    }
+
     public function registerDonor(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -92,6 +115,7 @@ class appointmentController extends Controller
             'address' => ['required'],
             'dateofbirth' => ['required','max:12'],
             'age' => ['required'],
+            'bloodGroup' => ['required'],
             'gender' => ['required'],
             'telephone' => ['required','numeric','digits_between:9,10','unique:donors'],
             'email' => ['required','string','max:255','email','unique:donors'],
@@ -123,6 +147,7 @@ class appointmentController extends Controller
             $donors->telephone = $request->input('telephone');
             $donors->email = $request->input('email');
             $donors->status = 'active';
+            $donors->bloodGroup = $request->input('bloodGroup');
             $donors->password = Hash::make($donorPassword);
             $donors->registered_date = NOW();
             $donors->registered_time = NOW();

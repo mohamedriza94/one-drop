@@ -25,6 +25,7 @@ class donorRegistrationController extends Controller
             'address' => ['required'],
             'dateofbirth' => ['required','max:12'],
             'age' => ['required'],
+            'bloodGroup' => ['required'],
             'gender' => ['required'],
             'telephone' => ['required','numeric','digits_between:9,10','unique:donors'],
             'email' => ['required','string','max:255','email','unique:donors'],
@@ -56,6 +57,7 @@ class donorRegistrationController extends Controller
             $donors->telephone = $request->input('telephone');
             $donors->email = $request->input('email');
             $donors->status = 'active';
+            $donors->bloodGroup = $request->input('bloodGroup');
             $donors->hospital = auth()->guard('hospital')->user()->no;
             $donors->password = Hash::make($hospitalDonorPassword);
             $donors->registered_date = NOW();

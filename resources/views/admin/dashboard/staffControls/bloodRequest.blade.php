@@ -163,6 +163,16 @@
                     </div>
                 </div>
                 
+                <div class="row g-3 d-none" id="hospitalNoBlood">
+                    <div class="col-md-12">
+                        <label class="form-label text-danger" for=""><strong>NO BLOOD AT HOSPITAL</strong></label>
+                    </div>
+                    
+                    <div class="col-md-12">
+                        <button class="btn btn-danger form-control" id="btnDeclineHospitalNoBlood">Decline</button>
+                    </div>
+                </div>
+                
                 <div class="row invoice layout-top-spacing layout-spacing d-none" id="invoiceBody">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         
@@ -250,7 +260,7 @@
                                                                     <p><b>STAFF MEMBER:</b> Name: {{ auth()->guard('admin')->user()->fullname }} &nbsp;&nbsp;
                                                                         Telephone: {{ auth()->guard('admin')->user()->telephone }}</p>
                                                                         <p>Thank you for using One Drop Services.</p>
-
+                                                                        
                                                                         <input type="hidden" id="staffName" value="{{ auth()->guard('admin')->user()->fullname }}">
                                                                         <input type="hidden" id="staffTelephone" value="{{ auth()->guard('admin')->user()->telephone }}">
                                                                     </div>
@@ -356,7 +366,7 @@
                         }else if(item.status=="waiting"){
                             
                             $statusBadge = '<span class="badge badge-light-warning">Waiting</span>';
-                            $actionButton = '<button value="'+item.id+'" data-bs-toggle="modal" data-bs-target="#checkModal" class="btn btn-light btn-sm" id="btnOpenCheck">Check</button>';
+                            $actionButton = '<button value="'+item.id+'" data-bs-toggle="modal" data-bs-target="#checkModal" class="btn btn-primary btn-sm" id="btnOpenCheck">Check</button>';
                             
                         }else if(item.status=="fulfilled"){
                             
@@ -444,6 +454,7 @@
                         $('#btnWaiting').val(response.requests.requestNo);
                         $('#btnYes').val(response.requests.requestNo);
                         $('#btnDecline').val(response.requests.requestNo);
+                        $('#btnDeclineHospitalNoBlood').val(response.requests.requestNo);
                         $('#btnRequestFromHospital').val(response.requests.requestNo);
                         
                         if(response.requests.status == 'requestedHospital')
@@ -455,24 +466,31 @@
                             $('#requestStatus').val(response.requests.status);
                         }
                         
-                        $('#availableBloodTypeLabel').text('Available '+response.requests.bloodGroup+' Blood');
-                        
-                        
-                        var bloodGroup = response.requests.bloodGroup;
-                        var urlFetchBlood = '{{ url("admin/dashboard/fetchAvailableBlood/:bloodGroup") }}';
-                        urlFetchBlood = urlFetchBlood.replace(':bloodGroup', bloodGroup);
-                        
-                        $.ajax({
-                            type:"GET", url:urlFetchBlood,
-                            success: function (response){
-                                if(response.status==404){
-                                    $('#haveBlood').addClass('d-none');
-                                    $('#noBlood').removeClass('d-none');
-                                }
-                                else{
-                                    $('#haveBlood').removeClass('d-none');
-                                    $('#noBlood').addClass('d-none');
-                                    
+                        if(response.requests.hospitalResponse == 'responded')
+                        {
+                            if(response.requests.remark=='Blood Provided')
+                            {
+                                $('#haveBlood').removeClass('d-none');
+                                $('#noBlood').addClass('d-none');
+                                $('#hospitalNoBlood').addClass('d-none');
+                            }
+                            else
+                            {
+                                $('#noBlood').addClass('d-none');
+                                $('#haveBlood').addClass('d-none');
+                                $('#hospitalNoBlood').removeClass('d-none');
+                            }
+
+                            $('#availableBloodTypeLabel').text('Available '+response.requests.bloodGroup+' Blood');
+                            
+                            var bloodBagId = response.requests.bloodBagNo;
+                            var urlFetchBlood = '{{ url("admin/dashboard/fetchHospitalProvidedBlood/:bloodBagId") }}';
+                            urlFetchBlood = urlFetchBlood.replace(':bloodBagId', bloodBagId);
+                            
+                            $.ajax({
+                                type:"GET", url:urlFetchBlood,
+                                success: function (response){
+
                                     $('#availableBlood').html('');
                                     $.each(response.blood_bags,function(key,item){
                                         
@@ -480,8 +498,39 @@
                                         ');
                                     });
                                 }
-                            }
-                        });
+                            });
+                        }
+                        else
+                        {
+                            $('#availableBloodTypeLabel').text('Available '+response.requests.bloodGroup+' Blood');
+                            
+                            var bloodGroup = response.requests.bloodGroup;
+                            var urlFetchBlood = '{{ url("admin/dashboard/fetchAvailableBlood/:bloodGroup") }}';
+                            urlFetchBlood = urlFetchBlood.replace(':bloodGroup', bloodGroup);
+                            
+                            $.ajax({
+                                type:"GET", url:urlFetchBlood,
+                                success: function (response){
+                                    if(response.status==404){
+                                        $('#haveBlood').addClass('d-none');
+                                        $('#noBlood').removeClass('d-none');
+                                    }
+                                    else{
+                                        $('#haveBlood').removeClass('d-none');
+                                        $('#noBlood').addClass('d-none');
+                                        
+                                        $('#availableBlood').html('');
+                                        $.each(response.blood_bags,function(key,item){
+                                            
+                                            $('#availableBlood').append('<option value="'+item.bag_no+'">'+item.bag_no+' &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp; Expires on ' +item.expiry_date+'</option>\
+                                            ');
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                        
+                        
                         
                     }
                 }
@@ -563,6 +612,44 @@
             });
         });
         
+        $(document).on('click', '#btnDeclineHospitalNoBlood',function(e){
+            e.preventDefault();
+            var requestId = $(this).val();
+            var status = 'declined';
+            var email = $('#email').val();
+            var data = {
+                'status' : status, 
+                'email' : email
+            }
+            
+            $('#btnDecline').text('...');
+            
+            var url = '{{ url("admin/dashboard/requestChangeStatus/:id") }}';
+            url = url.replace(':id', requestId);
+            
+            $.ajax({
+                type:"PUT",
+                url:url,
+                data:data,
+                dataType:"json",
+                success:function(response){
+                    if(response.status==200)
+                    {
+                        $('#btnDeclineHospitalNoBlood').text('Done');
+                        $('#btnDeclineHospitalNoBlood').removeClass('btn-danger');
+                        $('#btnDeclineHospitalNoBlood').addClass('btn-success');
+                        
+                        setTimeout(function(){
+                            $('#btnDeclineHospitalNoBlood').text('Decline');
+                            $('#btnDeclineHospitalNoBlood').removeClass('btn-success');
+                            $('#btnDeclineHospitalNoBlood').addClass('btn-danger');
+                            $('#checkModal').modal('hide');
+                        }, 2000);
+                    }
+                }
+            });
+        });
+        
         $(document).on('click', '#btnRequestFromHospital',function(e){
             e.preventDefault();
             var bloodGroup = $('#bloodGroup').val();
@@ -626,7 +713,7 @@
             e.preventDefault();
             var requestId = $(this).val();
             var bloodBagNo = $('#availableBlood').val();
-
+            
             //invoice
             var requestNo = $(this).val();
             var date = new Date().toLocaleDateString(); 
@@ -640,7 +727,7 @@
             var expiryDate = $('#invTableExpiryDate').text();
             var staffName = $('#staffName').val();
             var staffTelephone = $('#staffTelephone').val();
-
+            
             var data = {
                 'requestId' : requestId, 
                 'bloodBagNo' : bloodBagNo, 
@@ -686,7 +773,6 @@
                             
                             $('#confirmationSection').addClass('d-none');
                             $('#btnProvide').removeClass('d-none');
-                            $('#checkModal').modal('hide');
                         }, 2000);
                     }
                     else

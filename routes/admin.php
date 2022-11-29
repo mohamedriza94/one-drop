@@ -129,6 +129,7 @@ Route::group([
     Route::get('/searchAppointment/{input}', 'Staff\appointmentController@searchAppointment');
     Route::put('/cancelAppointment/{id}', 'Staff\appointmentController@cancelAppointment');
     Route::post('/registerDonor', 'Staff\appointmentController@registerDonor');
+    Route::put('/declineDonorRequest/{id}', 'Staff\appointmentController@declineDonorRequest');
 
     //donor management routes
     Route::get('staff/donor', 'Staff\donorController@index')->name('admin.staffControls.donor');
@@ -151,6 +152,7 @@ Route::group([
     Route::get('/fetchAvailableBlood/{bloodGroup}', 'Staff\bloodRequestController@fetchAvailableBlood');
     Route::put('/requestChangeStatus/{id}', 'Staff\bloodRequestController@requestChangeStatus');
     Route::get('/fetchChosenBlood/{bloodBagId}', 'Staff\bloodRequestController@fetchChosenBlood');
+    Route::get('/fetchHospitalProvidedBlood/{bloodBagId}', 'Staff\bloodRequestController@fetchHospitalProvidedBlood');
     Route::put('/acceptBloodRequest', 'Staff\bloodRequestController@acceptBloodRequest');
 
     //donation routes

@@ -55,19 +55,24 @@
                                 <input type="text" class="form-control text-dark" readonly id="viewFullname">
                             </div>
                             
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label class="form-label" for="">Gender</label>
                                 <input type="text" class="form-control text-dark" readonly id="viewGender">
                             </div>
                             
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label class="form-label" for="">Date of Birth</label>
                                 <input type="text" class="form-control text-dark" readonly id="viewDateofbirth">
                             </div>
                             
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label class="form-label" for="">Age</label>
                                 <input type="text" class="form-control text-dark" readonly id="viewAge">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label" for="">Blood Group</label>
+                                <input type="text" class="form-control text-dark" readonly id="viewBloodGroup">
                             </div>
                             
                             <div class="col-md-3">
@@ -110,20 +115,8 @@
                             <ul class="bg-danger form-control px-5 d-none" id="errorList">
                             </ul>
                             
-                            <div class="col-md-9">
-                                <label class="form-label" for="">Choose Blood Group</label>
-                                <select id="bloodGroupSelect" class="form-control">
-                                    <option value="A+">A+</option>
-                                    <option value="A-">A-</option>
-                                    <option value="B+">B+</option>
-                                    <option value="B-">B-</option>
-                                    <option value="AB+">AB+</option>
-                                    <option value="AB-">AB-</option>
-                                    <option value="O+">O+</option>
-                                    <option value="O-">O-</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
+                            <input type="hidden" id="donorBloodGroupInput" value="">
+                            <div class="col-md-12">
                                 <label class="form-label text-light" for="">.</label>
                                 <button class="form-control btn btn-lg btn-success" id="btnDonate" value="">Donate</button>
                             </div>
@@ -182,6 +175,8 @@ $(document).ready(function(){
                     $('#viewGender').val(item.gender);
                     $('#viewDateofbirth').val(item.dateofbirth);
                     $('#viewAge').val(item.age);
+                    $('#viewBloodGroup').val(item.bloodGroup);
+                    $('#donorBloodGroupInput').val(item.bloodGroup);
                     $('#viewRegisteredDate').val(date_str);
                     $('#viewRegisteredTime').val(time_str);
                     $('#viewEmail').val(item.email);
@@ -199,7 +194,7 @@ $(document).ready(function(){
     $(document).on('click', '#btnDonate',function(e){
         e.preventDefault();
         var donorNo = $(this).val();
-        var bloodGroup = $('#bloodGroupSelect').val();
+        var bloodGroup = $('#donorBloodGroupInput').val();
         
         var data = {
             'donorNo' : donorNo,
