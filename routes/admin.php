@@ -180,6 +180,28 @@ Route::group([
     //invoice routes
     Route::get('/invoice', 'Staff\invoiceController@index')->name('admin.invoice');
     Route::get('/getInvoice/{input}', 'Staff\invoiceController@searchRequest');
+
+    //count routes {
+    Route::get('/countUnreadMessages', 'countController@countUnreadMessages');
+    Route::get('/countBloodBags', 'countController@countBloodBags');
+    Route::get('/countBloodRequests', 'countController@countBloodRequests');
+    Route::get('/countAppointments', 'countController@countAppointments');
+    Route::get('/countDonorRequests', 'countController@countDonorRequests');
+    Route::get('/countDonations', 'countController@countDonations');
+
+    //blood group count routes
+    Route::get('/countBloodBags_Apos', 'countController@countBloodBags_Apos');
+    Route::get('/countBloodBags_Aneg', 'countController@countBloodBags_Aneg');
+
+    Route::get('/countBloodBags_ABpos', 'countController@countBloodBags_ABpos');
+    Route::get('/countBloodBags_ABneg', 'countController@countBloodBags_ABneg');
+    
+    Route::get('/countBloodBags_Bpos', 'countController@countBloodBags_Bpos');
+    Route::get('/countBloodBags_Bneg', 'countController@countBloodBags_Bneg');
+    
+    Route::get('/countBloodBags_Opos', 'countController@countBloodBags_Opos');
+    Route::get('/countBloodBags_Oneg', 'countController@countBloodBags_Oneg');
+    //}
     });
 
     });
