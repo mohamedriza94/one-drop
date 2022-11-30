@@ -225,248 +225,49 @@
                 }
             });
             
-            
-            function countBloodBags()
+            function otherCounts()
             {
                 $.ajax({
                     type:"GET",
-                    url:'{{ url("admin/dashboard/countBloodBags") }}',
+                    url:'{{ url("admin/dashboard/otherCounts") }}',
                     dataType:"json",
                     success:function(response){
-                        var response = JSON.parse(response);
-                        $('#countBloodBags').text(response);
-                    }
-                });
-            }
-            
-            function countBloodRequests()
-            {
-                $.ajax({
-                    type:"GET",
-                    url:'{{ url("admin/dashboard/countBloodRequests") }}',
-                    dataType:"json",
-                    success:function(response){
-                        var response = JSON.parse(response);
-                        $('#countBloodRequests').text(response);
-                    }
-                });
-            }
-            
-            function countAppointments()
-            {
-                $.ajax({
-                    type:"GET",
-                    url:'{{ url("admin/dashboard/countAppointments") }}',
-                    dataType:"json",
-                    success:function(response){
-                        var response = JSON.parse(response);
-                        $('#countAppointments').text(response);
-                    }
-                });
-            }
-            
-            function countDonorRequests()
-            {
-                $.ajax({
-                    type:"GET",
-                    url:'{{ url("admin/dashboard/countDonorRequests") }}',
-                    dataType:"json",
-                    success:function(response){
-                        var response = JSON.parse(response);
-                        $('#countDonorRequests').text(response);
-                    }
-                });
-            }
-            
-            function countDonations()
-            {
-                $.ajax({
-                    type:"GET",
-                    url:'{{ url("admin/dashboard/countDonations") }}',
-                    dataType:"json",
-                    success:function(response){
-                        var response = JSON.parse(response);
-                        $('#countDonations').text(response);
-                    }
-                });
-            }
-            
-            function countUnreadMessages()
-            {
-                $.ajax({
-                    type:"GET",
-                    url:'{{ url("admin/dashboard/countUnreadMessages") }}',
-                    dataType:"json",
-                    success:function(response){
-                        var response = JSON.parse(response);
-                        $('#countUnreadMessages').text(response);
-                    }
-                });
-            }
-            
-            function countStaff()
-            {
-                $.ajax({
-                    type:"GET",
-                    url:'{{ url("admin/dashboard/countStaff") }}',
-                    dataType:"json",
-                    success:function(response){
-                        var response = JSON.parse(response);
-                        $('#countStaff').text(response);
-                    }
-                });
-            }
-            
-            function countHospital()
-            {
-                $.ajax({
-                    type:"GET",
-                    url:'{{ url("admin/dashboard/countHospital") }}',
-                    dataType:"json",
-                    success:function(response){
-                        var response = JSON.parse(response);
-                        $('#countHospital').text(response);
-                    }
-                });
-            }
-            
-            function countDonors()
-            {
-                $.ajax({
-                    type:"GET",
-                    url:'{{ url("admin/dashboard/countDonors") }}',
-                    dataType:"json",
-                    success:function(response){
-                        var response = JSON.parse(response);
-                        $('#countDonors').text(response);
+                        $('#countDonorRequests').text(response.donorRequests);
+                        $('#countAppointments').text(response.appointments);
+                        $('#countBloodRequests').text(response.bloodRequests);
+                        $('#countDonations').text(response.donations);
+                        $('#countDonors').text(response.donors);
+                        $('#countUnreadMessages').text(response.messages);
+                        $('#countBloodBags').text(response.bloodBags);
+                        $('#countStaff').text(response.admins);
+                        $('#countHospital').text(response.hospitals);
                     }
                 });
             }
             
             //BLOOD COUNT================================================================================
-            function countBloodBags_Apos()
+            function countBloodBags_cat()
             {
                 $.ajax({
                     type:"GET",
-                    url:'{{ url("admin/dashboard/countBloodBags_Apos") }}',
+                    url:'{{ url("admin/dashboard/countBloodBags_cat") }}',
                     dataType:"json",
                     success:function(response){
-                        var response = JSON.parse(response);
-                        $('#countBloodBags_Apos').text(response);
-                    }
-                });
-            }
-            
-            function countBloodBags_Aneg()
-            {
-                $.ajax({
-                    type:"GET",
-                    url:'{{ url("admin/dashboard/countBloodBags_Aneg") }}',
-                    dataType:"json",
-                    success:function(response){
-                        var response = JSON.parse(response);
-                        $('#countBloodBags_Aneg').text(response);
-                    }
-                });
-            }
-            
-            function countBloodBags_Bpos()
-            {
-                $.ajax({
-                    type:"GET",
-                    url:'{{ url("admin/dashboard/countBloodBags_Bpos") }}',
-                    dataType:"json",
-                    success:function(response){
-                        var response = JSON.parse(response);
-                        $('#countBloodBags_Bpos').text(response);
-                    }
-                });
-            }
-            
-            function countBloodBags_Bneg()
-            {
-                $.ajax({
-                    type:"GET",
-                    url:'{{ url("admin/dashboard/countBloodBags_Bneg") }}',
-                    dataType:"json",
-                    success:function(response){
-                        var response = JSON.parse(response);
-                        $('#countBloodBags_Bneg').text(response);
-                    }
-                });
-            }
-            
-            function countBloodBags_ABpos()
-            {
-                $.ajax({
-                    type:"GET",
-                    url:'{{ url("admin/dashboard/countBloodBags_ABpos") }}',
-                    dataType:"json",
-                    success:function(response){
-                        var response = JSON.parse(response);
-                        $('#countBloodBags_ABpos').text(response);
-                    }
-                });
-            }
-            
-            function countBloodBags_ABneg()
-            {
-                $.ajax({
-                    type:"GET",
-                    url:'{{ url("admin/dashboard/countBloodBags_ABneg") }}',
-                    dataType:"json",
-                    success:function(response){
-                        var response = JSON.parse(response);
-                        $('#countBloodBags_ABneg').text(response);
-                    }
-                });
-            }
-            
-            function countBloodBags_Opos()
-            {
-                $.ajax({
-                    type:"GET",
-                    url:'{{ url("admin/dashboard/countBloodBags_Opos") }}',
-                    dataType:"json",
-                    success:function(response){
-                        var response = JSON.parse(response);
-                        $('#countBloodBags_Opos').text(response);
-                    }
-                });
-            }
-            
-            function countBloodBags_Oneg()
-            {
-                $.ajax({
-                    type:"GET",
-                    url:'{{ url("admin/dashboard/countBloodBags_Oneg") }}',
-                    dataType:"json",
-                    success:function(response){
-                        var response = JSON.parse(response);
-                        $('#countBloodBags_Oneg').text(response);
+                        $('#countBloodBags_Apos').text(response.bloodBagsApos);
+                        $('#countBloodBags_Aneg').text(response.bloodBagsAneg);
+                        $('#countBloodBags_Bpos').text(response.bloodBagsBpos);
+                        $('#countBloodBags_Bneg').text(response.bloodBagsBneg);
+                        $('#countBloodBags_ABpos').text(response.bloodBagsABpos);
+                        $('#countBloodBags_ABneg').text(response.bloodBagsABneg);
+                        $('#countBloodBags_Opos').text(response.bloodBagsOpos);
+                        $('#countBloodBags_Oneg').text(response.bloodBagsOneg);
                     }
                 });
             }
             
             setInterval(function(){
-                countBloodBags();
-                countBloodRequests();
-                countAppointments();
-                countDonorRequests();
-                countDonations();
-                countUnreadMessages();
-                countStaff();
-                countHospital();
-                countDonors();
-                
-                countBloodBags_Apos();
-                countBloodBags_Aneg();
-                countBloodBags_Bpos();
-                countBloodBags_Bneg();
-                countBloodBags_ABpos();
-                countBloodBags_ABneg();
-                countBloodBags_Opos();
-                countBloodBags_Oneg();
+                otherCounts();
+                countBloodBags_cat();
             }, 1000);
         })
     </script>

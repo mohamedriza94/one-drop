@@ -54,7 +54,7 @@ Route::group([
                 //donation details routes
                 Route::get('/donation', 'donationController@index')->name('hospital.donation');
                 Route::get('/fetchDonation', 'donationController@fetchDonation');
-
+                
                 //bloodRequest Routes
                 Route::get('/bloodRequest', 'bloodRequestController@index')->name('hospital.bloodRequest');
                 Route::get('/fetchRequest', 'bloodRequestController@fetchRequest');
@@ -65,36 +65,22 @@ Route::group([
                 Route::get('/fetchSingleRequest/{id}', 'bloodRequestController@fetchSingleRequest');
                 Route::put('/declineBloodRequest', 'bloodRequestController@declineBloodRequest');
                 Route::put('/acceptBloodRequest', 'bloodRequestController@acceptBloodRequest');
-
+                
                 //bloodRequest - check blood availability
                 Route::get('/fetchAvailableBlood/{bloodGroup}', 'bloodBagController@fetchAvailableBlood');
                 
-                //count routes {
-                    Route::get('/countUnreadMessages', 'countController@countUnreadMessages');
-                    Route::get('/countBloodBags', 'countController@countBloodBags');
-                    Route::get('/countBloodRequests', 'countController@countBloodRequests');
-                    Route::get('/countDonations', 'countController@countDonations');
-                    Route::get('/countDonors', 'countController@countDonors');
-                    
-                    //blood group count routes
-                    Route::get('/countBloodBags_Apos', 'countController@countBloodBags_Apos');
-                    Route::get('/countBloodBags_Aneg', 'countController@countBloodBags_Aneg');
-                    
-                    Route::get('/countBloodBags_ABpos', 'countController@countBloodBags_ABpos');
-                    Route::get('/countBloodBags_ABneg', 'countController@countBloodBags_ABneg');
-                    
-                    Route::get('/countBloodBags_Bpos', 'countController@countBloodBags_Bpos');
-                    Route::get('/countBloodBags_Bneg', 'countController@countBloodBags_Bneg');
-                    
-                    Route::get('/countBloodBags_Opos', 'countController@countBloodBags_Opos');
-                    Route::get('/countBloodBags_Oneg', 'countController@countBloodBags_Oneg');
-                    //}
-                    
-                    
-                    //donation tracking routes
-                    Route::get('/tracking', 'donationController@trackingPage')->name('hospital.tracking');
-                    Route::get('/trackDonation/{donationNo}', 'donationController@trackDonation');
-                    Route::get('/trackDonationReceiver/{receivedBloodBagNo}', 'donationController@trackDonationReceiver');
-                });
+                //count routes
+                Route::get('/otherCounts', 'countController@otherCounts');
+                
+                //blood group count routes
+                Route::get('/countBloodBags_cat', 'countController@countBloodBags_cat');
+                
+                
+                
+                //donation tracking routes
+                Route::get('/tracking', 'donationController@trackingPage')->name('hospital.tracking');
+                Route::get('/trackDonation/{donationNo}', 'donationController@trackDonation');
+                Route::get('/trackDonationReceiver/{receivedBloodBagNo}', 'donationController@trackDonationReceiver');
             });
         });
+    });

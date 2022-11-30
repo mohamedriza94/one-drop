@@ -1,47 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Donor;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\BloodBag;
 use App\Models\Donation;
 use App\Models\Donor;
-use App\Models\Activity;
-use App\Models\BloodBag;
-use App\Models\Appointment;
-use App\Models\DonorRequest;
-use App\Models\Message;
-use App\Models\Admin;
-use App\Models\Hospital;
 use App\Models\Request as bloodRequest;
+
 
 class countController extends Controller
 {
-    public function otherCounts()
-    {
-        $messages = Message::where('sender','LIKE','%'.'ToStaff'.'%')->where('staff_side_status', '=', 'unread')->where('recipient_id', '=', auth()->guard('admin')->user()->no)->count();
-        $bloodRequests = bloodRequest::where('status', '=', 'pending')->count();
-        $hospitals = Hospital::count();
-        $admins = Admin::where('role', '=', 'staff')->where('status', '=', 'active')->count();
-        $donors = Donor::where('no','LIKE','%'.'OD'.'%')->where('status', '=', 'active')->count();
-        $appointments = Appointment::where('status', '=', 'pending')->count();
-        $donorRequests = DonorRequest::where('status', '=', 'pending')->count();
-        $donations = Donation::where('donationNo','LIKE','%'.'OD'.'%')->count();
-        $bloodBags = BloodBag::where('bag_no','LIKE','%'.'OD'.'%')->where('status','=','available')->count();
-
-        return response()->json([
-            'messages' => $messages, 
-            'bloodRequests' => $bloodRequests, 
-            'hospitals' => $hospitals,
-            'admins' => $admins,
-            'donors' => $donors,
-            'appointments' => $appointments,
-            'donorRequests' => $donorRequests,
-            'donations' => $donations,
-            'bloodBags' => $bloodBags
-        ]);
-    }
-
     //blood groups
     public function countBloodBags_cat()
     {
@@ -63,6 +33,37 @@ class countController extends Controller
             'bloodBagsABneg' => $bloodBagsABneg,
             'bloodBagsOpos' => $bloodBagsOpos,
             'bloodBagsOneg' => $bloodBagsOneg
+        ]);
+    }
+    
+    public function otherCounts()
+    {
+        $donationsMade = Donation::where('donationNo','LIKE','%'.'OD'.'%')->where('donorNo','=',auth()->guard('donor')->user()->no)->count();
+        $bloodRequestsMade = bloodRequest::where('status', '=', 'pending')->where('nic','=',auth()->guard('donor')->user()->nic)->count();
+        $donations = Donation::where('donationNo','LIKE','%'.'OD'.'%')->count();
+        $donors = Donor::where('no','LIKE','%'.'OD'.'%')->where('status', '=', 'active')->count();
+        $bloodBags = BloodBag::where('bag_no','LIKE','%'.'OD'.'%')->where('status','=','available')->count();
+
+        return response()->json([
+            'donationsMade' => $donationsMade, 
+            'bloodRequestsMade' => $bloodRequestsMade, 
+            'donations' => $donations,
+            'donors' => $donors,
+            'bloodBags' => $bloodBags
+        ]);
+    }
+  
+    public function getNextDonationDate()
+    {
+        $donations = Donation::join('donors', 'donations.donorNo', '=', 'donors.no')
+        ->join('blood_bags', 'donations.bloodBagNo', '=', 'blood_bags.bag_no')
+        ->where('donors.no', auth()->guard('donor')->user()->no)
+        ->first();
+        
+        $nextDate = date('Y-m-d', strtotime($donations['expiry_date']. ' + 15 days'));
+        
+        return response()->json([
+            'nextDate'=>$nextDate
         ]);
     }
 }

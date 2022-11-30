@@ -17,88 +17,44 @@ use App\Models\Request as bloodRequest;
 
 class countController extends Controller
 {
-    public function countUnreadMessages()
+    public function otherCounts()
     {
         $messages = Message::where('sender','LIKE','%'.'ToHospital'.'%')->where('hospital_side_status', '=', 'unread')->where('recipient_id', '=', auth()->guard('hospital')->user()->no)->count();
-
-        echo json_encode($messages);
-    }
-
-    public function countBloodRequests()
-    {
         $bloodRequests = bloodRequest::where('hospitalResponse', '=', 'pending')->where('hospitalNo','=', auth()->guard('hospital')->user()->no)->count();
-
-        echo json_encode($bloodRequests);
-    }
-
-    public function countDonors()
-    {
         $donors = Donor::where('no','LIKE','%'.'HS'.'%')->where('hospital', '=', auth()->guard('hospital')->user()->no)->where('status', '=', 'active')->count();
-
-        echo json_encode($donors);
-    }
-    
-    public function countDonations()
-    {
         $donations = Donation::join('donors', 'donations.donorNo', '=', 'donors.no')->where('donors.hospital', auth()->guard('hospital')->user()->no)->count();
-
-        echo json_encode($donations);
-    }
-    
-    
-    public function countBloodBags()
-    {
         $bloodBags = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
 
-        echo json_encode($bloodBags);
+        return response()->json([
+            'messages' => $messages, 
+            'bloodRequests' => $bloodRequests, 
+            'donors' => $donors,
+            'donations' => $donations,
+            'bloodBags' => $bloodBags
+        ]);
     }
 
     //blood groups
-    public function countBloodBags_Apos()
+    public function countBloodBags_cat()
     {
-        $bloodBags = BloodBag::where('bag_no','LIKE','%'.'HSOD'.'%')->where('status','=','available')->where('bloodGroup','=','A+')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
-        echo json_encode($bloodBags);
-    }
-
-    public function countBloodBags_Aneg()
-    {
-        $bloodBags = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('bloodGroup','=','A-')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
-        echo json_encode($bloodBags);
-    }
-    
-    public function countBloodBags_Bpos()
-    {
-        $bloodBags = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('bloodGroup','=','B+')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
-        echo json_encode($bloodBags);
-    }
-
-    public function countBloodBags_Bneg()
-    {
-        $bloodBags = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('bloodGroup','=','B-')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
-        echo json_encode($bloodBags);
-    }
-    
-    public function countBloodBags_ABpos()
-    {
-        $bloodBags = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('bloodGroup','=','AB+')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
-        echo json_encode($bloodBags);
-    }
-
-    public function countBloodBags_ABneg()
-    {
-        $bloodBags = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('bloodGroup','=','AB-')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
-        echo json_encode($bloodBags);
-    }
-    
-    public function countBloodBags_Opos()
-    {
-        $bloodBags = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('bloodGroup','=','O+')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
-        echo json_encode($bloodBags);
-    }
-
-    public function countBloodBags_Oneg()
-    {
-        $bloodBags = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('bloodGroup','=','O-')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
-        echo json_encode($bloodBags);
+        $bloodBagsApos = BloodBag::where('bag_no','LIKE','%'.'HSOD'.'%')->where('status','=','available')->where('bloodGroup','=','A+')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
+        $bloodBagsAneg = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('bloodGroup','=','A-')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
+        $bloodBagsBpos = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('bloodGroup','=','B+')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
+        $bloodBagsBneg = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('bloodGroup','=','B-')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
+        $bloodBagsABpos = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('bloodGroup','=','AB+')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
+        $bloodBagsABneg = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('bloodGroup','=','AB-')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
+        $bloodBagsOpos = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('bloodGroup','=','O+')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
+        $bloodBagsOneg = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('bloodGroup','=','O-')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
+        
+        return response()->json([
+            'bloodBagsApos' => $bloodBagsApos, 
+            'bloodBagsAneg' => $bloodBagsAneg, 
+            'bloodBagsBpos' => $bloodBagsBpos,
+            'bloodBagsBneg' => $bloodBagsBneg,
+            'bloodBagsABpos' => $bloodBagsABpos,
+            'bloodBagsABneg' => $bloodBagsABneg,
+            'bloodBagsOpos' => $bloodBagsOpos,
+            'bloodBagsOneg' => $bloodBagsOneg
+        ]);
     }
 }
