@@ -133,6 +133,8 @@ Route::group([
 
     //donor management routes
     Route::get('staff/donor', 'Staff\donorController@index')->name('admin.staffControls.donor');
+
+    
     Route::get('/fetchDonor', 'Staff\donorController@fetchDonor');
     Route::get('/fetchActiveDonor', 'Staff\donorController@fetchActiveDonor');
     Route::get('/fetchInactiveDonor', 'Staff\donorController@fetchInactiveDonor');

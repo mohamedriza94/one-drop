@@ -13,18 +13,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'user@example.com',
-        // ]);
-        // \App\Models\Admin::factory()->create([
-        //     'fullname' => 'Administrator',
-        //     'email' => 'admin@example.com',
-        // ]);
-        \App\Models\Donor::factory()->create([
-            'fullname' => 'Donor',
-            'email' => 'donor@example.com',
+        \App\Models\Admin::factory()->create([
+            'no' => '897549650',
+            'nic' => '789564123v',
+            'fullname' => 'Jack Dorsey',
+            'address' => '3D Lady Mcallums Drive',
+            'telephone' => '0754896574',
+            'photo' => '-',
+            'dateofbirth' => '01.01.1999',
+            'gender' => 'male',
+            'email' => 'jack@gmail.com',
+            'role' => 'admin',
+            'status' => 'active',
         ]);
     }
 }

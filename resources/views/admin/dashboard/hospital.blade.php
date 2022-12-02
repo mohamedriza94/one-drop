@@ -98,7 +98,7 @@
                       </div>
 
                       <div class="col-md-12">
-                          <label class="form-label"><b><u>Description</u></b></label></br>
+                          <label class="form-label"><b><u>Description</u></b></label><br>
                           <p class="form-label" id="view_description"></p>
                       </div>
                   </form>

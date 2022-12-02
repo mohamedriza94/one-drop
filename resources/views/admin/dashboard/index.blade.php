@@ -16,7 +16,7 @@
                                 <div class="widget-heading">
                                     <div class="w-title">
                                         <div class="w-icon">
-                                            <i class="fa fa-home" aria-hidden="true"></i>
+                                            <i class="fa-solid fa-hand-holding-hand"></i>
                                         </div>
                                         <div class="">
                                             <p class="w-value" id="countDonorRequests"></p>
@@ -32,7 +32,7 @@
                                 <div class="widget-heading">
                                     <div class="w-title">
                                         <div class="w-icon">
-                                            <i class="fa fa-home" aria-hidden="true"></i>
+                                            <i class="fa-solid fa-hand-holding-medical"></i>
                                         </div>
                                         <div class="">
                                             <p class="w-value" id="countAppointments"></p>
@@ -48,7 +48,7 @@
                                 <div class="widget-heading">
                                     <div class="w-title">
                                         <div class="w-icon">
-                                            <i class="fa fa-home" aria-hidden="true"></i>
+                                            <i class="fa-solid fa-truck-droplet"></i>
                                         </div>
                                         <div class="">
                                             <p class="w-value" id="countBloodRequests"></p>
@@ -64,7 +64,7 @@
                                 <div class="widget-heading">
                                     <div class="w-title">
                                         <div class="w-icon">
-                                            <i class="fa fa-home" aria-hidden="true"></i>
+                                            <i class="fa-solid fa-boxes-stacked"></i>
                                         </div>
                                         <div class="">
                                             <p class="w-value" id="countDonations"></p>
@@ -80,7 +80,7 @@
                                 <div class="widget-heading">
                                     <div class="w-title">
                                         <div class="w-icon">
-                                            <i class="fa fa-home" aria-hidden="true"></i>
+                                            <i class="fa-solid fa-hands-holding-child"></i>
                                         </div>
                                         <div class="">
                                             <p class="w-value" id="countDonors"></p>
@@ -96,7 +96,7 @@
                                 <div class="widget-heading">
                                     <div class="w-title">
                                         <div class="w-icon">
-                                            <i class="fa fa-home" aria-hidden="true"></i>
+                                            <i class="fa fa-envelope" aria-hidden="true"></i>
                                         </div>
                                         <div class="">
                                             <p class="w-value" id="countUnreadMessages"></p>
@@ -112,7 +112,7 @@
                                 <div class="widget-heading">
                                     <div class="w-title">
                                         <div class="w-icon">
-                                            <i class="fa fa-home" aria-hidden="true"></i>
+                                            <i class="fa fa-droplet" aria-hidden="true"></i>
                                         </div>
                                         <div class="">
                                             <p class="w-value" id="countBloodBags"></p>
@@ -129,7 +129,7 @@
                                 <div class="widget-heading">
                                     <div class="w-title">
                                         <div class="w-icon">
-                                            <i class="fa fa-home" aria-hidden="true"></i>
+                                            <i class="fa fa-user" aria-hidden="true"></i>
                                         </div>
                                         <div class="">
                                             <p class="w-value" id="countStaff"></p>
@@ -146,7 +146,7 @@
                                 <div class="widget-heading">
                                     <div class="w-title">
                                         <div class="w-icon">
-                                            <i class="fa fa-home" aria-hidden="true"></i>
+                                            <i class="fa fa-hospital" aria-hidden="true"></i>
                                         </div>
                                         <div class="">
                                             <p class="w-value" id="countHospital"></p>

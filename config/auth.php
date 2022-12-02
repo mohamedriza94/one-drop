@@ -22,7 +22,7 @@ return [
             'driver' => 'session',
             'provider' => 'hospitals',
         ],
-    ],
+    ], 
 
     'providers' => [
         'users' => [
