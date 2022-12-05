@@ -4,10 +4,12 @@
 <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-12 d-flex flex-column align-self-center mx-auto">
     <div class="card mt-3 mb-3">
         <div class="card-body">
+
             <div class="alert alert-success alert-dismissible fade show mb-4 d-none" role="alert" id="successAlert">
                 <strong></strong>
             </div>
             
+            {{-- row one --}}
             <div class="row" id="sendCodeContent">
                 
                 <div class="col-md-12 mb-3">
@@ -32,6 +34,7 @@
                 
             </div>
 
+            {{-- row two --}}
             <div class="row d-none" id="verifyCodeContent">
                 
                 <div class="col-md-12 mb-3">
@@ -62,6 +65,7 @@
                 </div>
             </div>
 
+            {{-- row three --}}
             <div class="row d-none" id="resetPasswordContent">
                 
                 <div class="col-md-12 mb-3">
@@ -146,9 +150,10 @@ $(document).on('click', '#btnSendVerificationCode',function(e){
 
                     $('#emailError').text('');
 
+                    //row control
                     $('#sendCodeContent').addClass('d-none');
-                    $('#resetPasswordContent').addClass('d-none');
                     $('#verifyCodeContent').removeClass('d-none');
+                    $('#resetPasswordContent').addClass('d-none');
 
             }
             }
