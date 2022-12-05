@@ -113,7 +113,7 @@ class staffMessageController extends Controller
                     $hospital_side_status="unread";
 
                     
-                    $isRecipientIdExist = Hospital::select("*")->where("id", $request->input('recipientId'))->exists();
+                    $isRecipientIdExist = Hospital::select("*")->where("no", $request->input('recipientId'))->exists();
 
                     if($isRecipientIdExist)
                     {
@@ -300,7 +300,7 @@ class staffMessageController extends Controller
         }
         else if($sender=="adminToHospital" || $sender=="hospitalToAdmin")
         {
-            $hospitals = Hospital::find($senderId);
+            $hospitals = Hospital::where('no','=',$senderId)->first();
             if($hospitals)
             {
                 return response()->json([

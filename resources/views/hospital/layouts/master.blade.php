@@ -124,7 +124,7 @@
 
 
                 <li class="menu">
-                    <a href="{{ route('admin.staffControls.message') }}" aria-expanded="false" class="dropdown-toggle">
+                    <a href="{{ route('hospital.message') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
                             <i class="fa-solid fa-envelope" style="width:50px; height:100%;"></i> 
                             <span>Messages</span>

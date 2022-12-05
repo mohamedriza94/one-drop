@@ -12,7 +12,7 @@ Route::group([
     Route::get('/verify/{typedCode}/{email}', 'Auth\ForgotPasswordController@verifyCode');
     Route::get('/resetPassword/{typedCode}/{email}/{password}', 'Auth\ForgotPasswordController@resetPassword');
 
-    Route::post('/auth/register', 'Auth\RegisterController@registerAdmin');
+    Route::post('/auth/register', 'Auth\RegisterController@registerAdmin'); //not used for now
     
     Route::group(['middleware' => ['auth:admin']], function () {
     

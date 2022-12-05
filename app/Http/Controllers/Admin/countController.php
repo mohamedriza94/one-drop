@@ -19,7 +19,15 @@ class countController extends Controller
 {
     public function otherCounts()
     {
-        $messages = Message::where('sender','LIKE','%'.'ToStaff'.'%')->where('staff_side_status', '=', 'unread')->where('recipient_id', '=', auth()->guard('admin')->user()->no)->count();
+        if(auth()->guard('admin')->user()->role == 'admin')
+        {
+            $messages = Message::where('sender','LIKE','%'.'ToStaff'.'%')->where('reply_status', '=', '0')->where('admin_side_status', '=', 'unread')->where('recipient_id', '=', auth()->guard('admin')->user()->id)->count();
+        }
+        else
+        {
+            $messages = Message::where('sender','LIKE','%'.'ToStaff'.'%')->where('reply_status', '=', '0')->where('staff_side_status', '=', 'unread')->where('recipient_id', '=', auth()->guard('admin')->user()->id)->count();
+        }
+        
         $bloodRequests = bloodRequest::where('status', '=', 'pending')->count();
         $hospitals = Hospital::count();
         $admins = Admin::where('role', '=', 'staff')->where('status', '=', 'active')->count();

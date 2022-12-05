@@ -447,6 +447,7 @@
 
                                     $('#requestNo').val(Math.floor(Math.random() * (11500000000 -
                                         9950000000000 + 1) + 9950000000000));
+                                        
                                     $('#makeARequestErrorList').html('');
                                     $('#makeARequestErrorList').removeClass('d-none');
                                     $.each(response.errors, function(key, err_value) {
@@ -513,6 +514,7 @@
                                 if (response.status == 400) {
                                     $('#donorRequestNo').val(Math.floor(Math.random() * (11500000000 -
                                         9950000000000 + 1) + 9950000000000));
+
                                     $('#becomeADonorErrorList').html('');
                                     $('#becomeADonorErrorList').removeClass('d-none');
                                     $.each(response.errors, function(key, err_value) {

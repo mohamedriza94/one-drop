@@ -109,7 +109,7 @@ class messageController extends Controller
                     $hospital_side_status="unread";
 
                     
-                    $isRecipientIdExist = Hospital::select("*")->where("id", $request->input('recipientId'))->exists();
+                    $isRecipientIdExist = Hospital::select("*")->where("no", $request->input('recipientId'))->exists();
 
                     if($isRecipientIdExist)
                     {
@@ -162,7 +162,7 @@ class messageController extends Controller
                     $donor_side_status="unread";
 
                     
-                    $isRecipientIdExist = Hospital::select("*")->where("id", $request->input('recipientId'))->exists();
+                    $isRecipientIdExist = Hospital::select("*")->where("no", $request->input('recipientId'))->exists();
 
                     if($isRecipientIdExist)
                     {
@@ -275,9 +275,8 @@ class messageController extends Controller
 
     public function fetchInboxMessages($authId)
     {
-        $messages = Message::where('recipient_id', '=', $authId)->orWhere('recipient_id', '=', 'common')
-        ->where('staff_side_status', '=', "unread")->where('sender','LIKE','%'.'ToStaff'.'%')
-        ->orderBy('id', 'DESC')->get();
+        $messages = Message::where('recipient_id', '=', $authId)->where('staff_side_status', '=', "unread")->where('sender','LIKE','%'.'ToStaff'.'%')
+        ->orWhere('recipient_id', '=', 'common')->orderBy('id', 'DESC')->get();
         
         return response()->json([
             'messages'=>$messages,
@@ -352,7 +351,7 @@ class messageController extends Controller
     {
         if($sender=="staffToHospital" || $sender=="hospitalToStaff")
         {
-            $hospitals = Hospital::find($senderId);
+            $hospitals = Hospital::where('no','=',$senderId)->first();
             if($hospitals)
             {
                 return response()->json([
