@@ -379,12 +379,12 @@ class messageController extends Controller
         }
         else if($sender=="staffToDonor" || $sender=="donorToStaff")
         {
-            $hospitals = Hospital::find($senderId);
-            if($hospitals)
+            $donors = Donor::find($senderId);
+            if($donors)
             {
                 return response()->json([
                     'status'=>200,
-                    'hospitals'=>$hospitals,
+                    'donor'=>$donors,
                 ]);
             }
             else

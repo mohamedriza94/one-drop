@@ -104,7 +104,7 @@ class messageController extends Controller
     
     public function fetchSenderOrReceiver($senderOrReceiverId,$sender)
     {
-        if($sender=="hospitalToStaff")
+        if($sender=="hospitalToStaff" || $sender=="staffToHospital")
         {
             $admins = Admin::find($senderOrReceiverId);
             if($admins)
@@ -114,7 +114,7 @@ class messageController extends Controller
                 ]);
             }
         }
-        else if($sender=="hospitalToDonor")
+        else if($sender=="hospitalToDonor" || $sender=="donorToHospital")
         {
             $donors = Donor::where('id','=',$senderOrReceiverId)->first();
             if($donors)

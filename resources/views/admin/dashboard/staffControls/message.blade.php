@@ -759,7 +759,7 @@
                 }
             });
         }
-        
+
         $(document).on('click', '#btnInboxMoveToTrash',function(e){
             e.preventDefault();
             var id = $(this).val();
@@ -826,7 +826,7 @@
                         else if(item.reply_status=="0")
                         {
                             $replyButton = '';
-                            $deleteButton = '';
+                            $deleteButton = '<button class="btn btn-danger btn-sm" value="'+item.id+'" id="btnSentMoveToTrash">Move to Trash</button>';
                         }
                         
                         $openButton = '<button class="btn btn-dark btn-sm" value="'+item.id+'" id="btnOpenSentOrTrashMessageModal">Open</button>';
@@ -1031,7 +1031,7 @@
                                     }
                                     else if(getSenderType == "staffToDonor")
                                     {
-                                        $('#sender').html('<b>Sent To:</b> '+response.donor.fullname+' '+response.donor.telephone+'(Donor)');
+                                        $('#sender').html('<b>Sent To:</b> '+response.donor.fullname+' (Donor)');
                                     }
                                     else if(getSenderType == "adminToStaff")
                                     {
@@ -1043,7 +1043,7 @@
                                     }
                                     else if(getSenderType == "donorToStaff")
                                     {
-                                        $('#sender').html('<b>Received from:</b> '+response.donor.fullname+' '+response.donor.telephone+' (Donor)');
+                                        $('#sender').html('<b>Received from:</b> '+response.donor.fullname+' (Donor)');
                                     }
                                     
                                 }
@@ -1107,6 +1107,14 @@
                         {
                             $('#sender').html('<b>Sent To:</b> '+response.messages.recipient_id+' (Guest)');
                         }
+                        else if(getSenderType == "staffToDonor")
+                        {
+                            $('#openSenderId').val(response.messages.recipient_id);
+                        }
+                        else if(getSenderType == "donorToStaff")
+                        {
+                            $('#openSenderId').val(response.messages.sender_id);
+                        }
                         
                         var openedSenderId = $('#openSenderId').val();
                         var openSender = $('#openSender').val();
@@ -1136,7 +1144,7 @@
                                     }
                                     else if(getSenderType == "donorToStaff")
                                     {
-                                        $('#sender').html('<b>Received from:</b> '+response.hospitals.name+' (Staff)');
+                                        $('#sender').html('<b>Received from:</b> '+response.donor.fullname+' (Donor)');
                                     }
                                     else if(getSenderType == "otherToStaff")
                                     {
@@ -1306,7 +1314,7 @@
                                     }
                                     else if(getSenderType == "staffToDonor")
                                     {
-                                        $('#sender').html('<b>Sent To:</b> '+response.donor.fullname+' '+response.donor.telephone+'(Donor)');
+                                        $('#sender').html('<b>Sent To:</b> '+response.donor.fullname+'(Donor)');
                                     }
                                     else if(getSenderType == "adminToStaff")
                                     {
@@ -1318,7 +1326,7 @@
                                     }
                                     else if(getSenderType == "donorToStaff")
                                     {
-                                        $('#sender').html('<b>Received from:</b> '+response.donor.fullname+' '+response.donor.telephone+' (Donor)');
+                                        $('#sender').html('<b>Received from:</b> '+response.donor.fullname+' (Donor)');
                                     }
                                     
                                 }

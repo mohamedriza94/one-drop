@@ -587,7 +587,7 @@
                             //check sender and decide to and from
                             if(senderType.includes('donorTo'))
                             {
-                                $toOrFrom = 'Sent To';
+                                $toOrFrom = 'Sent To:';
                                 
                                 $('#replyLabel').text('Reply:');
                                 
@@ -613,11 +613,17 @@
                             if(response.messages.donor_side_status=="unread" && response.messages.reply_status=="0")
                             {
                                 $('#replyBody').removeClass('d-none');
+                                $('#openReplySection').addClass('d-none');
                             }
                             else if(response.messages.donor_side_status=="sent" && response.messages.reply_status=="0")
                             {
                                 $('#replyBody').addClass('d-none');
                                 $('#openReplySection').addClass('d-none');
+                            }
+                            else if(response.messages.donor_side_status=="sent" && response.messages.reply_status!="0")
+                            {
+                                $('#replyBody').addClass('d-none');
+                                $('#openReplySection').removeClass('d-none');
                             }
                             else if(response.messages.donor_side_status=="trash" && response.messages.reply_status!="0")
                             {
@@ -657,7 +663,7 @@
                                     type:"GET",
                                     url:urlFetchSenderOrReceiver,
                                     success:function(response){
-                                        $('#sender').html('<b>'+$toOrFrom+'</b>  '+response.hospital.fullname+' (Staff)');
+                                        $('#sender').html('<b>'+$toOrFrom+'</b>  '+response.hospital.name);
                                     }
                                 });
                             }
@@ -670,7 +676,7 @@
                                     type:"GET",
                                     url:urlFetchSenderOrReceiver,
                                     success:function(response){
-                                        $('#sender').html('<b>'+$toOrFrom+'</b>  '+response.hospital.fullname+' (Staff)');
+                                        $('#sender').html('<b>'+$toOrFrom+'</b>  '+response.hospital.name);
                                     }
                                 });
                             }

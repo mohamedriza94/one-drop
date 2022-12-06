@@ -162,15 +162,15 @@ class messageController extends Controller
         if($admin)
         {
             return response()->json([
-                'admin'=>$admin,
+                'admin'=>$admin
             ]);
         }
         
-        $hospital = Hospital::where('no', '=', $senderOrReceiverId);
+        $hospital = Hospital::where('no', '=', $senderOrReceiverId)->first();
         if($hospital)
         {
             return response()->json([
-                'hospital'=>$hospital,
+                'hospital'=>$hospital
             ]);
         }
     }

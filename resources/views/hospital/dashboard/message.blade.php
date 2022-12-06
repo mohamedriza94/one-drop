@@ -712,19 +712,33 @@
                             $toOrFrom = 'Received From:';
                         }
                         
-                        if(response.messages.hospital_side_status=="trash" || response.messages.hospital_side_status=="sent")
-                        {
-                            $('#replyBody').addClass('d-none');
-                        }
-                        else if(response.messages.reply_status=="1" || response.messages.reply_status=="2")
-                        {
-                            $('#replyBody').addClass('d-none');
-                        }
-                        else if(response.messages.reply_status=="0" && response.messages.hospital_side_status=="unread")
-                        {
-                            $('#replyBody').removeClass('d-none');
-                            $('#openReplySection').addClass('d-none');
-                        }
+                        //decide visibility of reply body
+                        if(response.messages.hospital_side_status=="unread" && response.messages.reply_status=="0")
+                            {
+                                $('#replyBody').removeClass('d-none');
+                                $('#openReplySection').addClass('d-none');
+                            }
+                            else if(response.messages.hospital_side_status=="sent" && response.messages.reply_status=="0")
+                            {
+                                $('#replyBody').addClass('d-none');
+                                $('#openReplySection').addClass('d-none');
+                            }
+                            else if(response.messages.hospital_side_status=="sent" && response.messages.reply_status!="0")
+                            {
+                                $('#replyBody').addClass('d-none');
+                                $('#openReplySection').removeClass('d-none');
+                            }
+                            else if(response.messages.hospital_side_status=="trash" && response.messages.reply_status!="0")
+                            {
+                                $('#replyBody').addClass('d-none');
+                                $('#openReplySection').removeClass('d-none');
+                            }
+                            else if(response.messages.hospital_side_status=="trash" && response.messages.reply_status=="0")
+                            {
+                                $('#replyBody').addClass('d-none');
+                                $('#openReplySection').addClass('d-none');
+                            }
+                            
                         
                         //get sender or receiver
                         if(senderType.includes('ToStaff'))
