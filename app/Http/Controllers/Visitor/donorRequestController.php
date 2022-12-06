@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\DonorRequest;
+use App\Models\Notification;
 
 class donorRequestController extends Controller
 {
@@ -20,7 +21,7 @@ class donorRequestController extends Controller
             'email' => ['required','email','unique:donor_requests'],
             'fullName' => ['required'],
         ]); //validate all the data
-
+        
         if($validator->fails())
         {
             return response()->json([
@@ -41,9 +42,18 @@ class donorRequestController extends Controller
             $donorRequests->date = now();
             $donorRequests->time = now();
             $donorRequests->status = 'pending';
-
+            
             $donorRequests->save();
-
+            
+            $notifications = new Notification;
+            $notifications->notifNo = rand(100000,950000);
+            $notifications->entity = 'staff';
+            $notifications->text = 'New Donor Request ('.$request->input('donorRequestNo').')';
+            $notifications->date = NOW();
+            $notifications->time = NOW();
+            $notifications->status = '0';
+            $notifications->save();
+            
             return response()->json([
                 'status'=>200
             ]);

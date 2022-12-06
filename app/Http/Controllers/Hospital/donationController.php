@@ -9,6 +9,7 @@ use App\Models\Donation;
 use App\Models\Donor;
 use App\Models\Request as BloodRequest;
 use App\Models\Activity;
+use App\Models\Notification;
 use App\Models\BloodBag;
 use Illuminate\Support\Facades\Mail;
 
@@ -96,6 +97,15 @@ class donationController extends Controller
             $activities->date = NOW();
             $activities->time = NOW();
             $activities->save();
+
+            $notifications = new Notification;
+            $notifications->notifNo = rand(100000,950000);
+            $notifications->entity = 'HSDon '.$request->input('donorNo');
+            $notifications->text = 'Donation Made ('.$donationNo.')';
+            $notifications->date = NOW();
+            $notifications->time = NOW();
+            $notifications->status = '0';
+            $notifications->save();
 
             return response()->json([
                 'status'=>200

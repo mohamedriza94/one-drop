@@ -9,6 +9,7 @@ use App\Models\Message;
 use App\Models\Hospital;
 use App\Models\Donor;
 use App\Models\Reply;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Validator;
 
 class messageController extends Controller
@@ -71,15 +72,15 @@ class messageController extends Controller
             ['recipient_id',$hospital],
             ['hospital_side_status','trash'],
             ['sender','LIKE','%'.'ToHospital'.'%']
-        ])->orWhere([
-            ['sender_id',$hospital],
-            ['hospital_side_status','trash'],
-            ['sender','LIKE','%'.'hospitalTo'.'%']
-        ])->orderBy('id', 'DESC')->get();
-
-        return response()->json([
-            'messages'=>$messages,
-        ]);
+            ])->orWhere([
+                ['sender_id',$hospital],
+                ['hospital_side_status','trash'],
+                ['sender','LIKE','%'.'hospitalTo'.'%']
+                ])->orderBy('id', 'DESC')->get();
+                
+                return response()->json([
+                    'messages'=>$messages,
+                ]);
     }
     
     public function fetchSingle($id)
@@ -180,16 +181,43 @@ class messageController extends Controller
             {
                 $staff_side_status = "unread";
                 $hospital_side_status = "sent";
+                
+                $notifications = new Notification;
+                $notifications->notifNo = rand(100000,950000);
+                $notifications->entity = 'staff '.$request->input('recipientId');;
+                $notifications->text = 'Message Received ('.$messageNo.')';
+                $notifications->date = NOW();
+                $notifications->time = NOW();
+                $notifications->status = '0';
+                $notifications->save();
             }
             else if($senderType == "hospitalToDonor")
             {
                 $donor_side_status = "unread";
                 $hospital_side_status = "sent";
+                
+                $notifications = new Notification;
+                $notifications->notifNo = rand(100000,950000);
+                $notifications->entity = 'HSDon '.$request->input('recipientId');;
+                $notifications->text = 'Message Received ('.$messageNo.')';
+                $notifications->date = NOW();
+                $notifications->time = NOW();
+                $notifications->status = '0';
+                $notifications->save();
             }
             else if($senderType == "hospitalToAdmin")
             {
                 $admin_side_status = "unread";
                 $hospital_side_status = "sent";
+                
+                $notifications = new Notification;
+                $notifications->notifNo = rand(100000,950000);
+                $notifications->entity = 'admin';
+                $notifications->text = 'Message Received ('.$messageNo.')';
+                $notifications->date = NOW();
+                $notifications->time = NOW();
+                $notifications->status = '0';
+                $notifications->save();
             }
             
             $date = NOW();
@@ -221,16 +249,16 @@ class messageController extends Controller
             ]);
         }
     }
-
+    
     public function replyToMessage(Request $request)
     {
         $validator = Validator::make($request->all(), [
-
+            
             'reply' => ['required'],
             'message_no' => ['required','unique:replies'],
-
+            
         ]); //validate all the data
-
+        
         if($validator->fails())
         {
             return response()->json([
@@ -245,29 +273,29 @@ class messageController extends Controller
             if ($isMessageIdExist) 
             {
                 $replyNo = rand(1500000,9515959);
-
+                
                 $date = NOW();
-
+                
                 $replies = new Reply;
-
+                
                 $replies->reply_no = $replyNo;
                 $replies->reply = $request->input('reply');
-
+                
                 $replies->date = $date;
                 $replies->time = $date;
-
+                
                 $replies->status = '-';
-
+                
                 $replies->message_no = $request->input('message_no');
-
+                
                 $replies->save();
-
+                
                 $messages = Message::find($request->input('message_no'));
                 $reply_status = "1";
-        
+                
                 $messages->reply_status = $reply_status;
                 $messages->update();
-                        
+                
                 return response()->json([
                     'status'=>200
                 ]);

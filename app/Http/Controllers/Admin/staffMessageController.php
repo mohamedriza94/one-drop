@@ -9,6 +9,7 @@ use App\Models\Message;
 use App\Models\Hospital;
 use App\Models\Activity;
 use App\Models\Reply;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 
@@ -27,19 +28,19 @@ class staffMessageController extends Controller
             return back();
         }
     }
-
+    
     public function staff_sendMessage(Request $request)
     {
         $validator = Validator::make($request->all(), [
-
+            
             'sender' => ['required'],
             'senderId' => ['required'],
             'recipientId' => ['required'],
             'subject' => ['required','string','max:100'],
             'message' => ['required','string','max:255'],
-
+            
         ]); //validate all the data
-
+        
         if($validator->fails())
         {
             return response()->json([
@@ -54,47 +55,55 @@ class staffMessageController extends Controller
             if ($isSenderIdExist) 
             {
                 $messageNo = rand(1500000,9515959);
-
+                
                 $senderType = $request->input('sender');
-
+                
                 $staff_side_status = ""; $admin_side_status = "";
                 $hospital_side_status = ""; $donor_side_status = "";
                 $other_status = ""; $reply_status = '0';
-
+                
                 if($senderType == "adminToStaff")
                 {
                     $admin_side_status="sent";
                     $staff_side_status="unread";
-
+                    
                     
                     $isRecipientIdExist = Admin::select("*")->where("id", $request->input('recipientId'))->exists();
-
+                    
                     if($isRecipientIdExist)
                     {
                         $date = NOW();
-
+                        
                         $messages = new Message;
-
+                        
                         $messages->message_no = $messageNo;
                         $messages->sender = $request->input('sender');
                         $messages->subject = $request->input('subject');
                         $messages->message = $request->input('message');
                         $messages->recipient_id = $request->input('recipientId');
-
+                        
                         $messages->date = $date;
                         $messages->time = $date;
-
+                        
                         $messages->staff_side_status = $staff_side_status;
                         $messages->admin_side_status = $admin_side_status;
                         $messages->hospital_side_status = $hospital_side_status;
                         $messages->donor_side_status = $donor_side_status;
                         $messages->other_status = $other_status;
                         $messages->reply_status = $reply_status;
-
+                        
                         $messages->sender_id = $request->input('senderId');
-
                         $messages->save();
-
+                        
+                        $notifications = new Notification;
+                        $notifications->notifNo = rand(100000,950000);
+                        $notifications->entity = 'staff';
+                        $notifications->text = 'Message from Admin ('.$messageNo.')';
+                        $notifications->date = NOW();
+                        $notifications->time = NOW();
+                        $notifications->status = '0';
+                        $notifications->save();
+                        
                         return response()->json([
                             'status'=>200
                         ]);
@@ -105,42 +114,50 @@ class staffMessageController extends Controller
                             'status'=>300,
                         ]);
                     }
-
+                    
                 }
                 else if($senderType == "adminToHospital")
                 {
                     $admin_side_status="sent";
                     $hospital_side_status="unread";
-
                     
                     $isRecipientIdExist = Hospital::select("*")->where("no", $request->input('recipientId'))->exists();
-
+                    
                     if($isRecipientIdExist)
                     {
                         $date = NOW();
-
+                        
                         $messages = new Message;
-
+                        
                         $messages->message_no = $messageNo;
                         $messages->sender = $request->input('sender');
                         $messages->subject = $request->input('subject');
                         $messages->message = $request->input('message');
                         $messages->recipient_id = $request->input('recipientId');
-
+                        
                         $messages->date = $date;
                         $messages->time = $date;
-
+                        
                         $messages->staff_side_status = $staff_side_status;
                         $messages->admin_side_status = $admin_side_status;
                         $messages->hospital_side_status = $hospital_side_status;
                         $messages->donor_side_status = $donor_side_status;
                         $messages->other_status = $other_status;
                         $messages->reply_status = $reply_status;
-
+                        
                         $messages->sender_id = $request->input('senderId');
-
+                        
                         $messages->save();
-
+                        
+                        $notifications = new Notification;
+                        $notifications->notifNo = rand(100000,950000);
+                        $notifications->entity = 'hospital';
+                        $notifications->text = 'Message from Admin ('.$messageNo.')';
+                        $notifications->date = NOW();
+                        $notifications->time = NOW();
+                        $notifications->status = '0';
+                        $notifications->save();
+                        
                         return response()->json([
                             'status'=>200
                         ]);
@@ -156,7 +173,7 @@ class staffMessageController extends Controller
                 {
                     $admin_side_status= "sent";
                     $other_status = "0";
-
+                    
                     $otherSubject = $request->input('subject'); 
                     $otherMessage = $request->input('message');
                     $mailSender = 'Administrator';
@@ -164,27 +181,27 @@ class staffMessageController extends Controller
                     if(Mail::to($request->input('recipientId'))->send(new otherMessage($otherSubject, $otherMessage, $mailSender)))
                     {
                         $date = NOW();
-
+                        
                         $messages = new Message;
-
+                        
                         $messages->message_no = $messageNo;
                         $messages->sender = $request->input('sender');
                         $messages->subject = $request->input('subject');
                         $messages->message = $request->input('message');
                         $messages->recipient_id = $request->input('recipientId');
-
+                        
                         $messages->date = $date;
                         $messages->time = $date;
-
+                        
                         $messages->staff_side_status = $staff_side_status;
                         $messages->admin_side_status = $admin_side_status;
                         $messages->hospital_side_status = $hospital_side_status;
                         $messages->donor_side_status = $donor_side_status;
                         $messages->other_status = $other_status;
                         $messages->reply_status = $reply_status;
-
+                        
                         $messages->sender_id = $request->input('senderId');
-
+                        
                         $messages->save();
                         
                         return response()->json([
@@ -207,7 +224,7 @@ class staffMessageController extends Controller
             }
         }
     }
-
+    
     public function staff_fetchInboxMessages()
     {
         $messages = Message::where('admin_side_status', '=', "unread")->where('sender','LIKE','%'.'ToAdmin'.'%')->orderBy('id', 'DESC')->get();
@@ -215,7 +232,7 @@ class staffMessageController extends Controller
             'messages'=>$messages,
         ]);
     }
-
+    
     public function staff_moveToTrash(Request $request, $id)
     {
         $messages = Message::find($id);
@@ -223,12 +240,12 @@ class staffMessageController extends Controller
         
         $messages->admin_side_status = $admin_side_status;
         $messages->update();
-
+        
         return response()->json([
             'status'=>200,
         ]);
     }
-
+    
     public function staff_fetchTrashMessages()
     {
         $messages = Message::where('admin_side_status', '=', "trash")->orderBy('id', 'DESC')->get();
@@ -236,7 +253,7 @@ class staffMessageController extends Controller
             'messages'=>$messages,
         ]);
     }
-
+    
     public function staff_fetchSentMessages($senderId)
     {
         $messages = Message::where('admin_side_status', '=', "sent")->where('sender_id', '=', $senderId)->orderBy('id', 'DESC')->get();
@@ -244,7 +261,7 @@ class staffMessageController extends Controller
             'messages'=>$messages,
         ]);
     }
-
+    
     public function fetchStafflist()
     {
         $admins = Admin::where('role', '=', "staff")->orderBy('id', 'DESC')->get();
@@ -252,7 +269,7 @@ class staffMessageController extends Controller
             'admins'=>$admins,
         ]);
     }
-
+    
     public function fetchHospitallist()
     {
         $hospitals = Hospital::orderBy('id', 'DESC')->get();
@@ -260,7 +277,7 @@ class staffMessageController extends Controller
             'hospitals'=>$hospitals,
         ]);
     }
-
+    
     public function staff_fetchSingleMessage($id)
     {
         $messages = Message::find($id);
@@ -278,7 +295,7 @@ class staffMessageController extends Controller
             ]);
         }
     }
-
+    
     public function staff_fetchSender($senderId,$sender)
     {
         if($sender=="adminToStaff" || $sender=="staffToAdmin")
@@ -316,16 +333,16 @@ class staffMessageController extends Controller
             }
         }
     }
-
+    
     public function replyToMessage(Request $request)
     {
         $validator = Validator::make($request->all(), [
-
+            
             'reply' => ['required'],
             'message_no' => ['required','unique:replies'],
-
+            
         ]); //validate all the data
-
+        
         if($validator->fails())
         {
             return response()->json([
@@ -340,29 +357,29 @@ class staffMessageController extends Controller
             if ($isMessageIdExist) 
             {
                 $replyNo = rand(1500000,9515959);
-
+                
                 $date = NOW();
-
+                
                 $replies = new Reply;
-
+                
                 $replies->reply_no = $replyNo;
                 $replies->reply = $request->input('reply');
-
+                
                 $replies->date = $date;
                 $replies->time = $date;
-
+                
                 $replies->status = '-';
-
+                
                 $replies->message_no = $request->input('message_no');
-
+                
                 $replies->save();
-
+                
                 $messages = Message::find($request->input('message_no'));
                 $reply_status = "1";
-        
+                
                 $messages->reply_status = $reply_status;
                 $messages->update();
-
+                
                 //record activity
                 $authenticatedUser = auth()->guard('admin')->user()->role;
                 if($authenticatedUser == 'staff')
@@ -374,7 +391,7 @@ class staffMessageController extends Controller
                     $activities->time = NOW();
                     $activities->save();
                 }
-                        
+                
                 return response()->json([
                     'status'=>200
                 ]);
@@ -387,7 +404,7 @@ class staffMessageController extends Controller
             }
         }
     }
-
+    
     public function fetchReply($messageId)
     {
         $replies = Reply::where('message_no', '=', $messageId)->get();
@@ -395,14 +412,14 @@ class staffMessageController extends Controller
             'replies'=>$replies,
         ]);
     }
-
+    
     public function viewedReplyUpdateStatus(Request $request, $id)
     {
         $messages = Message::find($id);
         
         $messages->reply_status = '2';
         $messages->update();
-
+        
         return response()->json([
             'status'=>200
         ]);

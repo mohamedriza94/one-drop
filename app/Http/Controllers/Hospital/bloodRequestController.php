@@ -14,7 +14,7 @@ class bloodRequestController extends Controller
     {
         return view('hospital.dashboard.bloodRequest');
     }
-
+    
     public function fetchRequest()
     {
         $requests = bloodRequest::where('hospitalNo','=',auth()->guard('hospital')->user()->no)->orderBy('id', 'DESC')->get();
@@ -22,7 +22,7 @@ class bloodRequestController extends Controller
             'requests'=>$requests,
         ]);
     }
-
+    
     public function fetchPendingRequest()
     {
         $requests = bloodRequest::where('hospitalResponse','=','pending')->where('hospitalNo','=',auth()->guard('hospital')->user()->no)->orderBy('id', 'DESC')->get();
@@ -30,7 +30,7 @@ class bloodRequestController extends Controller
             'requests'=>$requests,
         ]);
     }
-
+    
     public function fetchRespondedRequest()
     {
         $requests = bloodRequest::where('hospitalResponse','=','responded')->where('hospitalNo','=',auth()->guard('hospital')->user()->no)->orderBy('id', 'DESC')->get();
@@ -38,7 +38,7 @@ class bloodRequestController extends Controller
             'requests'=>$requests,
         ]);
     }
-
+    
     public function searchRequest($input)
     {
         $requests = bloodRequest::where('requestNo','LIKE','%'.$input.'%')->where('hospitalNo','=',auth()->guard('hospital')->user()->no)->orderBy('id', 'DESC')->get();
@@ -46,7 +46,7 @@ class bloodRequestController extends Controller
             'requests'=>$requests,
         ]);
     }
-
+    
     public function fetchSingleRequest($id)
     {
         $requests = bloodRequest::find($id);
@@ -64,7 +64,7 @@ class bloodRequestController extends Controller
             ]);
         }
     }
-
+    
     public function declineBloodRequest(Request $request)
     {
         $remark = 'Blood Not Available';
@@ -72,12 +72,12 @@ class bloodRequestController extends Controller
         $status = 'responded';
         
         $requests = bloodRequest::where('requestNo', $requestNo)->update(['hospitalResponse' => $status, 'remark' => $remark]);
-
+        
         return response()->json([
             'status'=>200,
         ]);
     }
-
+    
     public function acceptBloodRequest(Request $request)
     {
         $remark = 'Blood Provided';
@@ -85,7 +85,7 @@ class bloodRequestController extends Controller
         $status = 'responded';
         
         $requests = bloodRequest::where('requestNo', $requestNo)->update(['hospitalResponse' => $status, 'remark' => $remark, 'bloodBagNo' => $request->input('bloodBagNo')]);
-
+        
         return response()->json([
             'status'=>200,
         ]);

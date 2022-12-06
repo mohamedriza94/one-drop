@@ -122,34 +122,9 @@
                                             <span class="sub-title nk-dropdown-title">Notifications</span>
                                         </div>
                                         <div class="dropdown-body">
-                                            <ul class="">
-                                                <li class="">
-                                                    <a class="chat-link" href="#">
-                                                        <div class="">
-                                                            <div class="chat-from">
-                                                                <div class="name">Iliash Hossain</div>
-                                                                <span class="time">12.12.12</span>
-                                                            </div>
-                                                            <div class="chat-context">
-                                                                <div class="text">You: Please confrim if you got my last messages.</div>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </li><!-- .chat-item -->
-                                                <li class="">
-                                                    <a class="chat-link" href="#">
-                                                        <div class="">
-                                                            <div class="chat-from">
-                                                                <div class="name">Iliash Hossain</div>
-                                                                <span class="time">12.12.12</span>
-                                                            </div>
-                                                            <div class="chat-context">
-                                                                <div class="text">You: Please confrim if you got my last messages.</div>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </li><!-- .chat-item -->
-                                            </ul><!-- .chat-list -->
+                                            <ul class="" id="notificationList">
+                                                
+                                            </ul>
                                         </div><!-- .nk-dropdown-body -->
                                     </div>
                                 </li>
@@ -452,606 +427,674 @@
                                                 </div><!-- .card -->
                                             </div><!-- .col -->
                                         </div>
-                                </div><!-- .modal-body -->
-                            </div><!-- .modal-content -->
-                        </div><!-- .modal-dialog -->
-                    </div><!-- requestHistoryModal modal -->
-
-                    <div class="modal fade" tabindex="-1" role="dialog" id="donationHistoryModal">
-                        <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content">
-                                <a href="#" class="close" data-bs-dismiss="modal"><em
-                                    class="icon ni ni-cross-sm"></em></a>
-                                    <div class="modal-body modal-body-md">
-                                        <div class="mt-2">
-                                            
-                                            <h5 class="modal-title">Donation History</h5>
-                                            <hr style="padding: 0.5px; background:black">
-                                            
-                                            <div class="row g-gs">
-                                                <div class="col-lg-12">
-                                                    <table class="table">
-                                                        <thead class="table-light">
-                                                            <tr>
-                                                                <th scope="col">Donation No.</th>
-                                                                <th scope="col">Date</th>
-                                                                <th scope="col">Time</th>
-                                                                <th scope="col">Blood Status</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody id="donationHistoryTbody">
-                                                            
-                                                        </tbody>
-                                                    </table>
-                                                </div><!-- .card -->
-                                            </div><!-- .col -->
-                                        </div>
-                                </div><!-- .modal-body -->
-                            </div><!-- .modal-content -->
-                        </div><!-- .modal-dialog -->
-                    </div><!-- requestHistoryModal modal -->
-                    
-                    <div class="modal fade" tabindex="-1" role="dialog" id="editDonorProfileModal">
-                        <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content">
-                                <a href="#" class="close" data-bs-dismiss="modal"><em
-                                    class="icon ni ni-cross-sm"></em></a>
-                                    <div class="modal-body modal-body-md">
-                                        <div class="mt-2">
-                                            
-                                            <h5 class="modal-title">View Profile</h5>
-                                            <hr style="padding: 0.5px; background:black">
-                                            
-                                            <div class="row g-gs">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <img class="form-control" src="{{ Auth::guard('donor')->user()->photo }}" alt="">
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label" for="">Donor No.</label>
-                                                        <input type="text" class="form-control"
-                                                        readonly value="{{ Auth::guard('donor')->user()->no }}">
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label" for="">NIC No.</label>
-                                                        <input type="text" class="form-control"
-                                                        readonly value="{{ Auth::guard('donor')->user()->nic }}">
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label class="form-label" for="">Registered Date and Time</label>
-                                                        <input type="text" class="form-control"
-                                                        readonly value="{{ Auth::guard('donor')->user()->registered_time }}">
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label class="form-label" for="">Full Name</label>
-                                                        <input type="text" class="form-control"
-                                                        readonly value="{{ Auth::guard('donor')->user()->fullname }}">
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label class="form-label" for="">Address</label>
-                                                        <input type="text" class="form-control"
-                                                        readonly value="{{ Auth::guard('donor')->user()->address }}">
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label" for="">Telephone</label>
-                                                        <input type="text" class="form-control"
-                                                        readonly value="{{ Auth::guard('donor')->user()->telephone }}">
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label" for="">Email</label>
-                                                        <input type="text" class="form-control"
-                                                        readonly value="{{ Auth::guard('donor')->user()->email }}">
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="form-label" for="">Date of Birth</label>
-                                                        <input type="text" class="form-control"
-                                                        readonly value="{{ Auth::guard('donor')->user()->dateofbirth }}">
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="form-label" for="">Age</label>
-                                                        <input type="text" class="form-control"
-                                                        readonly value="{{ Auth::guard('donor')->user()->age }}">
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="form-label" for="">Gender</label>
-                                                        <input type="text" class="form-control"
-                                                        readonly value="{{ Auth::guard('donor')->user()->gender }}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div><!-- .modal-body -->
-                            </div><!-- .modal-content -->
-                        </div><!-- .modal-dialog -->
-                    </div><!-- requestHistoryModal modal -->
-                    
-                    <div class="modal fade" tabindex="-1" role="dialog" id="changePasswordModal">
-                        <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content">
-                                <a href="#" class="close" data-bs-dismiss="modal"><em
-                                    class="icon ni ni-cross-sm"></em></a>
-                                    <div class="modal-body modal-body-md">
-                                        <div class="mt-2">
-                                            
-                                            <h5 class="modal-title">Change Password</h5>
-                                            <hr style="padding: 0.5px; background:black">
-                                            
-                                            <div class="row g-gs">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <ul class="alert alert-warning d-none" id="passwordValidation">
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label class="form-label" for="">New Password</label>
-                                                        <input type="password" class="form-control" id="newPassword">
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label class="form-label" for="">Confirm New Password</label>
-                                                        <input type="password" class="form-control" id="confirmNewPassword">
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <button class="btn btn-primary form-control center" type="submit"
-                                                        id="btn_changePassword" name="btn_changePassword" value="{{ Auth::guard('donor')->user()->id }}">Change Password</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div><!-- .modal-body -->
                                 </div><!-- .modal-content -->
                             </div><!-- .modal-dialog -->
-                        </div><!-- makeRequestModal modal -->
+                        </div><!-- requestHistoryModal modal -->
                         
-                        <script>
-                            $(document).ready(function() {
-                                
-                                fetchRequestHistory();
-                                $('#requestNo').val(Math.floor(Math.random() * (11500000000 - 9950000000000 + 1) + 9950000000000));
-                                
-                                //csrf token
-                                $.ajaxSetup({
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    }
-                                });
-                                
-                                //make blood request
-                                $(document).on('click', '#btnMakeRequest', function(e) {
-                                    e.preventDefault();
-                                    
-                                    $('#btnMakeRequest').text('Submitting...');
-                                    
-                                    var requestNo = $('#requestNo').val();
-                                    var nic = $('#requestNic').val();
-                                    var bloodGroup = $('#requestBloodGroup').val();
-                                    var fullName = $('#requestFullName').val();
-                                    var telephone = $('#requestTelephone').val();
-                                    var email = $('#requestEmail').val();
-                                    
-                                    var data = {
-                                        'requestNo': requestNo,
-                                        'nic': nic,
-                                        'bloodGroup': bloodGroup,
-                                        'fullName': fullName,
-                                        'telephone': telephone,
-                                        'email': email
-                                    }
-                                    
-                                    var url = '{{ url("visitor/dashboard/makeARequest") }}';
-                                    
-                                    $.ajax({
-                                        type: "POST",
-                                        url: url,
-                                        data: data,
-                                        dataType: "json",
-                                        success: function(response) {
-                                            if (response.status == 400) {
+                        <div class="modal fade" tabindex="-1" role="dialog" id="donationHistoryModal">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <a href="#" class="close" data-bs-dismiss="modal"><em
+                                        class="icon ni ni-cross-sm"></em></a>
+                                        <div class="modal-body modal-body-md">
+                                            <div class="mt-2">
                                                 
-                                                $('#btnMakeRequest').text('Submit Request');
+                                                <h5 class="modal-title">Donation History</h5>
+                                                <hr style="padding: 0.5px; background:black">
                                                 
-                                                $('#requestNo').val(Math.floor(Math.random() * (11500000000 -
-                                                9950000000000 + 1) + 9950000000000));
-                                                $('#makeARequestErrorList').html('');
-                                                $('#makeARequestErrorList').removeClass('d-none');
-                                                $.each(response.errors, function(key, err_value) {
-                                                    $('#makeARequestErrorList').append('<li><strong>' +
-                                                        err_value + '</strong></li>');
-                                                    });
-                                                } else if (response.status == 200) {
+                                                <div class="row g-gs">
+                                                    <div class="col-lg-12">
+                                                        <table class="table">
+                                                            <thead class="table-light">
+                                                                <tr>
+                                                                    <th scope="col">Donation No.</th>
+                                                                    <th scope="col">Date</th>
+                                                                    <th scope="col">Time</th>
+                                                                    <th scope="col">Blood Status</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="donationHistoryTbody">
+                                                                
+                                                            </tbody>
+                                                        </table>
+                                                    </div><!-- .card -->
+                                                </div><!-- .col -->
+                                            </div>
+                                        </div><!-- .modal-body -->
+                                    </div><!-- .modal-content -->
+                                </div><!-- .modal-dialog -->
+                            </div><!-- requestHistoryModal modal -->
+                            
+                            <div class="modal fade" tabindex="-1" role="dialog" id="editDonorProfileModal">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <a href="#" class="close" data-bs-dismiss="modal"><em
+                                            class="icon ni ni-cross-sm"></em></a>
+                                            <div class="modal-body modal-body-md">
+                                                <div class="mt-2">
                                                     
-                                                    $('#requestNo').val(Math.floor(Math.random() * (11500000000 -
-                                                    9950000000000 + 1) + 9950000000000));
-                                                    $('#requestNic').val('');
-                                                    $('#requestBloodGroup').val('');
-                                                    $('#requestFullName').val('');
-                                                    $('#requestTelephone').val('');
-                                                    $('#requestEmail').val('');
+                                                    <h5 class="modal-title">View Profile</h5>
+                                                    <hr style="padding: 0.5px; background:black">
                                                     
-                                                    $('#makeARequestErrorList').html('');
-                                                    $('#makeARequestErrorList').addClass('d-none');
-                                                    
-                                                    $('#btnMakeRequest').text('Request Submitted! Your request tracking details have been mailed to you');
-                                                    $('#btnMakeRequest').removeClass('btn-primary');
-                                                    $('#btnMakeRequest').addClass('btn-success');
-                                                    
-                                                    setTimeout(function() {
-                                                        $('#btnMakeRequest').text('Submit Request');
-                                                        $('#btnMakeRequest').removeClass('btn-success');
-                                                        $('#btnMakeRequest').addClass('btn-primary');
-                                                    }, 5000);
-                                                }
-                                            }
-                                        });
-                                });
-                                    
-                                    //track donation
-                                    $(document).on('click', '#btnTrackDonation', function(e) {
-                                        e.preventDefault();
-                                        
-                                        var donationNo = $('#inputDonationNo').val();
-                                        
-                                        var url = '{{ url("donor/dashboard/trackDonation/:id") }}';
-                                        url = url.replace(':id', donationNo);
-                                        
-                                        if(donationNo == '')
-                                        {
-                                            $('#trackDonationErrorAlert').text('Donation does not exist');
-                                        }
-                                        else
-                                        {
-                                            $.ajax({
-                                                type: "GET",
-                                                url: url,
-                                                dataType:"json",
-                                                success:function(response){
-                                                    
-                                                    if (response.status == 400) 
-                                                    {
-                                                        $('#trackDonationErrorAlert').text('Donation does not exist');
-                                                    } 
-                                                    else 
-                                                    {
-                                                        $.each(response.donations,function(key,item){
-                                                            $('#trackDonationErrorAlert').text('');
-                                                            $('#trackDonationDetails').removeClass('d-none');
-                                                            
-                                                            var donationDate = item.received_date;
-                                                            var donationDate = donationDate.slice(0,10);
-                                                            
-                                                            var donationTime = item.received_time;
-                                                            var donationTime = donationTime.slice(10,19);
-                                                            
-                                                            $('#trackDonationNo').html('<b>Donation No. : &nbsp;</b>' + item.donationNo);
-                                                            $('#trackDonationDate').html('<b>Donation Date : &nbsp;</b>' + donationDate);
-                                                            $('#trackDonationTime').html('<b>Donation Time : &nbsp;</b>' + donationTime);
-                                                            $('#trackBloodBagNo').html('<b>Blood Bag No. : &nbsp;</b>' + item.bag_no);
-                                                            $('#trackBloodBagExpiryDate').html('<b>Blood Expiry Date : &nbsp;</b>' + item.expDate);
-                                                            
-                                                            var getStatus = item.blood_status;
-                                                            
-                                                            if (getStatus == 'used')
-                                                            {
-                                                                $statusBadge = '<span class="badge bg-light">Used</span>';
-                                                            } 
-                                                            else if (getStatus == 'available') 
-                                                            {
-                                                                $statusBadge = '<span class="badge bg-success">Available</span>';
-                                                            } 
-                                                            else if (getStatus == 'expired')
-                                                            {
-                                                                $statusBadge = '<span class="badge bg-danger">Expired</span>';
-                                                            } 
-                                                            
-                                                            $('#trackBloodBagStatus').html('<b>Blood Status : &nbsp;</b>' + $statusBadge);
-                                                        });
-                                                    }
-                                                }
-                                            });
-                                        }
-                                        
-                                    });
-                                    
-                                    //track request
-                                    $(document).on('click', '#btnTrackRequest', function(e) {
-                                        e.preventDefault();
-                                        
-                                        var id = $('#trackRequestNo').val();
-                                        
-                                        var url = '{{ url("visitor/dashboard/trackBloodRequest/:id") }}';
-                                        url = url.replace(':id', id);
-                                        
-                                        if(id == '')
-                                        {
-                                            $('#trackRequestErrorAlert').text('Please enter a valid request ID');
-                                        }
-                                        else
-                                        {
-                                            $.ajax({
-                                                type: "GET",
-                                                url: url,
-                                                dataType:"json",
-                                                success:function(response){
-                                                    
-                                                    if (response.status == 400) 
-                                                    {
-                                                        $('#trackRequestErrorAlert').text('Please enter a valid request ID');
-                                                    } 
-                                                    else 
-                                                    {
+                                                    <div class="row g-gs">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <img class="form-control" src="{{ Auth::guard('donor')->user()->photo }}" alt="">
+                                                            </div>
+                                                        </div>
                                                         
-                                                        $.each(response.bloodrequests,function(key,item){
-                                                            $('#trackRequestErrorAlert').text('');
-                                                            $('#trackRequestDetails').removeClass('d-none');
-                                                            
-                                                            $('#trackNic').html('<b>NIC No. : </b>' + item.nic);
-                                                            $('#trackFullName').html('<b>Full Name : </b>' + item.fullName);
-                                                            $('#trackBloodGroup').html('<b>Requested Blood Group :</b> ' + item.bloodGroup);
-                                                            
-                                                            var getStatus = item.status;
-                                                            
-                                                            if (getStatus == 'pending')
-                                                            {
-                                                                $statusBadge = '<span class="badge bg-warning">Pending</span>';
-                                                            } 
-                                                            else if (getStatus == 'waiting') 
-                                                            {
-                                                                $statusBadge = '<span class="badge bg-warning">Waiting</span>';
-                                                            } 
-                                                            else if (getStatus == 'fulfilled')
-                                                            {
-                                                                $statusBadge = '<span class="badge bg-success">Fulfilled</span>';
-                                                            } 
-                                                            else if (getStatus == 'declined') 
-                                                            {
-                                                                $statusBadge = '<span class="badge bg-danger">Declined</span>';
-                                                            }
-                                                            
-                                                            $('#trackStatus').html('<b>Request Status : </b>' + $statusBadge);
-                                                            $('#trackFulfilledDate').html('<b>Fulfilled Date : </b>' + item.fulfilDate);
-                                                            $('#trackRemarks').text(item.remark);
-                                                        });
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    });
-                                    
-                                    //request history
-                                    $(document).on('click', '#btnRequestHistory', function(e) {
-                                        e.preventDefault();
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="">Donor No.</label>
+                                                                <input type="text" class="form-control"
+                                                                readonly value="{{ Auth::guard('donor')->user()->no }}">
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="">NIC No.</label>
+                                                                <input type="text" class="form-control"
+                                                                readonly value="{{ Auth::guard('donor')->user()->nic }}">
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="">Registered Date and Time</label>
+                                                                <input type="text" class="form-control"
+                                                                readonly value="{{ Auth::guard('donor')->user()->registered_time }}">
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="">Full Name</label>
+                                                                <input type="text" class="form-control"
+                                                                readonly value="{{ Auth::guard('donor')->user()->fullname }}">
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="">Address</label>
+                                                                <input type="text" class="form-control"
+                                                                readonly value="{{ Auth::guard('donor')->user()->address }}">
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="">Telephone</label>
+                                                                <input type="text" class="form-control"
+                                                                readonly value="{{ Auth::guard('donor')->user()->telephone }}">
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="">Email</label>
+                                                                <input type="text" class="form-control"
+                                                                readonly value="{{ Auth::guard('donor')->user()->email }}">
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="">Date of Birth</label>
+                                                                <input type="text" class="form-control"
+                                                                readonly value="{{ Auth::guard('donor')->user()->dateofbirth }}">
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="">Age</label>
+                                                                <input type="text" class="form-control"
+                                                                readonly value="{{ Auth::guard('donor')->user()->age }}">
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="">Gender</label>
+                                                                <input type="text" class="form-control"
+                                                                readonly value="{{ Auth::guard('donor')->user()->gender }}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><!-- .modal-body -->
+                                    </div><!-- .modal-content -->
+                                </div><!-- .modal-dialog -->
+                            </div><!-- requestHistoryModal modal -->
+                            
+                            <div class="modal fade" tabindex="-1" role="dialog" id="changePasswordModal">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <a href="#" class="close" data-bs-dismiss="modal"><em
+                                            class="icon ni ni-cross-sm"></em></a>
+                                            <div class="modal-body modal-body-md">
+                                                <div class="mt-2">
+                                                    
+                                                    <h5 class="modal-title">Change Password</h5>
+                                                    <hr style="padding: 0.5px; background:black">
+                                                    
+                                                    <div class="row g-gs">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <ul class="alert alert-warning d-none" id="passwordValidation">
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="">New Password</label>
+                                                                <input type="password" class="form-control" id="newPassword">
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="">Confirm New Password</label>
+                                                                <input type="password" class="form-control" id="confirmNewPassword">
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <button class="btn btn-primary form-control center" type="submit"
+                                                                id="btn_changePassword" name="btn_changePassword" value="{{ Auth::guard('donor')->user()->id }}">Change Password</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- .modal-body -->
+                                        </div><!-- .modal-content -->
+                                    </div><!-- .modal-dialog -->
+                                </div><!-- makeRequestModal modal -->
+                                
+                                
+                                {{-- to check if its a hospital donor or normal donor --}}
+                                <input type="hidden" id="checkDonorTypeHidden" value="{{ Auth::guard('donor')->user()->no }}">
+                                
+                                <script>
+                                    $(document).ready(function() {
+                                        
+                                        var donorType = $('#checkDonorTypeHidden').val();
                                         
                                         fetchRequestHistory();
-                                    });
-                                    
-                                    function fetchRequestHistory()
-                                    {
-                                        var nic = $('#authId').val();
+                                        $('#requestNo').val(Math.floor(Math.random() * (11500000000 - 9950000000000 + 1) + 9950000000000));
                                         
-                                        var url = '{{ url("donor/dashboard/fetchRequestHistory/:nic") }}';
-                                        url = url.replace(':nic', nic);
-                                        
-                                        $.ajax({
-                                            type: "GET",
-                                            url: url,
-                                            dataType:"json",
-                                            success:function(response){
-                                                $('#requestHistoryTbody').html('');
-                                                $.each(response.bloodrequests,function(key,item){
-                                                    
-                                                    var requestHistoryStatus = item.status;
-                                                    
-                                                    var date_str = item.time;
-                                                    var date_str = date_str.slice(0, 10); 
-                                                    
-                                                    var time_str = item.time;
-                                                    var time_str = time_str.slice(11, 19); 
-                                                    
-                                                    if(requestHistoryStatus == "pending")
-                                                    {
-                                                        $requestHistoryStatusBadge = '<span class="badge bg-warning">Pending</span>';
-                                                    }
-                                                    else if(requestHistoryStatus == "fulfilled")
-                                                    {
-                                                        $requestHistoryStatusBadge = '<span class="badge bg-success">Fulfilled</span>';
-                                                    }
-                                                    else if(requestHistoryStatus == "waiting")
-                                                    {
-                                                        $requestHistoryStatusBadge = '<span class="badge bg-warning">Waiting</span>';
-                                                    }
-                                                    else if(requestHistoryStatus == "declined")
-                                                    {
-                                                        $requestHistoryStatusBadge = '<span class="badge bg-danger">Declined</span>';
-                                                    }
-                                                    
-                                                    $('#requestHistoryTbody').append('<tr>\
-                                                        <td><b>'+item.requestNo+'</b></td>\
-                                                        <td>'+date_str+'</td>\
-                                                        <td>'+time_str+'</td>\
-                                                        <td>'+$requestHistoryStatusBadge+'</td>\
-                                                    </tr>\
-                                                    ');
-                                                });
+                                        //csrf token
+                                        $.ajaxSetup({
+                                            headers: {
+                                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                             }
                                         });
-                                    };
-
-                                    //donation history
-                                    $(document).on('click', '#btnDonorHistory', function(e) {
-                                        e.preventDefault();
                                         
-                                        fetchDonationHistory();
-                                    });
-                                    
-                                    function fetchDonationHistory()
-                                    {
-                                        var url = '{{ url("donor/dashboard/fetchDonationHistory") }}';
+                                        setInterval(function(){
+                                            fetchNotifications();
+                                        }, 1000);
                                         
-                                        $.ajax({
-                                            type: "GET",
-                                            url: url,
-                                            dataType:"json",
-                                            success:function(response){
-                                                $('#donationHistoryTbody').html('');
-                                                $.each(response.donations,function(key,item){
-                                                    
-                                                    var donationHistoryStatus = item.status;
-                                                    
-                                                    var date_str = item.time;
-                                                    var date_str = date_str.slice(0, 10); 
-                                                    
-                                                    var time_str = item.time;
-                                                    var time_str = time_str.slice(11, 19); 
-                                                    
-                                                    if(donationHistoryStatus == "used")
-                                                    {
-                                                        $donationHistoryStatusBadge = '<span class="badge bg-primary">USED</span>';
-                                                    }
-                                                    else if(donationHistoryStatus == "available")
-                                                    {
-                                                        $donationHistoryStatusBadge = '<span class="badge bg-success">AVAILABLE</span>';
-                                                    }
-                                                    else if(donationHistoryStatus == "expired")
-                                                    {
-                                                        $donationHistoryStatusBadge = '<span class="badge bg-danger">EXPIRED</span>';
-                                                    }
-                                                    
-                                                    $('#donationHistoryTbody').append('<tr>\
-                                                        <td><b>'+item.donationNo+'</b></td>\
-                                                        <td>'+date_str+'</td>\
-                                                        <td>'+time_str+'</td>\
-                                                        <td>'+$donationHistoryStatusBadge+'</td>\
-                                                    </tr>\
-                                                    ');
-                                                });
-                                            }
-                                        });
-                                    };
-                                    
-                                    //change password
-                                    $(document).on('click', '#btn_changePassword',function(e){
-                                        e.preventDefault();
-                                        var id = $(this).val();
-                                        var newPassword = $('#newPassword').val();
-                                        var confirmNewPassword = $('#confirmNewPassword').val();
-                                        var data = {
-                                            'password' : newPassword
-                                        }
-                                        
-                                        if(confirmNewPassword==newPassword)
+                                        function fetchNotifications()
                                         {
-                                            var url = '{{ url("donor/dashboard/changePassword/:id") }}';
-                                            url = url.replace(':id', id);
-                                            
                                             $.ajax({
-                                                type:"PUT",
-                                                url: url,
-                                                data:data,
+                                                type: "GET",
+                                                url: '{{ url("donor/dashboard/fetchNotifications") }}',
                                                 dataType:"json",
-                                                success: function(response){
-                                                    if(response.status==400)
+                                                success:function(response){
+                                                    
+                                                    $('#notificationList').html('');
+                                                    //Donor type
+                                                    if(donorType.includes('OD'))
                                                     {
-                                                        
-                                                        $('#btn_changePassword').text('Save');
-                                                        $('#c').removeClass('btn-success');
-                                                        $('#btn_changePassword').addClass('btn-primary');
-                                                        
-                                                        $('#passwordValidation').html('');
-                                                        $('#passwordValidation').removeClass('d-none');
-                                                        $.each(response.errors,function(key,err_value){
-                                                            $('#passwordValidation').append('<li><strong>'+err_value+'</strong></li>');
+                                                        $.each(response.ODDonorNotif,function(key,item){
+                                                            
+                                                            var notifTime = item.time;
+                                                            var notifTime = notifTime.slice(10,19);
+                                                            
+                                                            $('#notificationList').append('<li class="">\
+                                                                <a class="chat-link" href="#">\
+                                                                    <div class="">\
+                                                                        <div class="chat-from">\
+                                                                            <div>'+item.text+'</div>\
+                                                                            &nbsp;&nbsp;&nbsp;<span class="time">'+notifTime+'</span>\
+                                                                        </div>\
+                                                                        <div class="chat-context">\
+                                                                        </div>\
+                                                                    </div>\
+                                                                </a>\
+                                                            </li>\
+                                                            ');
                                                         });
                                                     }
-                                                    else if(response.status==200)
+                                                    else if(donorType.includes('HS'))
                                                     {
-                                                        $('#passwordValidation').html('');
-                                                        $('#btn_changePassword').text('Changed');
-                                                        $('#btn_changePassword').removeClass('btn-primary');
-                                                        $('#btn_changePassword').addClass('btn-success');
-                                                        $('#passwordValidation').addClass('d-none');
-                                                        
-                                                        setTimeout(function(){
-                                                            $('#btn_changePassword').text('Save');
-                                                            $('#btn_changePassword').removeClass('btn-success');
-                                                            $('#btn_changePassword').addClass('btn-primary');
-                                                        }, 3000);
-                                                    }
-                                                    else if(response.status==404)
-                                                    {
-                                                        alert('Profile Not Found');
-                                                    }
+                                                        $.each(response.HSDonorNotif,function(key,item){
+                                                            
+                                                            var notifTime = item.time;
+                                                            var notifTime = notifTime.slice(10,19);
+                                                            
+                                                            $('#notificationList').append('<li class="">\
+                                                                <a class="chat-link" href="#">\
+                                                                    <div class="">\
+                                                                        <div class="chat-from">\
+                                                                            <div>'+item.text+'</div>\
+                                                                            &nbsp;&nbsp;&nbsp;<span class="time">'+notifTime+'</span>\
+                                                                        </div>\
+                                                                        <div class="chat-context">\
+                                                                        </div>\
+                                                                    </div>\
+                                                                </a>\
+                                                            </li>\
+                                                            ');
+                                                        });
+                                                    }  
                                                 }
                                             });
                                         }
-                                        else
-                                        {
-                                            $('#passwordValidation').removeClass('d-none');
-                                            $('#passwordValidation').append('<li>Passwords do not match</li>');
-                                        }
                                         
-                                    });
-                                });
-                            </script>
-                            
-                            <!-- content @e -->
-                            <!-- footer @s -->
-                            <div class="nk-footer bg-white">
-                                <div class="container-fluid">
-                                    <div class="nk-footer-wrap">
-                                        <div class="nk-footer-copyright">Copyright © 2022 <b>One Drop</b>. All rights reserved.
+                                        //make blood request
+                                        $(document).on('click', '#btnMakeRequest', function(e) {
+                                            e.preventDefault();
+                                            
+                                            $('#btnMakeRequest').text('Submitting...');
+                                            
+                                            var requestNo = $('#requestNo').val();
+                                            var nic = $('#requestNic').val();
+                                            var bloodGroup = $('#requestBloodGroup').val();
+                                            var fullName = $('#requestFullName').val();
+                                            var telephone = $('#requestTelephone').val();
+                                            var email = $('#requestEmail').val();
+                                            
+                                            var data = {
+                                                'requestNo': requestNo,
+                                                'nic': nic,
+                                                'bloodGroup': bloodGroup,
+                                                'fullName': fullName,
+                                                'telephone': telephone,
+                                                'email': email
+                                            }
+                                            
+                                            var url = '{{ url("visitor/dashboard/makeARequest") }}';
+                                            
+                                            $.ajax({
+                                                type: "POST",
+                                                url: url,
+                                                data: data,
+                                                dataType: "json",
+                                                success: function(response) {
+                                                    if (response.status == 400) {
+                                                        
+                                                        $('#btnMakeRequest').text('Submit Request');
+                                                        
+                                                        $('#requestNo').val(Math.floor(Math.random() * (11500000000 -
+                                                        9950000000000 + 1) + 9950000000000));
+                                                        $('#makeARequestErrorList').html('');
+                                                        $('#makeARequestErrorList').removeClass('d-none');
+                                                        $.each(response.errors, function(key, err_value) {
+                                                            $('#makeARequestErrorList').append('<li><strong>' +
+                                                                err_value + '</strong></li>');
+                                                            });
+                                                        } else if (response.status == 200) {
+                                                            
+                                                            $('#requestNo').val(Math.floor(Math.random() * (11500000000 -
+                                                            9950000000000 + 1) + 9950000000000));
+                                                            $('#requestNic').val('');
+                                                            $('#requestBloodGroup').val('');
+                                                            $('#requestFullName').val('');
+                                                            $('#requestTelephone').val('');
+                                                            $('#requestEmail').val('');
+                                                            
+                                                            $('#makeARequestErrorList').html('');
+                                                            $('#makeARequestErrorList').addClass('d-none');
+                                                            
+                                                            $('#btnMakeRequest').text('Request Submitted! Your request tracking details have been mailed to you');
+                                                            $('#btnMakeRequest').removeClass('btn-primary');
+                                                            $('#btnMakeRequest').addClass('btn-success');
+                                                            
+                                                            setTimeout(function() {
+                                                                $('#btnMakeRequest').text('Submit Request');
+                                                                $('#btnMakeRequest').removeClass('btn-success');
+                                                                $('#btnMakeRequest').addClass('btn-primary');
+                                                            }, 5000);
+                                                        }
+                                                    }
+                                                });
+                                            });
+                                            
+                                            //track donation
+                                            $(document).on('click', '#btnTrackDonation', function(e) {
+                                                e.preventDefault();
+                                                
+                                                var donationNo = $('#inputDonationNo').val();
+                                                
+                                                var url = '{{ url("donor/dashboard/trackDonation/:id") }}';
+                                                url = url.replace(':id', donationNo);
+                                                
+                                                if(donationNo == '')
+                                                {
+                                                    $('#trackDonationErrorAlert').text('Donation does not exist');
+                                                }
+                                                else
+                                                {
+                                                    $.ajax({
+                                                        type: "GET",
+                                                        url: url,
+                                                        dataType:"json",
+                                                        success:function(response){
+                                                            
+                                                            if (response.status == 400) 
+                                                            {
+                                                                $('#trackDonationErrorAlert').text('Donation does not exist');
+                                                            } 
+                                                            else 
+                                                            {
+                                                                $.each(response.donations,function(key,item){
+                                                                    $('#trackDonationErrorAlert').text('');
+                                                                    $('#trackDonationDetails').removeClass('d-none');
+                                                                    
+                                                                    var donationDate = item.received_date;
+                                                                    var donationDate = donationDate.slice(0,10);
+                                                                    
+                                                                    var donationTime = item.received_time;
+                                                                    var donationTime = donationTime.slice(10,19);
+                                                                    
+                                                                    $('#trackDonationNo').html('<b>Donation No. : &nbsp;</b>' + item.donationNo);
+                                                                    $('#trackDonationDate').html('<b>Donation Date : &nbsp;</b>' + donationDate);
+                                                                    $('#trackDonationTime').html('<b>Donation Time : &nbsp;</b>' + donationTime);
+                                                                    $('#trackBloodBagNo').html('<b>Blood Bag No. : &nbsp;</b>' + item.bag_no);
+                                                                    $('#trackBloodBagExpiryDate').html('<b>Blood Expiry Date : &nbsp;</b>' + item.expDate);
+                                                                    
+                                                                    var getStatus = item.blood_status;
+                                                                    
+                                                                    if (getStatus == 'used')
+                                                                    {
+                                                                        $statusBadge = '<span class="badge bg-light">Used</span>';
+                                                                    } 
+                                                                    else if (getStatus == 'available') 
+                                                                    {
+                                                                        $statusBadge = '<span class="badge bg-success">Available</span>';
+                                                                    } 
+                                                                    else if (getStatus == 'expired')
+                                                                    {
+                                                                        $statusBadge = '<span class="badge bg-danger">Expired</span>';
+                                                                    } 
+                                                                    
+                                                                    $('#trackBloodBagStatus').html('<b>Blood Status : &nbsp;</b>' + $statusBadge);
+                                                                });
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                                
+                                            });
+                                            
+                                            //track request
+                                            $(document).on('click', '#btnTrackRequest', function(e) {
+                                                e.preventDefault();
+                                                
+                                                var id = $('#trackRequestNo').val();
+                                                
+                                                var url = '{{ url("visitor/dashboard/trackBloodRequest/:id") }}';
+                                                url = url.replace(':id', id);
+                                                
+                                                if(id == '')
+                                                {
+                                                    $('#trackRequestErrorAlert').text('Please enter a valid request ID');
+                                                }
+                                                else
+                                                {
+                                                    $.ajax({
+                                                        type: "GET",
+                                                        url: url,
+                                                        dataType:"json",
+                                                        success:function(response){
+                                                            
+                                                            if (response.status == 400) 
+                                                            {
+                                                                $('#trackRequestErrorAlert').text('Please enter a valid request ID');
+                                                            } 
+                                                            else 
+                                                            {
+                                                                
+                                                                $.each(response.bloodrequests,function(key,item){
+                                                                    $('#trackRequestErrorAlert').text('');
+                                                                    $('#trackRequestDetails').removeClass('d-none');
+                                                                    
+                                                                    $('#trackNic').html('<b>NIC No. : </b>' + item.nic);
+                                                                    $('#trackFullName').html('<b>Full Name : </b>' + item.fullName);
+                                                                    $('#trackBloodGroup').html('<b>Requested Blood Group :</b> ' + item.bloodGroup);
+                                                                    
+                                                                    var getStatus = item.status;
+                                                                    
+                                                                    if (getStatus == 'pending')
+                                                                    {
+                                                                        $statusBadge = '<span class="badge bg-warning">Pending</span>';
+                                                                    } 
+                                                                    else if (getStatus == 'waiting') 
+                                                                    {
+                                                                        $statusBadge = '<span class="badge bg-warning">Waiting</span>';
+                                                                    } 
+                                                                    else if (getStatus == 'fulfilled')
+                                                                    {
+                                                                        $statusBadge = '<span class="badge bg-success">Fulfilled</span>';
+                                                                    } 
+                                                                    else if (getStatus == 'declined') 
+                                                                    {
+                                                                        $statusBadge = '<span class="badge bg-danger">Declined</span>';
+                                                                    }
+                                                                    
+                                                                    $('#trackStatus').html('<b>Request Status : </b>' + $statusBadge);
+                                                                    $('#trackFulfilledDate').html('<b>Fulfilled Date : </b>' + item.fulfilDate);
+                                                                    $('#trackRemarks').text(item.remark);
+                                                                });
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                            
+                                            //request history
+                                            $(document).on('click', '#btnRequestHistory', function(e) {
+                                                e.preventDefault();
+                                                
+                                                fetchRequestHistory();
+                                            });
+                                            
+                                            function fetchRequestHistory()
+                                            {
+                                                var nic = $('#authId').val();
+                                                
+                                                var url = '{{ url("donor/dashboard/fetchRequestHistory/:nic") }}';
+                                                url = url.replace(':nic', nic);
+                                                
+                                                $.ajax({
+                                                    type: "GET",
+                                                    url: url,
+                                                    dataType:"json",
+                                                    success:function(response){
+                                                        $('#requestHistoryTbody').html('');
+                                                        $.each(response.bloodrequests,function(key,item){
+                                                            
+                                                            var requestHistoryStatus = item.status;
+                                                            
+                                                            var date_str = item.time;
+                                                            var date_str = date_str.slice(0, 10); 
+                                                            
+                                                            var time_str = item.time;
+                                                            var time_str = time_str.slice(11, 19); 
+                                                            
+                                                            if(requestHistoryStatus == "pending")
+                                                            {
+                                                                $requestHistoryStatusBadge = '<span class="badge bg-warning">Pending</span>';
+                                                            }
+                                                            else if(requestHistoryStatus == "fulfilled")
+                                                            {
+                                                                $requestHistoryStatusBadge = '<span class="badge bg-success">Fulfilled</span>';
+                                                            }
+                                                            else if(requestHistoryStatus == "waiting")
+                                                            {
+                                                                $requestHistoryStatusBadge = '<span class="badge bg-warning">Waiting</span>';
+                                                            }
+                                                            else if(requestHistoryStatus == "declined")
+                                                            {
+                                                                $requestHistoryStatusBadge = '<span class="badge bg-danger">Declined</span>';
+                                                            }
+                                                            
+                                                            $('#requestHistoryTbody').append('<tr>\
+                                                                <td><b>'+item.requestNo+'</b></td>\
+                                                                <td>'+date_str+'</td>\
+                                                                <td>'+time_str+'</td>\
+                                                                <td>'+$requestHistoryStatusBadge+'</td>\
+                                                            </tr>\
+                                                            ');
+                                                        });
+                                                    }
+                                                });
+                                            };
+                                            
+                                            //donation history
+                                            $(document).on('click', '#btnDonorHistory', function(e) {
+                                                e.preventDefault();
+                                                
+                                                fetchDonationHistory();
+                                            });
+                                            
+                                            function fetchDonationHistory()
+                                            {
+                                                var url = '{{ url("donor/dashboard/fetchDonationHistory") }}';
+                                                
+                                                $.ajax({
+                                                    type: "GET",
+                                                    url: url,
+                                                    dataType:"json",
+                                                    success:function(response){
+                                                        $('#donationHistoryTbody').html('');
+                                                        $.each(response.donations,function(key,item){
+                                                            
+                                                            var donationHistoryStatus = item.status;
+                                                            
+                                                            var date_str = item.time;
+                                                            var date_str = date_str.slice(0, 10); 
+                                                            
+                                                            var time_str = item.time;
+                                                            var time_str = time_str.slice(11, 19); 
+                                                            
+                                                            if(donationHistoryStatus == "used")
+                                                            {
+                                                                $donationHistoryStatusBadge = '<span class="badge bg-primary">USED</span>';
+                                                            }
+                                                            else if(donationHistoryStatus == "available")
+                                                            {
+                                                                $donationHistoryStatusBadge = '<span class="badge bg-success">AVAILABLE</span>';
+                                                            }
+                                                            else if(donationHistoryStatus == "expired")
+                                                            {
+                                                                $donationHistoryStatusBadge = '<span class="badge bg-danger">EXPIRED</span>';
+                                                            }
+                                                            
+                                                            $('#donationHistoryTbody').append('<tr>\
+                                                                <td><b>'+item.donationNo+'</b></td>\
+                                                                <td>'+date_str+'</td>\
+                                                                <td>'+time_str+'</td>\
+                                                                <td>'+$donationHistoryStatusBadge+'</td>\
+                                                            </tr>\
+                                                            ');
+                                                        });
+                                                    }
+                                                });
+                                            };
+                                            
+                                            //change password
+                                            $(document).on('click', '#btn_changePassword',function(e){
+                                                e.preventDefault();
+                                                var id = $(this).val();
+                                                var newPassword = $('#newPassword').val();
+                                                var confirmNewPassword = $('#confirmNewPassword').val();
+                                                var data = {
+                                                    'password' : newPassword
+                                                }
+                                                
+                                                if(confirmNewPassword==newPassword)
+                                                {
+                                                    var url = '{{ url("donor/dashboard/changePassword/:id") }}';
+                                                    url = url.replace(':id', id);
+                                                    
+                                                    $.ajax({
+                                                        type:"PUT",
+                                                        url: url,
+                                                        data:data,
+                                                        dataType:"json",
+                                                        success: function(response){
+                                                            if(response.status==400)
+                                                            {
+                                                                
+                                                                $('#btn_changePassword').text('Save');
+                                                                $('#c').removeClass('btn-success');
+                                                                $('#btn_changePassword').addClass('btn-primary');
+                                                                
+                                                                $('#passwordValidation').html('');
+                                                                $('#passwordValidation').removeClass('d-none');
+                                                                $.each(response.errors,function(key,err_value){
+                                                                    $('#passwordValidation').append('<li><strong>'+err_value+'</strong></li>');
+                                                                });
+                                                            }
+                                                            else if(response.status==200)
+                                                            {
+                                                                $('#passwordValidation').html('');
+                                                                $('#btn_changePassword').text('Changed');
+                                                                $('#btn_changePassword').removeClass('btn-primary');
+                                                                $('#btn_changePassword').addClass('btn-success');
+                                                                $('#passwordValidation').addClass('d-none');
+                                                                
+                                                                setTimeout(function(){
+                                                                    $('#btn_changePassword').text('Save');
+                                                                    $('#btn_changePassword').removeClass('btn-success');
+                                                                    $('#btn_changePassword').addClass('btn-primary');
+                                                                }, 3000);
+                                                            }
+                                                            else if(response.status==404)
+                                                            {
+                                                                alert('Profile Not Found');
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                                else
+                                                {
+                                                    $('#passwordValidation').removeClass('d-none');
+                                                    $('#passwordValidation').append('<li>Passwords do not match</li>');
+                                                }
+                                                
+                                            });
+                                        });
+                                    </script>
+                                    
+                                    <!-- content @e -->
+                                    <!-- footer @s -->
+                                    <div class="nk-footer bg-white">
+                                        <div class="container-fluid">
+                                            <div class="nk-footer-wrap">
+                                                <div class="nk-footer-copyright">Copyright © 2022 <b>One Drop</b>. All rights reserved.
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+                                    <!-- footer @e -->
                                 </div>
+                                <!-- wrap @e -->
                             </div>
-                            <!-- footer @e -->
-                        </div>
-                        <!-- wrap @e -->
-                    </div>
-                    <!-- app-root @e -->
-                    <!-- JavaScript -->
-                    <script src="{{ asset('assets/client/assets/js/bundle.js?ver=3.0.3') }}"></script>
-                    <script src="{{ asset('assets/client/assets/js/scripts.js?ver=3.0.3') }}"></script>
-                    <script src="{{ asset('assets/client/assets/js/charts/gd-invest.js?ver=3.0.3') }}"></script>
-                    
-                </body>
-                
-                </html>
+                            <!-- app-root @e -->
+                            <!-- JavaScript -->
+                            <script src="{{ asset('assets/client/assets/js/bundle.js?ver=3.0.3') }}"></script>
+                            <script src="{{ asset('assets/client/assets/js/scripts.js?ver=3.0.3') }}"></script>
+                            <script src="{{ asset('assets/client/assets/js/charts/gd-invest.js?ver=3.0.3') }}"></script>
+                            
+                        </body>
+                        
+                        </html>

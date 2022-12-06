@@ -9,6 +9,7 @@ use App\Models\Message;
 use App\Models\Hospital;
 use App\Models\Donor;
 use App\Models\Reply;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Validator;
 
 class messageController extends Controller
@@ -80,6 +81,15 @@ class messageController extends Controller
             $messages->sender_id = auth()->guard('donor')->user()->id;
             
             $messages->save();
+
+            $notifications = new Notification;
+            $notifications->notifNo = rand(100000,950000);
+            $notifications->entity = 'staff';
+            $notifications->text = 'Message from Donor ('.$messageNo.')';
+            $notifications->date = NOW();
+            $notifications->time = NOW();
+            $notifications->status = '0';
+            $notifications->save();
             
             return response()->json([
                 'status'=>200

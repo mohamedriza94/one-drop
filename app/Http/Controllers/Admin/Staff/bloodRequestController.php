@@ -9,6 +9,7 @@ use App\Models\Request as bloodRequest;
 use App\Models\BloodBag;
 use App\Models\Activity;
 use App\Models\Invoice;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Mail;
 
 use App\Mail\Staff\requestUpdateMail;
@@ -147,6 +148,15 @@ class bloodRequestController extends Controller
             $task = 'Forwarded Request No. '.$id.' to Hospital No. '.auth()->guard('admin')->user()->hospital_id.' due to unavailability of blood';
             
             $requests = bloodRequest::where('requestNo', $id)->update(['hospitalNo' => auth()->guard('admin')->user()->hospital_id, 'hospitalResponse' => 'pending', 'status' => 'waiting']);
+
+            $notifications = new Notification;
+            $notifications->notifNo = rand(100000,950000);
+            $notifications->entity = 'hospital '.auth()->guard('admin')->user()->hospital_id;
+            $notifications->text = 'New Blood Request ('.$id.')';
+            $notifications->date = NOW();
+            $notifications->time = NOW();
+            $notifications->status = '0';
+            $notifications->save();
         }
         
         Mail::to($email)->send(new requestUpdateMail($requestUpdateMessage));

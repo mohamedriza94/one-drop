@@ -56,6 +56,10 @@ Route::group([
                 Route::post('/sendMessage', 'messageController@sendMessage');
                 Route::put('/moveToTrash/{id}', 'messageController@moveToTrash');
                 Route::put('/replyToMessage', 'messageController@replyToMessage');
+                
+                //notifications
+                Route::get('/fetchNotifications', 'DashboardController@fetchNotifications');
+                
             });
         });
     });
