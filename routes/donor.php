@@ -44,6 +44,9 @@ Route::group([
 
                 //get next donation date
                 Route::get('/getNextDonationDate', 'countController@getNextDonationDate');
+
+                //message routes
+                Route::get('/message', 'messageController@index')->name('donor.message');
             });
         });
     });

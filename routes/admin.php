@@ -87,6 +87,7 @@ Route::group([
     Route::get('/fetchTrashMessages/{authId}', 'Staff\messageController@fetchTrashMessages');
     Route::get('/fetchSingleMessage/{id}', 'Staff\messageController@fetchSingleMessage');
     Route::get('/fetchSender/{senderId}/{sender}', 'Staff\messageController@fetchSender');
+    Route::get('/fetchDonorList', 'Staff\messageController@fetchDonorList');
     Route::put('/moveToTrash/{id}', 'Staff\messageController@moveToTrash');
 
     //activity log routes

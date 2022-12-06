@@ -51,21 +51,32 @@ class messageController extends Controller
     {
         $messages = Message::where('hospital_side_status', '=', "unread")->where('sender','LIKE','%'.'ToHospital'.'%')->where('recipient_id', '=', auth()->guard('hospital')->user()->no)->orderBy('id', 'DESC')->get();
         return response()->json([
-            'messages'=>$messages,
+            'messages'=>$messages
         ]);
     }
     
     public function fetchSent()
     {
-        $messages = Message::where('sender','LIKE','%'.'hospitalTo'.'%')->where('sender_id', '=', auth()->guard('hospital')->user()->no)->orderBy('id', 'DESC')->get();
+        $messages = Message::where('hospital_side_status', '=', "sent")->where('sender','LIKE','%'.'hospitalTo'.'%')->where('sender_id', '=', auth()->guard('hospital')->user()->no)->orderBy('id', 'DESC')->get();
         return response()->json([
-            'messages'=>$messages,
+            'messages'=>$messages
         ]);
     }
     
     public function fetchTrash()
     {
-        $messages = Message::where('hospital_side_status', '=', "trash")->where('recipient_id', '=', auth()->guard('hospital')->user()->no)->orWhere('sender_id', '=', auth()->guard('hospital')->user()->no)->orderBy('id', 'DESC')->get();
+        $hospital = auth()->guard('hospital')->user()->no;
+        
+        $messages = Message::where([
+            ['recipient_id',$hospital],
+            ['hospital_side_status','trash'],
+            ['sender','LIKE','%'.'ToHospital'.'%']
+        ])->orWhere([
+            ['sender_id',$hospital],
+            ['hospital_side_status','trash'],
+            ['sender','LIKE','%'.'hospitalTo'.'%']
+        ])->orderBy('id', 'DESC')->get();
+
         return response()->json([
             'messages'=>$messages,
         ]);
@@ -74,47 +85,200 @@ class messageController extends Controller
     public function fetchSingle($id)
     {
         $messages = Message::where('id', '=', $id)->first();
-        if($messages)
+        if($messages['reply_status'] != '0')
+        {
+            $messages = Message::join('replies', 'messages.id', '=', 'replies.message_no')->where('messages.id', '=', $id)->first();
+            return response()->json([
+                'status'=>200,
+                'messages'=>$messages,
+            ]);
+        }
+        else
         {
             return response()->json([
                 'status'=>200,
                 'messages'=>$messages,
             ]);
-            
-            $sender = $messages['sender'];
-            
-            //check sender or receiver and get their details
-            if (strpos($sender, 'hospitalTo') == true) 
+        }
+    }
+    
+    public function fetchSenderOrReceiver($senderOrReceiverId,$sender)
+    {
+        if($sender=="hospitalToStaff")
+        {
+            $admins = Admin::find($senderOrReceiverId);
+            if($admins)
             {
-                $recipient_id = $messages['recipient_id'];
-
-                $staffDetails = Admin::where('id', '=', $recipient_id)->first();
-                $donorDetails = Donor::where('id', '=', $recipient_id)->first();
-
                 return response()->json([
-                    'staffDetails'=>$staffDetails,
-                    'donorDetails'=>$donorDetails,
+                    'admins'=>$admins,
                 ]);
             }
-            else if (strpos($sender, 'ToHospital') == true)
+        }
+        else if($sender=="hospitalToDonor")
+        {
+            $donors = Donor::where('id','=',$senderOrReceiverId)->first();
+            if($donors)
             {
-                $sender_id = $messages['sender_id'];
-
-                $staffDetails = Admin::where('id', '=', $sender_id)->first();
-                $donorDetails = Donor::where('id', '=', $sender_id)->first();
-
                 return response()->json([
-                    'staffDetails'=>$staffDetails,
-                    'donorDetails'=>$donorDetails,
+                    'status'=>200,
+                    'donors'=>$donors,
                 ]);
             }
-            
+            else
+            {
+                return response()->json([
+                    'status'=>404,
+                ]);
+            }
+        }
+    }
+    
+    public function sendMessage(Request $request)
+    {
+        $senderType = $request->input('sender');
+        
+        if($senderType=="hospitalToStaff" || $senderType == "hospitalToDonor")
+        {
+            $validator = Validator::make($request->all(), [
+                
+                'sender' => ['required'],
+                'recipientId' => ['required'],
+                'subject' => ['required','string','max:100'],
+                'message' => ['required','string','max:255'],
+                
+            ]); //validate all the data
+        }
+        else if($senderType == "hospitalToAdmin")
+        {
+            $validator = Validator::make($request->all(), [
+                
+                'sender' => ['required'],
+                'subject' => ['required','string','max:100'],
+                'message' => ['required','string','max:255'],
+                
+            ]); //validate all the data
+        }
+        
+        if($validator->fails())
+        {
+            return response()->json([
+                'status'=>400,
+                'errors'=>$validator->messages()
+            ]);
         }
         else
         {
+            
+            $messageNo = rand(1500000,9515959);
+            
+            
+            $staff_side_status = ""; $admin_side_status = "";
+            $hospital_side_status = ""; $donor_side_status = "";
+            $other_status = ""; $reply_status = '0';
+            
+            if($senderType=="hospitalToStaff")
+            {
+                $staff_side_status = "unread";
+                $hospital_side_status = "sent";
+            }
+            else if($senderType == "hospitalToDonor")
+            {
+                $donor_side_status = "unread";
+                $hospital_side_status = "sent";
+            }
+            else if($senderType == "hospitalToAdmin")
+            {
+                $admin_side_status = "unread";
+                $hospital_side_status = "sent";
+            }
+            
+            $date = NOW();
+            
+            $messages = new Message;
+            
+            $messages->message_no = $messageNo;
+            $messages->sender = $request->input('sender');
+            $messages->subject = $request->input('subject');
+            $messages->message = $request->input('message');
+            $messages->recipient_id = $request->input('recipientId');
+            
+            $messages->date = $date;
+            $messages->time = $date;
+            
+            $messages->staff_side_status = $staff_side_status;
+            $messages->admin_side_status = $admin_side_status;
+            $messages->hospital_side_status = $hospital_side_status;
+            $messages->donor_side_status = $donor_side_status;
+            $messages->other_status = $other_status;
+            $messages->reply_status = $reply_status;
+            
+            $messages->sender_id = auth()->guard('hospital')->user()->no;
+            
+            $messages->save();
+            
             return response()->json([
-                'status'=>404,
+                'status'=>200
             ]);
         }
     }
+
+    public function replyToMessage(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+
+            'reply' => ['required'],
+            'message_no' => ['required','unique:replies'],
+
+        ]); //validate all the data
+
+        if($validator->fails())
+        {
+            return response()->json([
+                'status'=>400,
+                'errors'=>$validator->messages()
+            ]);
+        }
+        else
+        {
+            $isMessageIdExist = Message::select("*")->where("id", $request->input('message_no'))->exists();
+            
+            if ($isMessageIdExist) 
+            {
+                $replyNo = rand(1500000,9515959);
+
+                $date = NOW();
+
+                $replies = new Reply;
+
+                $replies->reply_no = $replyNo;
+                $replies->reply = $request->input('reply');
+
+                $replies->date = $date;
+                $replies->time = $date;
+
+                $replies->status = '-';
+
+                $replies->message_no = $request->input('message_no');
+
+                $replies->save();
+
+                $messages = Message::find($request->input('message_no'));
+                $reply_status = "1";
+        
+                $messages->reply_status = $reply_status;
+                $messages->update();
+                        
+                return response()->json([
+                    'status'=>200
+                ]);
+            }
+            else
+            {
+                return response()->json([
+                    'status'=>300,
+                ]);
+            }
+        }
+    }
 }
+

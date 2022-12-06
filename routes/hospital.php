@@ -89,6 +89,9 @@ Route::group([
                 Route::get('/fetchTrash', 'messageController@fetchTrash');
                 Route::put('/moveToTrash/{id}', 'messageController@moveToTrash');
                 Route::get('/fetchSingle/{id}', 'messageController@fetchSingle');
+                Route::get('/fetchSenderOrReceiver/{senderOrReceiverId}/{sender}', 'messageController@fetchSenderOrReceiver');
+                Route::post('/sendMessage', 'messageController@sendMessage');
+                Route::put('/replyToMessage', 'messageController@replyToMessage');
             });
         });
         

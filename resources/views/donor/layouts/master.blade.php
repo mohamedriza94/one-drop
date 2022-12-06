@@ -62,7 +62,7 @@
                                 </li><!-- .nk-menu-item -->
                                 
                                 <li class="nk-menu-item">
-                                    <a href="{{ Route('donor.news') }}" class="nk-menu-link">
+                                    <a href="{{ Route('donor.message') }}" class="nk-menu-link">
                                         <span class="nk-menu-text">Messages</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->

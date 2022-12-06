@@ -329,14 +329,12 @@
             $('#hospitalToAdmin_btnCompose').text('Sending...');
             
             var sender = $('#chooseRecipient').val();
-            var senderId = $('#senderId').val();
-            var recipientId = '-';
             var subject = $('#hospitalToAdmin_subject').val();
+            var recipientId = '-'
             var message = $('#hospitalToAdmin_message').val();
             
             var data = {
                 'sender' : sender,
-                'senderId' : senderId,
                 'recipientId' : recipientId,
                 'subject' : subject,
                 'message' : message,
@@ -350,19 +348,8 @@
                 data:data,
                 dataType:"json",
                 success:function(response){
-                    if(response.status==404) //sender ID missing
-                    {
-                        $('#hospitalToAdmin_btnCompose').text('Compose');
-                        
-                        $('#errorList').html('');
-                        $('#errorModalBody').removeClass('d-none');
-                        $('#errorList').removeClass('d-none');
-                        
-                        $.each(response.errors,function(key,err_value){
-                            $('#errorList').append('<li>Admin is not valid</li>');
-                        });
-                    }
-                    else if(response.status==400)
+                    
+                    if(response.status==400)
                     {
                         $('#hospitalToAdmin_btnCompose').text('Compose');
                         
@@ -402,14 +389,12 @@
             $('#hospitalToStaff_btnCompose').text('Sending...');
             
             var sender = $('#chooseRecipient').val();
-            var senderId = $('#senderId').val();
-            var recipientId = $('#hospitalToStaff_hospital').val();
+            var recipientId = $('#chooseStaff').val();
             var subject = $('#hospitalToStaff_subject').val();
             var message = $('#hospitalToStaff_message').val();
             
             var data = {
                 'sender' : sender,
-                'senderId' : senderId,
                 'recipientId' : recipientId,
                 'subject' : subject,
                 'message' : message,
@@ -423,31 +408,8 @@
                 data:data,
                 dataType:"json",
                 success:function(response){
-                    if(response.status==404) //sender ID missing
-                    {
-                        $('#hospitalToStaff_btnCompose').text('Compose');
-                        
-                        $('#errorList').html('');
-                        $('#errorModalBody').removeClass('d-none');
-                        $('#errorList').removeClass('d-none');
-                        
-                        $.each(response.errors,function(key,err_value){
-                            $('#errorList').append('<li>Sender ID is not valid</li>');
-                        });
-                    }
-                    else if(response.status==301) //Hospital ID missing
-                    {
-                        $('#hospitalToStaff_btnCompose').text('Compose');
-                        
-                        $('#errorList').html('');
-                        $('#errorModalBody').removeClass('d-none');
-                        $('#errorList').removeClass('d-none');
-                        
-                        $.each(response.errors,function(key,err_value){
-                            $('#errorList').append('<li>Hospital ID is not valid</li>');
-                        });
-                    }
-                    else if(response.status==400)
+                    
+                    if(response.status==400)
                     {
                         $('#hospitalToStaff_btnCompose').text('Compose');
                         
@@ -483,18 +445,17 @@
         
         $(document).on('click', '#hospitalToDonor_btnCompose',function(e){
             e.preventDefault();
+            e.preventDefault();
             
             $('#hospitalToDonor_btnCompose').text('Sending...');
             
             var sender = $('#chooseRecipient').val();
-            var senderId = $('#senderId').val();
             var recipientId = $('#chooseDonor').val();
             var subject = $('#hospitalToDonor_subject').val();
             var message = $('#hospitalToDonor_message').val();
             
             var data = {
                 'sender' : sender,
-                'senderId' : senderId,
                 'recipientId' : recipientId,
                 'subject' : subject,
                 'message' : message,
@@ -508,31 +469,8 @@
                 data:data,
                 dataType:"json",
                 success:function(response){
-                    if(response.status==404) //sender ID missing
-                    {
-                        $('#hospitalToDonor_btnCompose').text('Compose');
-                        
-                        $('#errorList').html('');
-                        $('#errorModalBody').removeClass('d-none');
-                        $('#errorList').removeClass('d-none');
-                        
-                        $.each(response.errors,function(key,err_value){
-                            $('#errorList').append('<li>Sender ID is not valid</li>');
-                        });
-                    }
-                    else if(response.status==301) //Donor ID missing
-                    {
-                        $('#hospitalToDonor_btnCompose').text('Compose');
-                        
-                        $('#errorList').html('');
-                        $('#errorModalBody').removeClass('d-none');
-                        $('#errorList').removeClass('d-none');
-                        
-                        $.each(response.errors,function(key,err_value){
-                            $('#errorList').append('<li>Donor ID is not valid</li>');
-                        });
-                    }
-                    else if(response.status==400)
+                    
+                    if(response.status==400)
                     {
                         $('#hospitalToDonor_btnCompose').text('Compose');
                         
@@ -655,7 +593,7 @@
                             }
                             else if(item.reply_status=="0")
                             {
-                                $toggleElement = '<button class="btn btn-dark btn-sm" value="'+item.id+'" id="btnOpenMessage">Open</button>';
+                                $toggleElement = '<button class="btn btn-dark btn-sm" value="'+item.id+'" id="btnOpenMessage">Reply</button>';
                             }
                             
                             $('tbody').append('<tr>\
@@ -674,7 +612,14 @@
                         //sent messages
                         if(item.hospital_side_status == 'sent' && item.sender.includes('hospitalTo'))
                         {
-                            $toggleElement = '<button class="btn btn-dark btn-sm" value="'+item.id+'" id="btnOpenMessage">Open</button>';
+                            if(item.reply_status=="1" || item.reply_status=="2")
+                            {
+                                $toggleElement = '<button class="btn btn-success btn-sm" value="'+item.id+'" id="btnOpenMessage">See Reply</button>';
+                            }
+                            else if(item.reply_status=="0")
+                            {
+                                $toggleElement = '<button class="btn btn-dark btn-sm" value="'+item.id+'" id="btnOpenMessage">Open</button>';
+                            }
                             
                             $('tbody').append('<tr>\
                                 <td>To <b>'+$party+'</b></td>\
@@ -692,15 +637,19 @@
                         //trash messages
                         if(item.hospital_side_status == 'trash')
                         {
-                            $toggleElement = '<button class="btn btn-dark btn-sm" value="'+item.id+'" id="btnOpenMessage">Open</button>';
-                            
                             if(item.sender.includes('hospitalTo'))
                             {
                                 $toOrFrom = 'To';
+                                
+                                $toggleElement = '<label class="badge badge-primary">Sent</label>\
+                                <button class="btn btn-dark btn-sm" value="'+item.id+'" id="btnOpenMessage">Open</button>';
                             }
                             else if(item.sender.includes('ToHospital'))
                             {
                                 $toOrFrom = 'From';
+                                
+                                $toggleElement = '<label class="badge badge-success">Received</label>\
+                                <button class="btn btn-dark btn-sm" value="'+item.id+'" id="btnOpenMessage">Open</button>';
                             }
                             
                             $('tbody').append('<tr>\
@@ -740,31 +689,100 @@
                     else
                     {
                         $('#openMessageModal').modal('show');
-
+                        
                         var senderType = response.messages.sender;
                         if(senderType.includes('hospitalTo'))
                         {
                             $toOrFrom = 'Sent To';
-                            $('#openReplySection').addClass('d-none');
+                            
+                            if(response.messages.reply_status=="1" || response.messages.reply_status=="2")
+                            {
+                                $('#openReplySection').removeClass('d-none');
+                                $('#openReply').text(response.messages.reply);
+                                $('#messageIdForReply').val(response.messages.id);
+                            }
+                            else if(response.messages.reply_status=="0")
+                            {
+                                $('#openReplySection').addClass('d-none');
+                            }
                         }
                         else if(senderType.includes('ToHospital'))
                         {
                             $toOrFrom = 'Received From:';
                         }
-
-                        if(senderType.includes('Donor') || senderType.includes('donor'))
+                        
+                        if(response.messages.hospital_side_status=="trash" || response.messages.hospital_side_status=="sent")
                         {
-                            $('#sender').html('<b>'+$toOrFrom+'</b>  '+response.donorDetails.fullname+' (Staff)');
+                            $('#replyBody').addClass('d-none');
                         }
-                        else if(senderType.includes('Staff') || senderType.includes('staff'))
+                        else if(response.messages.reply_status=="1" || response.messages.reply_status=="2")
                         {
-                            $('#sender').html('<b>'+$toOrFrom+'</b>  '+response.staffDetails.fullname+' (Staff)');
+                            $('#replyBody').addClass('d-none');
+                        }
+                        else if(response.messages.reply_status=="0" && response.messages.hospital_side_status=="unread")
+                        {
+                            $('#replyBody').removeClass('d-none');
+                            $('#openReplySection').addClass('d-none');
+                        }
+                        
+                        //get sender or receiver
+                        if(senderType.includes('ToStaff'))
+                        {
+                            var urlFetchSenderOrReceiver = '{{ url("hospital/dashboard/fetchSenderOrReceiver/:senderOrReceiverId/:sender") }}';
+                            urlFetchSenderOrReceiver = urlFetchSenderOrReceiver.replace(':senderOrReceiverId', response.messages.recipient_id);
+                            urlFetchSenderOrReceiver = urlFetchSenderOrReceiver.replace(':sender', senderType);
+                            $.ajax({
+                                type:"GET",
+                                url:urlFetchSenderOrReceiver,
+                                success:function(response){
+                                    $('#sender').html('<b>'+$toOrFrom+'</b>  '+response.admins.fullname+' (Staff)');
+                                }
+                            });
+                        }
+                        else if(senderType.includes('ToDonor'))
+                        {
+                            var urlFetchSenderOrReceiver = '{{ url("hospital/dashboard/fetchSenderOrReceiver/:senderOrReceiverId/:sender") }}';
+                            urlFetchSenderOrReceiver = urlFetchSenderOrReceiver.replace(':senderOrReceiverId', response.messages.recipient_id);
+                            urlFetchSenderOrReceiver = urlFetchSenderOrReceiver.replace(':sender', senderType);
+                            $.ajax({
+                                type:"GET",
+                                url:urlFetchSenderOrReceiver,
+                                success:function(response){
+                                    $('#sender').html('<b>'+$toOrFrom+'</b>  '+response.donors.fullname+' (Donor)');
+                                }
+                            });
+                        }
+                        else if(senderType.includes('staffTo'))
+                        {
+                            var urlFetchSenderOrReceiver = '{{ url("hospital/dashboard/fetchSenderOrReceiver/:senderOrReceiverId/:sender") }}';
+                            urlFetchSenderOrReceiver = urlFetchSenderOrReceiver.replace(':senderOrReceiverId', response.messages.sender_id);
+                            urlFetchSenderOrReceiver = urlFetchSenderOrReceiver.replace(':sender', senderType);
+                            $.ajax({
+                                type:"GET",
+                                url:urlFetchSenderOrReceiver,
+                                success:function(response){
+                                    $('#sender').html('<b>'+$toOrFrom+'</b>  '+response.admins.fullname+' (Staff)');
+                                }
+                            });
+                        }
+                        else if(senderType.includes('donorTo'))
+                        {
+                            var urlFetchSenderOrReceiver = '{{ url("hospital/dashboard/fetchSenderOrReceiver/:senderOrReceiverId/:sender") }}';
+                            urlFetchSenderOrReceiver = urlFetchSenderOrReceiver.replace(':senderOrReceiverId', response.messages.sender_id);
+                            urlFetchSenderOrReceiver = urlFetchSenderOrReceiver.replace(':sender', senderType);
+                            $.ajax({
+                                type:"GET",
+                                url:urlFetchSenderOrReceiver,
+                                success:function(response){
+                                    $('#sender').html('<b>'+$toOrFrom+'</b>  '+response.donors.fullname+' (Donor)');
+                                }
+                            });
                         }
                         else
                         {
                             $('#sender').html('<b>'+$toOrFrom+'</b> Administrator');
                         }
-
+                        //end
                         var openDate_str = response.messages.date;
                         var openDate_str = openDate_str.slice(0, 11); 
                         
@@ -775,6 +793,76 @@
                         $('#openDate').html('<b>Date:</b> '+openDate_str+'&nbsp;&nbsp;&nbsp;<b>Time:</b> '+openTime_str);
                         $('#openSubject').html('<b>Subject:</b> '+response.messages.subject);
                         $('#openMessage').text(response.messages.message);
+                    }
+                }
+            });
+        });
+        
+        $(document).on('click', '#btnReply',function(e){
+            e.preventDefault();
+            
+            $('#btnReply').text('Sending...');
+            
+            var reply = $('#reply_message').val();
+            var message_no = $('#messageIdForReply').val();
+            
+            var data = {
+                'reply' : reply,
+                'message_no' : message_no
+            }
+            
+            var url = '{{ url("hospital/dashboard/replyToMessage") }}';
+            
+            $.ajax({
+                type:"PUT",
+                url:url,
+                data:data,
+                dataType:"json",
+                success:function(response)
+                {
+                    if(response.status==400)
+                    {
+                        $('#btnReply').text('Reply');
+                        
+                        $('#replyMessageErrorList').html('');
+                        $('#replyMessageErrorModalBody').removeClass('d-none');
+                        $('#replyMessageErrorList').removeClass('d-none');
+                        
+                        $.each(response.errors,function(key,err_value){
+                            $('#replyMessageErrorList').append('<li>'+err_value+'</li>');
+                        });
+                    }
+                    else if(response.status==300) //Message invalid
+                    {
+                        $('#btnReply').text('Reply');
+                        
+                        $('#replyMessageErrorList').html('');
+                        $('#replyMessageErrorModalBody').removeClass('d-none');
+                        $('#replyMessageErrorList').removeClass('d-none');
+                        
+                        $.each(response.errors,function(key,err_value){
+                            $('#errorList').append('<li>Message is not valid</li>');
+                        });
+                    }
+                    else if(response.status==200)
+                    {
+                        $('#btnReply').text('Replied!');
+                        $('#btnReply').removeClass('btn-primary');
+                        $('#btnReply').addClass('btn-success');
+                        
+                        $('#replyMessageErrorList').html('');
+                        $('#replyMessageErrorModalBody').addClass('d-none');
+                        $('#replyMessageErrorList').addClass('d-none');
+                        
+                        setTimeout(function(){
+                            $('#reply_message').val('');
+                            $('#messageIdForReply').val('');
+                            $('#btnReply').removeClass('btn-success');
+                            $('#btnReply').addClass('btn-primary');
+                            $('#btnReply').text('Reply');
+                            $('#openMessageModal').modal('hide');
+                            fetchMessages();
+                        }, 2000);
                     }
                 }
             });

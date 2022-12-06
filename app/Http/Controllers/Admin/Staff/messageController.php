@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Admin;
 use App\Models\Message;
 use App\Models\Hospital;
+use App\Models\Donor;
 use App\Models\Activity;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
@@ -26,6 +27,14 @@ class messageController extends Controller
         {
             return back();
         }
+    }
+
+    public function fetchDonorList()
+    {
+        $donors = Donor::where('status', '=', "active")->where('no','LIKE','%'.'OD'.'%')->orderBy('id', 'DESC')->get();
+        return response()->json([
+            'donor'=>$donors,
+        ]);
     }
 
     public function sendMessage(Request $request)
@@ -162,7 +171,7 @@ class messageController extends Controller
                     $donor_side_status="unread";
 
                     
-                    $isRecipientIdExist = Hospital::select("*")->where("no", $request->input('recipientId'))->exists();
+                    $isRecipientIdExist = Donor::select("*")->where("id", $request->input('recipientId'))->exists();
 
                     if($isRecipientIdExist)
                     {
