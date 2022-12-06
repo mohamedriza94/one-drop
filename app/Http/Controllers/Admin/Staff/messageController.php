@@ -285,7 +285,7 @@ class messageController extends Controller
     public function fetchInboxMessages($authId)
     {
         $messages = Message::where('recipient_id', '=', $authId)->where('staff_side_status', '=', "unread")->where('sender','LIKE','%'.'ToStaff'.'%')
-        ->orWhere('recipient_id', '=', 'common')->orderBy('id', 'DESC')->get();
+        ->orWhere('recipient_id', '=', '-')->orderBy('id', 'DESC')->get();
         
         return response()->json([
             'messages'=>$messages,
@@ -331,6 +331,8 @@ class messageController extends Controller
             ['sender_id',$authId],
             ['staff_side_status','trash'],
             ['sender','LIKE','%'.'staffTo'.'%']
+        ])->orWhere([
+            ['recipient_id','-']
         ])->orderBy('id', 'DESC')->get();
 
         return response()->json([

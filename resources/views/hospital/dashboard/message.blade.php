@@ -76,8 +76,9 @@
                                     <p class="" id="openMessage"></p> 
                                 </div>
                                 
+                                {{-- to get reply --}}
                                 <input type="hidden" id="openMessageId">
-                                
+
                                 <div class="col-md-12 d-none" id="openReplySection">
                                     <hr style="padding:1px; background:black;">
                                     <label class="form-label"><b>Reply:</b></label> 
@@ -597,7 +598,7 @@
                             }
                             
                             $('tbody').append('<tr>\
-                                <td>To <b>'+$party+'</b></td>\
+                                <td>From <b>'+$party+'</b></td>\
                                 <td>'+messageSubject_str+'</td>\
                                 <td>'+messageDescription_str+'</td>\
                                 <td>'+messageDate_str+'</td>\

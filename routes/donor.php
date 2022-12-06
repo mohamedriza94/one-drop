@@ -47,6 +47,15 @@ Route::group([
 
                 //message routes
                 Route::get('/message', 'messageController@index')->name('donor.message');
+                Route::post('/sendMessage', 'messageController@sendMessage');
+                Route::get('/fetchInbox', 'messageController@fetchInbox');
+                Route::get('/fetchSent', 'messageController@fetchSent');
+                Route::get('/fetchTrash', 'messageController@fetchTrash');
+                Route::get('/fetchSingle/{id}', 'messageController@fetchSingle');
+                Route::get('/fetchSenderOrReceiver/{senderOrReceiverId}/{sender}', 'messageController@fetchSenderOrReceiver');
+                Route::post('/sendMessage', 'messageController@sendMessage');
+                Route::put('/moveToTrash/{id}', 'messageController@moveToTrash');
+                Route::put('/replyToMessage', 'messageController@replyToMessage');
             });
         });
     });
