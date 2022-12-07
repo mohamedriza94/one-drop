@@ -12,58 +12,93 @@ use App\Models\Request as bloodRequest;
 
 class countController extends Controller
 {
-    //blood groups
-    public function countBloodBags_cat()
+    public function homePageStatistics()
     {
-        $bloodBagsApos = BloodBag::where('bag_no','LIKE','%'.'OD'.'%')->where('status','=','available')->where('bloodGroup','=','A+')->count();
-        $bloodBagsAneg = BloodBag::where('bag_no','LIKE','%'.'OD'.'%')->where('status','=','available')->where('bloodGroup','=','A-')->count();
-        $bloodBagsBpos = BloodBag::where('bag_no','LIKE','%'.'OD'.'%')->where('status','=','available')->where('bloodGroup','=','B+')->count();
-        $bloodBagsBneg = BloodBag::where('bag_no','LIKE','%'.'OD'.'%')->where('status','=','available')->where('bloodGroup','=','B-')->count();
-        $bloodBagsABpos = BloodBag::where('bag_no','LIKE','%'.'OD'.'%')->where('status','=','available')->where('bloodGroup','=','AB+')->count();
-        $bloodBagsABneg = BloodBag::where('bag_no','LIKE','%'.'OD'.'%')->where('status','=','available')->where('bloodGroup','=','AB-')->count();
-        $bloodBagsOpos = BloodBag::where('bag_no','LIKE','%'.'OD'.'%')->where('status','=','available')->where('bloodGroup','=','O+')->count();
-        $bloodBagsOneg = BloodBag::where('bag_no','LIKE','%'.'OD'.'%')->where('status','=','available')->where('bloodGroup','=','O-')->count();
-        
-        return response()->json([
-            'bloodBagsApos' => $bloodBagsApos, 
-            'bloodBagsAneg' => $bloodBagsAneg, 
-            'bloodBagsBpos' => $bloodBagsBpos,
-            'bloodBagsBneg' => $bloodBagsBneg,
-            'bloodBagsABpos' => $bloodBagsABpos,
-            'bloodBagsABneg' => $bloodBagsABneg,
-            'bloodBagsOpos' => $bloodBagsOpos,
-            'bloodBagsOneg' => $bloodBagsOneg
-        ]);
-    }
-    
-    public function otherCounts()
-    {
-        $donationsMade = Donation::where('donationNo','LIKE','%'.'OD'.'%')->where('donorNo','=',auth()->guard('donor')->user()->no)->count();
-        $bloodRequestsMade = bloodRequest::where('status', '=', 'pending')->where('nic','=',auth()->guard('donor')->user()->nic)->count();
-        $donations = Donation::where('donationNo','LIKE','%'.'OD'.'%')->count();
-        $donors = Donor::where('no','LIKE','%'.'OD'.'%')->where('status', '=', 'active')->count();
-        $bloodBags = BloodBag::where('bag_no','LIKE','%'.'OD'.'%')->where('status','=','available')->count();
+        $donorType = auth()->guard('donor')->user()->hospital;
 
-        return response()->json([
-            'donationsMade' => $donationsMade, 
-            'bloodRequestsMade' => $bloodRequestsMade, 
-            'donations' => $donations,
-            'donors' => $donors,
-            'bloodBags' => $bloodBags
-        ]);
-    }
-  
-    public function getNextDonationDate()
-    {
-        $donations = Donation::join('donors', 'donations.donorNo', '=', 'donors.no')
-        ->join('blood_bags', 'donations.bloodBagNo', '=', 'blood_bags.bag_no')
-        ->where('donors.no', auth()->guard('donor')->user()->no)
-        ->first();
+        if(is_null($donorType))
+        {
+            $donorType = "OD";
+        }
+        else
+        {
+            $donorType = "HS";
+        }
         
-        $nextDate = date('Y-m-d', strtotime($donations['expiry_date']. ' + 15 days'));
+        $donationsMade = Donation::where('donationNo','LIKE','%'.$donorType.'%')->where('donorNo','=',auth()->guard('donor')->user()->no)->count();
+        $bloodRequestsMade = bloodRequest::where('status', '=', 'pending')->where('nic','=',auth()->guard('donor')->user()->nic)->count();
+        $donations = Donation::where('donationNo','LIKE','%'.$donorType.'%')->count();
+        $donors = Donor::where('no','LIKE','%'.'OD'.'%')->where('status', '=', 'active')->count();
+        $bloodBags = BloodBag::where('bag_no','LIKE','%'.$donorType.'%')->where('status','=','available')->count();
+
+        $bloodBagsApos = BloodBag::where('bag_no','LIKE','%'.$donorType.'%')->where('status','=','available')->where('bloodGroup','=','A+')->count();
+        $bloodBagsAneg = BloodBag::where('bag_no','LIKE','%'.$donorType.'%')->where('status','=','available')->where('bloodGroup','=','A-')->count();
+        $bloodBagsBpos = BloodBag::where('bag_no','LIKE','%'.$donorType.'%')->where('status','=','available')->where('bloodGroup','=','B+')->count();
+        $bloodBagsBneg = BloodBag::where('bag_no','LIKE','%'.$donorType.'%')->where('status','=','available')->where('bloodGroup','=','B-')->count();
+        $bloodBagsABpos = BloodBag::where('bag_no','LIKE','%'.$donorType.'%')->where('status','=','available')->where('bloodGroup','=','AB+')->count();
+        $bloodBagsABneg = BloodBag::where('bag_no','LIKE','%'.$donorType.'%')->where('status','=','available')->where('bloodGroup','=','AB-')->count();
+        $bloodBagsOpos = BloodBag::where('bag_no','LIKE','%'.$donorType.'%')->where('status','=','available')->where('bloodGroup','=','O+')->count();
+        $bloodBagsOneg = BloodBag::where('bag_no','LIKE','%'.$donorType.'%')->where('status','=','available')->where('bloodGroup','=','O-')->count();
         
-        return response()->json([
-            'nextDate'=>$nextDate
-        ]);
+        //check if donor has donated previosly
+        $isDonationExist = Donation::select("*")->where("donorNo", auth()->guard('donor')->user()->no)->exists();
+
+        if($isDonationExist)
+        {
+            $donationDate = Donation::join('donors', 'donations.donorNo', '=', 'donors.no')
+            ->join('blood_bags', 'donations.bloodBagNo', '=', 'blood_bags.bag_no')
+            ->where('donors.no', auth()->guard('donor')->user()->no)
+            ->first();
+            
+            $nextDate = date('Y-m-d', strtotime($donationDate['expiry_date']. ' + 15 days'));
+            
+            return response()->json([
+                'donationsMade' => $donationsMade, 
+                'bloodRequestsMade' => $bloodRequestsMade, 
+                'donations' => $donations,
+                'donors' => $donors,
+                'bloodBags' => $bloodBags,
+                
+                'bloodBagsApos' => $bloodBagsApos, 
+                'bloodBagsAneg' => $bloodBagsAneg, 
+                'bloodBagsBpos' => $bloodBagsBpos,
+                'bloodBagsBneg' => $bloodBagsBneg,
+                'bloodBagsABpos' => $bloodBagsABpos,
+                'bloodBagsABneg' => $bloodBagsABneg,
+                'bloodBagsOpos' => $bloodBagsOpos,
+                'bloodBagsOneg' => $bloodBagsOneg,
+                
+                'nextDate'=>$nextDate
+            ]);
+    
+        }
+        else
+        {
+            $nextDate = 'N/A';
+            
+            return response()->json([
+                'donationsMade' => $donationsMade, 
+                'bloodRequestsMade' => $bloodRequestsMade, 
+                'donations' => $donations,
+                'donors' => $donors,
+                'bloodBags' => $bloodBags,
+                
+                'bloodBagsApos' => $bloodBagsApos, 
+                'bloodBagsAneg' => $bloodBagsAneg, 
+                'bloodBagsBpos' => $bloodBagsBpos,
+                'bloodBagsBneg' => $bloodBagsBneg,
+                'bloodBagsABpos' => $bloodBagsABpos,
+                'bloodBagsABneg' => $bloodBagsABneg,
+                'bloodBagsOpos' => $bloodBagsOpos,
+                'bloodBagsOneg' => $bloodBagsOneg,
+                
+                'nextDate'=>$nextDate
+            ]);
+    
+        }
+
+        
+
+        
     }
 }

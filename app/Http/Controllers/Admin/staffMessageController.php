@@ -97,11 +97,12 @@ class staffMessageController extends Controller
                         
                         $notifications = new Notification;
                         $notifications->notifNo = rand(100000,950000);
-                        $notifications->entity = 'staff';
+                        $notifications->entity = 'staff '.$request->input('recipientId');
                         $notifications->text = 'Message from Admin ('.$messageNo.')';
                         $notifications->date = NOW();
                         $notifications->time = NOW();
                         $notifications->status = '0';
+                        $notifications->link = "dashboard/staffControls/message";
                         $notifications->save();
                         
                         return response()->json([
@@ -151,11 +152,12 @@ class staffMessageController extends Controller
                         
                         $notifications = new Notification;
                         $notifications->notifNo = rand(100000,950000);
-                        $notifications->entity = 'hospital';
+                        $notifications->entity = 'hospital '.$request->input('recipientId');
                         $notifications->text = 'Message from Admin ('.$messageNo.')';
                         $notifications->date = NOW();
                         $notifications->time = NOW();
                         $notifications->status = '0';
+                        $notifications->link = "dashboard/message";
                         $notifications->save();
                         
                         return response()->json([

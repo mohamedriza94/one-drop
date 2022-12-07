@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Request as bloodRequest;
 use App\Models\Activity;
+use App\Models\Notification;
 
 class bloodRequestController extends Controller
 {
@@ -73,6 +74,16 @@ class bloodRequestController extends Controller
         
         $requests = bloodRequest::where('requestNo', $requestNo)->update(['hospitalResponse' => $status, 'remark' => $remark]);
         
+        $notifications = new Notification;
+        $notifications->notifNo = rand(100000,950000);
+        $notifications->entity = 'commonStf';
+        $notifications->text = 'Hospital Declined Blood Request ('.$request->input('requestNo').')';
+        $notifications->date = NOW();
+        $notifications->time = NOW();
+        $notifications->status = '0';
+        $notifications->link = "dashboard/staffControls/bloodRequest";
+        $notifications->save();
+
         return response()->json([
             'status'=>200,
         ]);
@@ -85,6 +96,16 @@ class bloodRequestController extends Controller
         $status = 'responded';
         
         $requests = bloodRequest::where('requestNo', $requestNo)->update(['hospitalResponse' => $status, 'remark' => $remark, 'bloodBagNo' => $request->input('bloodBagNo')]);
+        
+        $notifications = new Notification;
+        $notifications->notifNo = rand(100000,950000);
+        $notifications->entity = 'commonStf';
+        $notifications->text = 'Hospital Accepted Blood Request ('.$request->input('requestNo').')';
+        $notifications->date = NOW();
+        $notifications->time = NOW();
+        $notifications->status = '0';
+        $notifications->link = "dashboard/staffControls/bloodRequest";
+        $notifications->save();
         
         return response()->json([
             'status'=>200,

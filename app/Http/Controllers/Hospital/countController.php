@@ -17,7 +17,7 @@ use App\Models\Request as bloodRequest;
 
 class countController extends Controller
 {
-    public function otherCounts()
+    public function statistics()
     {
         $messages = Message::where('sender','LIKE','%'.'ToHospital'.'%')->where('hospital_side_status', '=', 'unread')->where('recipient_id', '=', auth()->guard('hospital')->user()->no)->count();
         $bloodRequests = bloodRequest::where('hospitalResponse', '=', 'pending')->where('hospitalNo','=', auth()->guard('hospital')->user()->no)->count();
@@ -25,18 +25,6 @@ class countController extends Controller
         $donations = Donation::join('donors', 'donations.donorNo', '=', 'donors.no')->where('donors.hospital', auth()->guard('hospital')->user()->no)->count();
         $bloodBags = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
 
-        return response()->json([
-            'messages' => $messages, 
-            'bloodRequests' => $bloodRequests, 
-            'donors' => $donors,
-            'donations' => $donations,
-            'bloodBags' => $bloodBags
-        ]);
-    }
-
-    //blood groups
-    public function countBloodBags_cat()
-    {
         $bloodBagsApos = BloodBag::where('bag_no','LIKE','%'.'HSOD'.'%')->where('status','=','available')->where('bloodGroup','=','A+')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
         $bloodBagsAneg = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('bloodGroup','=','A-')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
         $bloodBagsBpos = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('bloodGroup','=','B+')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
@@ -45,8 +33,14 @@ class countController extends Controller
         $bloodBagsABneg = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('bloodGroup','=','AB-')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
         $bloodBagsOpos = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('bloodGroup','=','O+')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
         $bloodBagsOneg = BloodBag::where('bag_no','LIKE','%'.'HS'.'%')->where('status','=','available')->where('bloodGroup','=','O-')->where('hospital','=', auth()->guard('hospital')->user()->no)->count();
-        
+
         return response()->json([
+            'messages' => $messages, 
+            'bloodRequests' => $bloodRequests, 
+            'donors' => $donors,
+            'donations' => $donations,
+            'bloodBags' => $bloodBags,
+            
             'bloodBagsApos' => $bloodBagsApos, 
             'bloodBagsAneg' => $bloodBagsAneg, 
             'bloodBagsBpos' => $bloodBagsBpos,

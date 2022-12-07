@@ -225,11 +225,11 @@
                 }
             });
             
-            function otherCounts()
+            function statistics()
             {
                 $.ajax({
                     type:"GET",
-                    url:'{{ url("admin/dashboard/otherCounts") }}',
+                    url:'{{ url("admin/dashboard/statistics") }}',
                     dataType:"json",
                     success:function(response){
                         $('#countDonorRequests').text(response.donorRequests);
@@ -241,18 +241,7 @@
                         $('#countBloodBags').text(response.bloodBags);
                         $('#countStaff').text(response.admins);
                         $('#countHospital').text(response.hospitals);
-                    }
-                });
-            }
-            
-            //BLOOD COUNT================================================================================
-            function countBloodBags_cat()
-            {
-                $.ajax({
-                    type:"GET",
-                    url:'{{ url("admin/dashboard/countBloodBags_cat") }}',
-                    dataType:"json",
-                    success:function(response){
+
                         $('#countBloodBags_Apos').text(response.bloodBagsApos);
                         $('#countBloodBags_Aneg').text(response.bloodBagsAneg);
                         $('#countBloodBags_Bpos').text(response.bloodBagsBpos);
@@ -264,10 +253,8 @@
                     }
                 });
             }
-            
             setInterval(function(){
-                otherCounts();
-                countBloodBags_cat();
+                statistics();
             }, 1000);
         })
     </script>

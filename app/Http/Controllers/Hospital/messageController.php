@@ -189,6 +189,7 @@ class messageController extends Controller
                 $notifications->date = NOW();
                 $notifications->time = NOW();
                 $notifications->status = '0';
+                $notifications->link = "dashboard/staffControls/message";
                 $notifications->save();
             }
             else if($senderType == "hospitalToDonor")
@@ -196,13 +197,18 @@ class messageController extends Controller
                 $donor_side_status = "unread";
                 $hospital_side_status = "sent";
                 
+                //notifications
+                $getDonorNoForNotification = Donor::where('id','=',$request->input('recipientId'))->first();
+                $notificationDonorNo = $getDonorNoForNotification['no'];
+
                 $notifications = new Notification;
                 $notifications->notifNo = rand(100000,950000);
-                $notifications->entity = 'HSDon '.$request->input('recipientId');;
+                $notifications->entity = 'HSDon '.$notificationDonorNo;
                 $notifications->text = 'Message Received ('.$messageNo.')';
                 $notifications->date = NOW();
                 $notifications->time = NOW();
                 $notifications->status = '0';
+                $notifications->link = "dashboard/message";
                 $notifications->save();
             }
             else if($senderType == "hospitalToAdmin")
@@ -217,6 +223,7 @@ class messageController extends Controller
                 $notifications->date = NOW();
                 $notifications->time = NOW();
                 $notifications->status = '0';
+                $notifications->link = "dashboard/staffMessage";
                 $notifications->save();
             }
             

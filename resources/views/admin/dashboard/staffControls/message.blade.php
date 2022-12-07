@@ -11,20 +11,6 @@
                 <hr>
             </div>
             
-            <div class="widget-content widget-content-area">
-                <div class="row">
-                    <div class="col-lg-12 col-12 ">
-                        <form>
-                            <div class="row">
-                                <div class="col-12">
-                                    <input type="text" class="form-control" placeholder="Search Message" id="searchBar">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            
             <div class="widget-content widget-content-area layout-top-spacing">
                 <div class="row">
                     <div class="col-3">

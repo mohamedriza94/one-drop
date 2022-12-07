@@ -70,10 +70,7 @@ Route::group([
                 Route::get('/fetchAvailableBlood/{bloodGroup}', 'bloodBagController@fetchAvailableBlood');
                 
                 //count routes
-                Route::get('/otherCounts', 'countController@otherCounts');
-                
-                //blood group count routes
-                Route::get('/countBloodBags_cat', 'countController@countBloodBags_cat');
+                Route::get('/statistics', 'countController@statistics');
                 
                 //donation tracking routes
                 Route::get('/tracking', 'donationController@trackingPage')->name('hospital.tracking');

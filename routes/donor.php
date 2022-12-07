@@ -36,14 +36,8 @@ Route::group([
                 Route::get('/trackDonation/{id}', 'donationController@trackDonation');
                 Route::get('/fetchDonationHistory', 'donationController@fetchDonationHistory');
                 
-                //blood group count routes
-                Route::get('/countBloodBags_cat', 'countController@countBloodBags_cat');
-                
-                //count routes
-                Route::get('/otherCounts', 'countController@otherCounts');
-
-                //get next donation date
-                Route::get('/getNextDonationDate', 'countController@getNextDonationDate');
+                //HomePage statistics routes
+                Route::get('/homePageStatistics', 'countController@homePageStatistics');
 
                 //message routes
                 Route::get('/message', 'messageController@index')->name('donor.message');
@@ -59,6 +53,7 @@ Route::group([
                 
                 //notifications
                 Route::get('/fetchNotifications', 'DashboardController@fetchNotifications');
+                Route::put('/notifUpdate', 'DashboardController@notifUpdate');
                 
             });
         });

@@ -156,6 +156,7 @@ class bloodRequestController extends Controller
             $notifications->date = NOW();
             $notifications->time = NOW();
             $notifications->status = '0';
+            $notifications->link = "dashboard/bloodRequest";
             $notifications->save();
         }
         

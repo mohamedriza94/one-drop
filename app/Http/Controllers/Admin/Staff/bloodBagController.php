@@ -52,11 +52,12 @@ class bloodBagController extends Controller
         
         $notifications = new Notification;
         $notifications->notifNo = rand(100000,950000);
-        $notifications->entity = 'staff';
+        $notifications->entity = 'commonStf';
         $notifications->text = 'Blood Bag Expired';
         $notifications->date = NOW();
         $notifications->time = NOW();
         $notifications->status = '0';
+        $notifications->link = "#";
         $notifications->save();
     }
     

@@ -121,41 +121,8 @@
         </div>
         <div class="card-inner">
             <div class="timeline">
-                <h6 class="timeline-head">November, 2019</h6>
-                <ul class="timeline-list">
-                    <li class="timeline-item">
-                        <div class="timeline-status bg-primary is-outline"></div>
-                        <div class="timeline-date">13 Nov <em class="icon ni ni-alarm-alt"></em></div>
-                        <div class="timeline-data">
-                            <h6 class="timeline-title">Submited KYC Application</h6>
-                            <div class="timeline-des">
-                                <p>Re-submitted KYC form.</p>
-                                <span class="time">09:30am</span>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="timeline-item">
-                        <div class="timeline-status bg-primary"></div>
-                        <div class="timeline-date">13 Nov <em class="icon ni ni-alarm-alt"></em></div>
-                        <div class="timeline-data">
-                            <h6 class="timeline-title">Submited KYC Application</h6>
-                            <div class="timeline-des">
-                                <p>Re-submitted KYC form.</p>
-                                <span class="time">09:30am</span>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="timeline-item">
-                        <div class="timeline-status bg-pink"></div>
-                        <div class="timeline-date">13 Nov <em class="icon ni ni-alarm-alt"></em></div>
-                        <div class="timeline-data">
-                            <h6 class="timeline-title">Submited KYC Application</h6>
-                            <div class="timeline-des">
-                                <p>Re-submitted KYC form.</p>
-                                <span class="time">09:30am</span>
-                            </div>
-                        </div>
-                    </li>
+                <ul class="timeline-list" id="notificationPanel">
+                    
                 </ul>
             </div>
         </div>
@@ -224,11 +191,11 @@
             }
         });
         
-        function otherCounts()
+        function homePageStatistics()
         {
             $.ajax({
                 type:"GET",
-                url:'{{ url("donor/dashboard/otherCounts") }}',
+                url:'{{ url("donor/dashboard/homePageStatistics") }}',
                 dataType:"json",
                 success:function(response){
                     $('#countDonationsMade').text(response.donationsMade);
@@ -236,17 +203,7 @@
                     $('#countDonations').text(response.donations);
                     $('#countDonors').text(response.donors);
                     $('#countBloodBags').text(response.bloodBags);
-                }
-            });
-        }
-        
-        function countBloodBags_cat()
-        {
-            $.ajax({
-                type:"GET",
-                url:'{{ url("donor/dashboard/countBloodBags_cat") }}',
-                dataType:"json",
-                success:function(response){
+
                     $('#countBloodBags_Apos').text(response.bloodBagsApos);
                     $('#countBloodBags_Aneg').text(response.bloodBagsAneg);
                     $('#countBloodBags_Bpos').text(response.bloodBagsBpos);
@@ -255,26 +212,14 @@
                     $('#countBloodBags_ABneg').text(response.bloodBagsABneg);
                     $('#countBloodBags_Opos').text(response.bloodBagsOpos);
                     $('#countBloodBags_Oneg').text(response.bloodBagsOneg);
-                }
-            });
-        }
-        
-        function getNextDonationDate()
-        {
-            $.ajax({
-                type:"GET",
-                url:'{{ url("donor/dashboard/getNextDonationDate") }}',
-                dataType:"json",
-                success:function(response){
+
                     $('#getNextDonationDate').text('YOU CAN DONATE AGAIN ON '+response.nextDate);
                 }
             });
         }
         
         setInterval(function(){
-            otherCounts();
-            countBloodBags_cat();
-            getNextDonationDate();
+            homePageStatistics();
         }, 1000);
         
     });

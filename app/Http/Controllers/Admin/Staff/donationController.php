@@ -124,6 +124,7 @@ class donationController extends Controller
             $notifications->date = NOW();
             $notifications->time = NOW();
             $notifications->status = '0';
+            $notifications->link = "#";
             $notifications->save();
             
             return response()->json([

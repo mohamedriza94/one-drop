@@ -187,10 +187,7 @@ Route::group([
     Route::get('/getInvoice/{input}', 'Staff\invoiceController@searchRequest');
 
     //count routes
-    Route::get('/otherCounts', 'countController@otherCounts');
-
-    //blood group count routes
-    Route::get('/countBloodBags_cat', 'countController@countBloodBags_cat');
+    Route::get('/statistics', 'countController@statistics');
     });
 
     });

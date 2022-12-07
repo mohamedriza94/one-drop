@@ -115,7 +115,7 @@
                             <ul class="nk-quick-nav">
                                 <li class="dropdown chats-dropdown">
                                     <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
-                                        <div class="icon-status icon-status-na"><em class="icon ni ni-bell"></em></div>
+                                        <div class="icon-status icon-status-na" id="notifBell"></div>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                                         <div class="dropdown-head">
@@ -649,6 +649,7 @@
                                                 success:function(response){
                                                     
                                                     $('#notificationList').html('');
+                                                    $('#notificationPanel').html('');
                                                     //Donor type
                                                     if(donorType.includes('OD'))
                                                     {
@@ -657,19 +658,48 @@
                                                             var notifTime = item.time;
                                                             var notifTime = notifTime.slice(10,19);
                                                             
-                                                            $('#notificationList').append('<li class="">\
-                                                                <a class="chat-link" href="#">\
-                                                                    <div class="">\
-                                                                        <div class="chat-from">\
-                                                                            <div>'+item.text+'</div>\
-                                                                            &nbsp;&nbsp;&nbsp;<span class="time">'+notifTime+'</span>\
+                                                            var notifDate = item.date;
+                                                            var notifDate = notifDate.slice(0,10);
+                                                            
+                                                            $link = item.link;
+                                                            
+                                                            if(item.status == "0")
+                                                            {
+                                                                $badgeType = "bg-success";
+                                                                $('#notifBell').html('<em class="icon ni ni-bell"></em> <span class="badge badge-dot bg-success">New</span>');
+                                                                
+                                                                $('#notificationList').append('<li class="">\
+                                                                    <a class="chat-link" style="background:#f7f9fa;" href="'+$link+'"><button class="btn btn-outline-none" id="notifButton" value="'+item.id+'"">\
+                                                                        <input type="hidden"  id="notifId" >\
+                                                                        <div class="">\
+                                                                            <div class="chat-from">\
+                                                                                <div>'+item.text+'</div>\
+                                                                                &nbsp;&nbsp;<span class="badge badge-dot '+$badgeType+'">'+notifTime+'</span>\
+                                                                            </div>\
+                                                                            <div class="chat-context">\
+                                                                            </div>\
                                                                         </div>\
-                                                                        <div class="chat-context">\
+                                                                    </button></a>\
+                                                                </li>\
+                                                                ');
+                                                                
+                                                                $('#notificationPanel').append('<li class="timeline-item">\
+                                                                    <div class="timeline-status bg-primary"></div>\
+                                                                    <div class="timeline-date">'+notifDate+' &nbsp;&nbsp; <em class="icon ni ni-alarm-alt"></em></div>\
+                                                                    <div class="timeline-data">\
+                                                                        <h6 class="timeline-title">'+item.text+'</h6>\
+                                                                        <div class="timeline-des">\
+                                                                            <span class="time">'+notifTime+'</span>\
                                                                         </div>\
                                                                     </div>\
-                                                                </a>\
-                                                            </li>\
-                                                            ');
+                                                                </li>\
+                                                                ');
+                                                            }
+                                                            else
+                                                            {
+                                                                $badgeType = "bg-danger";
+                                                                $('#notifBell').html('<em class="icon ni ni-bell"></em></span>');
+                                                            }
                                                         });
                                                     }
                                                     else if(donorType.includes('HS'))
@@ -679,24 +709,74 @@
                                                             var notifTime = item.time;
                                                             var notifTime = notifTime.slice(10,19);
                                                             
-                                                            $('#notificationList').append('<li class="">\
-                                                                <a class="chat-link" href="#">\
-                                                                    <div class="">\
-                                                                        <div class="chat-from">\
-                                                                            <div>'+item.text+'</div>\
-                                                                            &nbsp;&nbsp;&nbsp;<span class="time">'+notifTime+'</span>\
+                                                            var notifDate = item.date;
+                                                            var notifDate = notifDate.slice(0,10);
+                                                            
+                                                            $link = item.link;
+                                                            
+                                                            if(item.status == "0")
+                                                            {
+                                                                $badgeType = "bg-success";
+                                                                $('#notifBell').html('<em class="icon ni ni-bell"></em> <span class="badge badge-dot bg-success">New</span>');
+                                                                
+                                                                $('#notificationList').append('<li class="">\
+                                                                    <a class="chat-link" style="background:#f7f9fa;" href="'+$link+'"><button class="btn btn-outline-none" id="notifButton" value="'+item.id+'"">\
+                                                                        <input type="hidden"  id="notifId" >\
+                                                                        <div class="">\
+                                                                            <div class="chat-from">\
+                                                                                <div>'+item.text+'</div>\
+                                                                                &nbsp;&nbsp;<span class="badge badge-dot '+$badgeType+'">'+notifTime+'</span>\
+                                                                            </div>\
+                                                                            <div class="chat-context">\
+                                                                            </div>\
                                                                         </div>\
-                                                                        <div class="chat-context">\
+                                                                    </button></a>\
+                                                                </li>\
+                                                                ');
+                                                                
+                                                                $('#notificationPanel').append('<li class="timeline-item">\
+                                                                    <div class="timeline-status bg-primary"></div>\
+                                                                    <div class="timeline-date">'+notifDate+' &nbsp;&nbsp; <em class="icon ni ni-alarm-alt"></em></div>\
+                                                                    <div class="timeline-data">\
+                                                                        <h6 class="timeline-title">'+item.text+'</h6>\
+                                                                        <div class="timeline-des">\
+                                                                            <span class="time">'+notifTime+'</span>\
                                                                         </div>\
                                                                     </div>\
-                                                                </a>\
-                                                            </li>\
-                                                            ');
+                                                                </li>\
+                                                                ');
+                                                            }
+                                                            else
+                                                            {
+                                                                $badgeType = "bg-danger";
+                                                                $('#notifBell').html('<em class="icon ni ni-bell"></em></span>');
+                                                            }
                                                         });
                                                     }  
                                                 }
                                             });
                                         }
+                                        
+                                        $(document).on('click', '#notifButton', function(e) {
+                                            
+                                            var notificationId = $(this).val();
+                                            
+                                            var url = '{{ url("donor/dashboard/notifUpdate") }}';
+                                            
+                                            var data = {
+                                                'id' : notificationId
+                                            }
+                                            
+                                            $.ajax({
+                                                type:"PUT",
+                                                url:url,
+                                                data:data,
+                                                dataType:"json",
+                                                success:function(response){
+                                                }
+                                            });
+                                            
+                                        });
                                         
                                         //make blood request
                                         $(document).on('click', '#btnMakeRequest', function(e) {
