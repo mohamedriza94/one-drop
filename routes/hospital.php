@@ -89,6 +89,10 @@ Route::group([
                 Route::get('/fetchSenderOrReceiver/{senderOrReceiverId}/{sender}', 'messageController@fetchSenderOrReceiver');
                 Route::post('/sendMessage', 'messageController@sendMessage');
                 Route::put('/replyToMessage', 'messageController@replyToMessage');
+                
+                //notifications
+                Route::get('/fetchNotifications', 'DashboardController@fetchNotifications');
+                Route::put('/notifUpdate', 'DashboardController@notifUpdate');
             });
         });
         

@@ -52,7 +52,7 @@ class donorRequestController extends Controller
             $notifications->date = NOW();
             $notifications->time = NOW();
             $notifications->status = '0';
-            $notifications->link = "dashboard/staffControls/donorRequest";
+            $notifications->link = "dashboard/staff/donorRequest";
             $notifications->save();
             
             return response()->json([

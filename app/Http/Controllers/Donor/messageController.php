@@ -59,7 +59,7 @@ class messageController extends Controller
                 $notifications->date = NOW();
                 $notifications->time = NOW();
                 $notifications->status = '0';
-                $notifications->link = "dashboard/staffControls/message";
+                $notifications->link = "dashboard/staff/message";
                 $notifications->save();
             }
             else if($senderType == "donorToHospital")

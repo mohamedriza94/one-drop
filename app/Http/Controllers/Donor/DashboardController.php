@@ -15,8 +15,8 @@ class DashboardController extends Controller
     
     public function fetchNotifications()
     {
-        $ODDonorNotif = Notification::where('entity','LIKE','%'.'donor'.'%')->where('entity','LIKE','%'.auth()->guard('donor')->user()->no.'%')->get();
-        $HSDonorNotif = Notification::where('entity','LIKE','%'.'HSDon'.'%')->where('entity','LIKE','%'.auth()->guard('donor')->user()->no.'%')->get();
+        $ODDonorNotif = Notification::where('entity','LIKE','%'.'donor'.'%')->where('entity','LIKE','%'.auth()->guard('donor')->user()->no.'%')->orderBy('id', 'DESC')->get();
+        $HSDonorNotif = Notification::where('entity','LIKE','%'.'HSDon'.'%')->where('entity','LIKE','%'.auth()->guard('donor')->user()->no.'%')->orderBy('id', 'DESC')->get();
         
         return response()->json([
             'ODDonorNotif'=>$ODDonorNotif,

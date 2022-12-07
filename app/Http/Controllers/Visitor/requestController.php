@@ -61,7 +61,7 @@ class requestController extends Controller
             $notifications->date = NOW();
             $notifications->time = NOW();
             $notifications->status = '0';
-            $notifications->link = "dashboard/staffControls/bloodRequest";
+            $notifications->link = "dashboard/staff/bloodRequest";
             $notifications->save();
             
             return response()->json([
