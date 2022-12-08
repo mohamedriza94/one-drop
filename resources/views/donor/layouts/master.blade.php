@@ -49,27 +49,27 @@
                                 </div>
                             </div>
                             <ul class="nk-menu nk-menu-main ui-s2">
-                                <li class="nk-menu-item">
+                                <li class="nk-menu {{ (\Request::route()->getName() == 'donor.dashboard') ? 'bg-primary' : '' }}">
                                     <a href="{{ Route('donor.dashboard') }}" class="nk-menu-link">
-                                        <span class="nk-menu-text">Dashboard</span>
+                                        <span class="nk-menu-text {{ (\Request::route()->getName() == 'donor.dashboard') ? 'text-white' : 'text-primary' }}">Dashboard</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
                                 
-                                <li class="nk-menu-item">
+                                <li class="nk-menu {{ (\Request::route()->getName() == 'donor.news') ? 'bg-primary' : '' }}">
                                     <a href="{{ Route('donor.news') }}" class="nk-menu-link">
-                                        <span class="nk-menu-text">News and Updates</span>
+                                        <span class="nk-menu-text {{ (\Request::route()->getName() == 'donor.news') ? 'text-white' : 'text-primary' }}">News and Updates</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
                                 
-                                <li class="nk-menu-item">
+                                <li class="nk-menu {{ (\Request::route()->getName() == 'donor.message') ? 'bg-primary' : '' }}">
                                     <a href="{{ Route('donor.message') }}" class="nk-menu-link">
-                                        <span class="nk-menu-text">Messages</span>
+                                        <span class="nk-menu-text {{ (\Request::route()->getName() == 'donor.message') ? 'text-white' : 'text-primary' }}">Messages</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
                                 
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-text">Request</span>
+                                        <span class="nk-menu-text text-primary">Request</span>
                                     </a>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item has-sub">
@@ -93,7 +93,7 @@
                                 
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-text">Donation</span>
+                                        <span class="nk-menu-text text-primary">Donation</span>
                                     </a>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item has-sub">

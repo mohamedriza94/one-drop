@@ -128,7 +128,7 @@
             <div class="shadow-bottom"></div>
             <ul class="list-unstyled menu-categories" id="accordionExample">
                 
-                <li class="menu">
+                <li class="menu {{ (\Request::route()->getName() == 'hospital.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('hospital.dashboard') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
                             <i class="fa-solid fa-home" style="width:50px; height:100%;"></i> 
@@ -138,7 +138,7 @@
                 </li>
                 
                 
-                <li class="menu">
+                <li class="menu {{ (\Request::route()->getName() == 'hospital.message') ? 'active' : '' }}">
                     <a href="{{ route('hospital.message') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
                             <i class="fa-solid fa-envelope" style="width:50px; height:100%;"></i> 
@@ -147,7 +147,7 @@
                     </a>
                 </li>
                 
-                <li class="menu">
+                <li class="menu {{ (\Request::route()->getName() == 'hospital.bloodBag') ? 'active' : '' }}">
                     <a href="{{ route('hospital.bloodBag') }}" aria-expanded="false" class="dropdown-toggle d-flex align-items-baseline">
                         <div class="">
                             <i class="fa-solid fa-droplet" style="width:50px; height:100%;"></i>    
@@ -170,16 +170,23 @@
                         <li>
                             <a href="#" data-bs-toggle="modal" data-bs-target="#donorRegistrationModal"> Donor Registration </a>
                         </li>
-                        <li>
+                        <li class="{{ (\Request::route()->getName() == 'hospital.donor') ? 'active' : '' }}">
+                            
                             <a href="{{ route('hospital.donor') }}"> Donors </a>
                         </li>
-                        <li>
+                        
+                        <li class="{{ (\Request::route()->getName() == 'hospital.bloodRequest') ? 'active' : '' }}">
+                            
                             <a href="{{ route('hospital.bloodRequest') }}"> Blood Requests </a>
                         </li>                          
-                        <li>
+                        
+                        <li class="{{ (\Request::route()->getName() == 'hospital.donation') ? 'active' : '' }}">
+                            
                             <a href="{{ route('hospital.donation') }}"> Donations </a>
                         </li>                          
-                        <li>
+                        
+                        <li class="{{ (\Request::route()->getName() == 'hospital.donate') ? 'active' : '' }}">
+                            
                             <a href="{{ route('hospital.donate') }}"> Donate </a>
                         </li>                         
                     </ul>
@@ -187,7 +194,7 @@
                 
                 <hr>
                 
-                <li class="menu">
+                <li class="menu {{ (\Request::route()->getName() == 'hospital.tracking') ? 'active' : '' }}">
                     <a href="{{ route('hospital.tracking') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
                             <i class="fa-solid fa-chalkboard" style="width:50px; height:100%;"></i>

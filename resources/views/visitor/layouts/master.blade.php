@@ -54,42 +54,42 @@
                                 </div>
                             </div>
                             <ul class="nk-menu nk-menu-main ui-s2">
-                                <li class="nk-menu-item">
+                                <li class="nk-menu {{ (\Request::route()->getName() == 'visitor.home') ? 'bg-primary' : '' }}">
                                     <a href="{{ Route('visitor.home') }}" class="nk-menu-link">
-                                        <span class="nk-menu-text">Home</span>
+                                        <span class="nk-menu-text {{ (\Request::route()->getName() == 'visitor.home') ? 'text-white' : 'text-primary' }}">Home</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
 
-                                <li class="nk-menu-item">
+                                <li class="nk-menu {{ (\Request::route()->getName() == 'visitor.news') ? 'bg-primary' : '' }}">
                                     <a href="{{ Route('visitor.news') }}" class="nk-menu-link">
-                                        <span class="nk-menu-text">News and Updates</span>
+                                        <span class="nk-menu-text {{ (\Request::route()->getName() == 'visitor.news') ? 'text-white' : 'text-primary' }}">News and Updates</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
 
                                 <li class="nk-menu-item">
                                     <a href="#" class="nk-menu-link" data-bs-toggle="modal"
                                         data-bs-target="#makeRequestModal">
-                                        <span class="nk-menu-text">Make a Request</span>
+                                        <span class="nk-menu-text text-primary">Make a Request</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
 
                                 <li class="nk-menu-item">
                                     <a href="#" class="nk-menu-link" data-bs-toggle="modal"
                                         data-bs-target="#trackRequestModal">
-                                        <span class="nk-menu-text">Track Request</span>
+                                        <span class="nk-menu-text text-primary">Track Request</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
 
                                 <li class="nk-menu-item">
                                     <a href="#" class="nk-menu-link" data-bs-toggle="modal"
                                         data-bs-target="#makeAnInquiryModal">
-                                        <span class="nk-menu-text">Make an Inquiry</span>
+                                        <span class="nk-menu-text text-primary">Make an Inquiry</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
 
                                 <li class="nk-menu-item">
                                     <a href="{{ Route('visitor.donorLogin') }}" class="nk-menu-link text-primary">
-                                        <span class="nk-menu-text">I am a Donor</span>
+                                        <span class="nk-menu-text text-primary">I am a Donor</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
 

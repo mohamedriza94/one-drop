@@ -160,7 +160,7 @@
             <div class="shadow-bottom"></div>
             <ul class="list-unstyled menu-categories" id="accordionExample">
                 
-                <li class="menu">
+                <li class="menu {{ (\Request::route()->getName() == 'admin.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('admin.dashboard') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
                             <i class="fa-solid fa-home" style="width:50px; height:100%;"></i> 
@@ -170,7 +170,7 @@
                 </li>
                 
                 
-                <li class="menu">
+                <li class="menu {{ (\Request::route()->getName() == 'admin.staffMessage') ? 'active' : '' }}">
                     <a href="{{ route('admin.staffMessage') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
                             
@@ -180,7 +180,7 @@
                     </a>
                 </li>
                 
-                <li class="menu">
+                <li class="menu {{ (\Request::route()->getName() == 'admin.staff') ? 'active' : '' }}">
                     <a href="{{ route('admin.staff') }}" aria-expanded="false" class="dropdown-toggle d-flex align-items-baseline">
                         <div class="">
                             <i class="fa-solid fa-users" style="width:50px; height:100%;"></i>    
@@ -189,7 +189,7 @@
                     </a>
                 </li>
                 
-                <li class="menu">
+                <li class="menu {{ (\Request::route()->getName() == 'admin.hospital') ? 'active' : '' }}">
                     <a href="{{ route('admin.hospital') }}" aria-expanded="false" class="dropdown-toggle d-flex align-items-baseline">
                         <div class="">
                             <i class="fa-solid fa-hospital" style="width:50px; height:100%;"></i>    
@@ -198,7 +198,7 @@
                     </a>
                 </li>
                 
-                <li class="menu">
+                <li class="menu {{ (\Request::route()->getName() == 'admin.activity') ? 'active' : '' }}">
                     <a href="{{ route('admin.activity') }}" aria-expanded="false" class="dropdown-toggle d-flex align-items-baseline">
                         <div class="">
                             <i class="fa-solid fa-list-check" style="width:50px; height:100%;"></i>    
@@ -467,7 +467,7 @@
             <div class="shadow-bottom"></div>
             <ul class="list-unstyled menu-categories" id="accordionExample">
                 
-                <li class="menu">
+                <li class="menu {{ (\Request::route()->getName() == 'admin.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('admin.dashboard') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
                             <i class="fa-solid fa-home" style="width:50px; height:100%;"></i> 
@@ -477,7 +477,7 @@
                 </li>
                 
                 
-                <li class="menu">
+                <li class="menu {{ (\Request::route()->getName() == 'admin.staffControls.message') ? 'active' : '' }}">
                     <a href="{{ route('admin.staffControls.message') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
                             <i class="fa-solid fa-envelope" style="width:50px; height:100%;"></i> 
@@ -486,7 +486,7 @@
                     </a>
                 </li>
                 
-                <li class="menu">
+                <li class="menu {{ (\Request::route()->getName() == 'admin.staffControls.bloodBag') ? 'active' : '' }}">
                     <a href="{{ route('admin.staffControls.bloodBag') }}" aria-expanded="false" class="dropdown-toggle d-flex align-items-baseline">
                         <div class="">
                             <i class="fa-solid fa-droplet" style="width:50px; height:100%;"></i>    
@@ -506,22 +506,22 @@
                         </div>
                     </a>
                     <ul class="collapse submenu list-unstyled" id="donations" data-bs-parent="#accordionExample">
-                        <li>
+                        <li class="{{ (\Request::route()->getName() == 'admin.staffControls.appointments') ? 'active' : '' }}">
                             <a href="{{ route('admin.staffControls.appointments') }}"> Appointments </a>
                         </li>
-                        <li>
+                        <li class="{{ (\Request::route()->getName() == 'admin.staffControls.donorRequest') ? 'active' : '' }}">
                             <a href="{{ route('admin.staffControls.donorRequest') }}"> Donor Requests </a>
                         </li>
-                        <li>
+                        <li class="{{ (\Request::route()->getName() == 'admin.staffControls.donor') ? 'active' : '' }}">
                             <a href="{{ route('admin.staffControls.donor') }}"> Donors </a>
                         </li>
-                        <li>
+                        <li class="{{ (\Request::route()->getName() == 'admin.staffControls.bloodRequest') ? 'active' : '' }}">
                             <a href="{{ route('admin.staffControls.bloodRequest') }}"> Blood Requests </a>
                         </li>                          
-                        <li>
+                        <li class="{{ (\Request::route()->getName() == 'admin.staffControls.donation') ? 'active' : '' }}">
                             <a href="{{ route('admin.staffControls.donation') }}"> Donations </a>
                         </li>                          
-                        <li>
+                        <li class="{{ (\Request::route()->getName() == 'admin.staffControls.donate') ? 'active' : '' }}">
                             <a href="{{ route('admin.staffControls.donate') }}"> Donate </a>
                         </li>                         
                     </ul>
@@ -529,7 +529,7 @@
                 
                 <hr>
                 
-                <li class="menu">
+                <li class="menu {{ (\Request::route()->getName() == 'admin.staffControls.news') ? 'active' : '' }}">
                     <a href="{{ route('admin.staffControls.news') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
                             <i class="fa-solid fa-newspaper" style="width:50px; height:100%;"></i>
@@ -538,16 +538,16 @@
                     </a>
                 </li>
                 
-                <li class="menu">
+                <li class="menu {{ (\Request::route()->getName() == 'admin.invoice') ? 'active' : '' }}">
                     <a href="{{ route('admin.invoice') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
-                            <i class="fa-solid fa-newspaper" style="width:50px; height:100%;"></i>
+                            <i class="fa-solid fa-receipt" style="width:50px; height:100%;"></i>
                             <span>Invoice</span>
                         </div>
                     </a>
                 </li>
                 
-                <li class="menu">
+                <li class="menu {{ (\Request::route()->getName() == 'admin.staffControls.tracking') ? 'active' : '' }}">
                     <a href="{{ route('admin.staffControls.tracking') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
                             <i class="fa-solid fa-chalkboard" style="width:50px; height:100%;"></i>
