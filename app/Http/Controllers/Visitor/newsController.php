@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Visitor;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\NewsAndUpdate;
 
@@ -13,15 +14,25 @@ class newsController extends Controller
     {
         return view('visitor.dashboard.news');
     }
-
+    
     public function fetchNewsAndUpdates()
     {
         $newsandupdates = NewsAndUpdate::where('status', '=', "active")->orderBy('id', 'DESC')->get();
+        
         return response()->json([
             'newsandupdates'=>$newsandupdates,
         ]);
     }
-
+    
+    public function fetchNewsAndUpdates_ForHomePage()
+    {
+        $newsandupdates = NewsAndUpdate::where('status', '=', "active")->orderBy('id', 'DESC')->limit(3)->get();
+        
+        return response()->json([
+            'newsandupdates'=>$newsandupdates,
+        ]);
+    }
+    
     public function fetchSingleNews($id)
     {
         $newsandupdates = NewsAndUpdate::find($id);
