@@ -29,7 +29,7 @@
                             <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="headerNav"><em class="icon ni ni-menu"></em></a>
                         </div>
                         <div class="nk-header-brand">
-                            <a href="html/index.html" class="logo-link d-flex align-items-center">
+                            <a href="{{ Route('donor.dashboard') }}" class="logo-link d-flex align-items-center">
                                 <img class="logo-light logo-img" src="{{ asset('assets/client/images/logo.png') }}"
                                 alt="logo">
                                 <img class="logo-dark logo-img"
@@ -39,7 +39,7 @@
                         <div class="nk-header-menu ms-auto" data-content="headerNav">
                             <div class="nk-header-mobile">
                                 <div class="nk-header-brand">
-                                    <a href="html/index.html" class="logo-link">
+                                    <a href="{{ Route('donor.dashboard') }}" class="logo-link">
                                         <img class="logo-light logo-img" src="{{ asset('assets/client/images/logo.png') }}" alt="logo">
                                         <img class="logo-dark logo-img" src="{{ asset('assets/client/images/logo.png') }}" alt="logo-dark">
                                     </a>

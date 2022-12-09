@@ -116,12 +116,12 @@
             <div class="navbar-nav theme-brand flex-row  text-center">
                 <div class="nav-logo">
                     <div class="nav-item theme-logo">
-                        <a href="{{ route('admin.dashboard') }}">
+                        <a href="{{ route('hospital.dashboard') }}">
                             <img src="{{asset('assets/admin/src/assets/img/logo.png')}}" class="navbar-logo" alt="logo">
                         </a>
                     </div>
                     <div class="nav-item theme-text">
-                        <a href="" class="nav-link"> ONE DROP </a>
+                        <a href="{{ route('hospital.dashboard') }}" class="nav-link"> ONE DROP </a>
                     </div>
                 </div>
             </div>
@@ -131,8 +131,7 @@
                 <li class="menu {{ (\Request::route()->getName() == 'hospital.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('hospital.dashboard') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
-                            <i class="fa-solid fa-home" style="width:50px; height:100%;"></i> 
-                            <span>Home</span>
+                            <span><i class="fa-solid fa-home" style="width:50px; height:100%;"></i>Home</span>
                         </div>
                     </a>
                 </li>
@@ -141,8 +140,7 @@
                 <li class="menu {{ (\Request::route()->getName() == 'hospital.message') ? 'active' : '' }}">
                     <a href="{{ route('hospital.message') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
-                            <i class="fa-solid fa-envelope" style="width:50px; height:100%;"></i> 
-                            <span>Messages</span>
+                            <span><i class="fa-solid fa-envelope" style="width:50px; height:100%;"></i>Messages</span>
                         </div>
                     </a>
                 </li>
@@ -150,8 +148,7 @@
                 <li class="menu {{ (\Request::route()->getName() == 'hospital.bloodBag') ? 'active' : '' }}">
                     <a href="{{ route('hospital.bloodBag') }}" aria-expanded="false" class="dropdown-toggle d-flex align-items-baseline">
                         <div class="">
-                            <i class="fa-solid fa-droplet" style="width:50px; height:100%;"></i>    
-                            <span>Blood Bank</span>
+                            <span><i class="fa-solid fa-droplet" style="width:50px; height:100%;"></i>Blood Bank</span>
                         </div>
                     </a>
                 </li>
@@ -159,8 +156,7 @@
                 <li class="menu">
                     <a href="#donations" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
-                            <i class="fa-solid fa-user" style="width:50px; height:100%;"></i>
-                            <span>Donations</span>
+                            <span><i class="fa-solid fa-user" style="width:50px; height:100%;"></i>Donations</span>
                         </div>
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -197,8 +193,7 @@
                 <li class="menu {{ (\Request::route()->getName() == 'hospital.tracking') ? 'active' : '' }}">
                     <a href="{{ route('hospital.tracking') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
-                            <i class="fa-solid fa-chalkboard" style="width:50px; height:100%;"></i>
-                            <span>Tracking</span>
+                            <span><i class="fa-solid fa-chalkboard" style="width:50px; height:100%;"></i>Tracking</span>
                         </div>
                     </a>
                 </li>

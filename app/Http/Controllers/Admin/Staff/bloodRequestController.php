@@ -11,6 +11,7 @@ use App\Models\Activity;
 use App\Models\Invoice;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Mail;
+use PDF;
 
 use App\Mail\Staff\requestUpdateMail;
 
@@ -148,7 +149,7 @@ class bloodRequestController extends Controller
             $task = 'Forwarded Request No. '.$id.' to Hospital No. '.auth()->guard('admin')->user()->hospital_id.' due to unavailability of blood';
             
             $requests = bloodRequest::where('requestNo', $id)->update(['hospitalNo' => auth()->guard('admin')->user()->hospital_id, 'hospitalResponse' => 'pending', 'status' => 'waiting']);
-
+            
             $notifications = new Notification;
             $notifications->notifNo = rand(100000,950000);
             $notifications->entity = 'hospital '.auth()->guard('admin')->user()->hospital_id;
@@ -192,7 +193,21 @@ class bloodRequestController extends Controller
             'blood_bags'=>$bloodBags
         ]);
     }
-
+    
+    //for invoice mail
+    public $invrequestNo;
+    public $invdate;
+    public $invtime;
+    public $invfullname;
+    public $invnic;
+    public $invemail;
+    public $invtelephone;
+    public $invbagNo;
+    public $invbloodGroup;
+    public $invexpiryDate;
+    public $invstaffName;
+    public $invstaffTelephone;
+    
     public function acceptBloodRequest(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -223,22 +238,59 @@ class bloodRequestController extends Controller
             $requestUpdateMessage = 'Dear Requestor, Your Blood Request No. '.$requestId.' has been fulfilled with the Blood bag no.
             '.$bloodBagNo.'. Thank you.';
             
+            $invrequestNo = $request->input('requestNo');
+            $invdate = $request->input('date');
+            $invtime = $request->input('time');
+            $invfullname = $request->input('fullname');
+            $invnic = $request->input('nic');
+            $invemail = $request->input('email');
+            $invtelephone = $request->input('telephone');
+            $invbagNo = $request->input('bagNo');
+            $invbloodGroup = $request->input('bloodGroup');
+            $invexpiryDate = $request->input('expiryDate');
+            $invstaffName = $request->input('staffName');
+            $invstaffTelephone = $request->input('staffTelephone');
+            
             $invoices = new Invoice;
-            $invoices->requestNo = $request->input('requestNo');
-            $invoices->date = $request->input('date');
-            $invoices->time = $request->input('time');
-            $invoices->fullname = $request->input('fullname');
-            $invoices->nic = $request->input('nic');
-            $invoices->email = $request->input('email');
-            $invoices->telephone = $request->input('telephone');
-            $invoices->bagNo = $request->input('bagNo');
-            $invoices->bloodGroup = $request->input('bloodGroup');
-            $invoices->expiryDate = $request->input('expiryDate');
-            $invoices->staffName = $request->input('staffName');
-            $invoices->staffTelephone = $request->input('staffTelephone');
+            $invoices->requestNo = $invrequestNo;
+            $invoices->date = $invdate;
+            $invoices->time = $invtime;
+            $invoices->fullname = $invfullname;
+            $invoices->nic = $invnic;
+            $invoices->email = $invemail;
+            $invoices->telephone = $invtelephone;
+            $invoices->bagNo = $invbagNo;
+            $invoices->bloodGroup = $invbloodGroup;
+            $invoices->expiryDate = $invexpiryDate;
+            $invoices->staffName = $invstaffName;
+            $invoices->staffTelephone = $invstaffTelephone;
             $invoices->save();
             
-            Mail::to($email)->send(new requestUpdateMail($requestUpdateMessage));
+            $data["email"] = $invemail;
+            $data["title"] = "Blood Receival Receipt";
+            $data["invrequestNo"] = $invrequestNo;
+            $data["invdate"] = $invdate;
+            $data["invtime"] = $invtime;
+            $data["invfullname"] = $invfullname;
+            $data["invnic"] = $invnic;
+            $data["invemail"] = $invemail;
+            $data["invtelephone"] = $invtelephone;
+            $data["invbagNo"] = $invbagNo;
+            $data["invbloodGroup"] = $invbloodGroup;
+            $data["invexpiryDate"] = $invexpiryDate;
+            $data["invstaffName"] = $invstaffName;
+            $data["invstaffTelephone"] = $invstaffTelephone;
+            $data["requestUpdateMessage"] = $requestUpdateMessage;
+
+            $pdf = PDF::loadView('admin.dashboard.staffControls.invoicePDF',$data);
+            
+            Mail::send('admin.dashboard.staffControls.requestAcceptedMail', $data, function($message)use($data, $pdf) {
+                $message->to($data["email"], $data["email"])
+                ->subject($data["title"])
+                ->attachData($pdf->output(), "Receipt.pdf");
+            });
+            
+            //Mail::to($email)->send(new requestUpdateMail($requestUpdateMessage));
             
             //record activity
             $activities = new Activity;

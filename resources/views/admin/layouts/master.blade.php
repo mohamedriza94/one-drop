@@ -153,7 +153,7 @@
                         </a>
                     </div>
                     <div class="nav-item theme-text">
-                        <a href="" class="nav-link"> ONE DROP </a>
+                        <a href="{{ route('admin.dashboard') }}" class="nav-link"> ONE DROP </a>
                     </div>
                 </div>
             </div>
@@ -172,7 +172,7 @@
                 <li class="menu {{ (\Request::route()->getName() == 'admin.staffMessage') ? 'active' : '' }}">
                     <a href="{{ route('admin.staffMessage') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
-                            <span><i class="fa-solid fa-envelope" style="width:50px; height:100%;"></i> Staff Messages</span>
+                            <span><i class="fa-solid fa-envelope" style="width:50px; height:100%;"></i>Staff Messages</span>
                         </div>
                     </a>
                 </li>
