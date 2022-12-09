@@ -163,8 +163,7 @@
                 <li class="menu {{ (\Request::route()->getName() == 'admin.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('admin.dashboard') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
-                            <i class="fa-solid fa-home" style="width:50px; height:100%;"></i> 
-                            <span>Home</span>
+                            <span><i class="fa-solid fa-home" style="width:50px; height:100%;"></i>Home</span>
                         </div>
                     </a>
                 </li>
@@ -173,45 +172,39 @@
                 <li class="menu {{ (\Request::route()->getName() == 'admin.staffMessage') ? 'active' : '' }}">
                     <a href="{{ route('admin.staffMessage') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
-                            
-                            <i class="fa-solid fa-envelope" style="width:50px; height:100%;"></i> 
-                            <span>Staff Messages</span>
+                            <span><i class="fa-solid fa-envelope" style="width:50px; height:100%;"></i> Staff Messages</span>
                         </div>
                     </a>
                 </li>
                 
                 <li class="menu {{ (\Request::route()->getName() == 'admin.staff') ? 'active' : '' }}">
                     <a href="{{ route('admin.staff') }}" aria-expanded="false" class="dropdown-toggle d-flex align-items-baseline">
-                        <div class="">
-                            <i class="fa-solid fa-users" style="width:50px; height:100%;"></i>    
-                            <span>Staff</span>
+                        <div class="">    
+                            <span><i class="fa-solid fa-users" style="width:50px; height:100%;"></i>Staff</span>
                         </div>
                     </a>
                 </li>
                 
                 <li class="menu {{ (\Request::route()->getName() == 'admin.hospital') ? 'active' : '' }}">
                     <a href="{{ route('admin.hospital') }}" aria-expanded="false" class="dropdown-toggle d-flex align-items-baseline">
-                        <div class="">
-                            <i class="fa-solid fa-hospital" style="width:50px; height:100%;"></i>    
-                            <span>Hospitals</span>
+                        <div class="">    
+                            <span><i class="fa-solid fa-hospital" style="width:50px; height:100%;"></i>Hospitals</span>
                         </div>
                     </a>
                 </li>
                 
                 <li class="menu {{ (\Request::route()->getName() == 'admin.activity') ? 'active' : '' }}">
                     <a href="{{ route('admin.activity') }}" aria-expanded="false" class="dropdown-toggle d-flex align-items-baseline">
-                        <div class="">
-                            <i class="fa-solid fa-list-check" style="width:50px; height:100%;"></i>    
-                            <span>Activities</span>
+                        <div class="">  
+                            <span><i class="fa-solid fa-list-check" style="width:50px; height:100%;"></i>Activities</span>
                         </div>
                     </a>
                 </li>
                 
-                <li class="menu">
-                    <a href="" aria-expanded="false" class="dropdown-toggle">
+                <li class="menu {{ (\Request::route()->getName() == 'admin.news') ? 'active' : '' }}">
+                    <a href="{{ route('admin.news') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
-                            <i class="fa-solid fa-newspaper" style="width:50px; height:100%;"></i>
-                            <span>News</span>
+                            <span><i class="fa-solid fa-newspaper" style="width:50px; height:100%;"></i>News</span>
                         </div>
                     </a>
                 </li>
@@ -470,8 +463,7 @@
                 <li class="menu {{ (\Request::route()->getName() == 'admin.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('admin.dashboard') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
-                            <i class="fa-solid fa-home" style="width:50px; height:100%;"></i> 
-                            <span>Home</span>
+                            <span><i class="fa-solid fa-home" style="width:50px; height:100%;"></i>Home</span>
                         </div>
                     </a>
                 </li>
@@ -480,8 +472,8 @@
                 <li class="menu {{ (\Request::route()->getName() == 'admin.staffControls.message') ? 'active' : '' }}">
                     <a href="{{ route('admin.staffControls.message') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
-                            <i class="fa-solid fa-envelope" style="width:50px; height:100%;"></i> 
-                            <span>Messages</span>
+                             
+                            <span><i class="fa-solid fa-envelope" style="width:50px; height:100%;"></i>Messages</span>
                         </div>
                     </a>
                 </li>
@@ -489,8 +481,8 @@
                 <li class="menu {{ (\Request::route()->getName() == 'admin.staffControls.bloodBag') ? 'active' : '' }}">
                     <a href="{{ route('admin.staffControls.bloodBag') }}" aria-expanded="false" class="dropdown-toggle d-flex align-items-baseline">
                         <div class="">
-                            <i class="fa-solid fa-droplet" style="width:50px; height:100%;"></i>    
-                            <span>Blood Bags</span>
+                                
+                            <span><i class="fa-solid fa-droplet" style="width:50px; height:100%;"></i>Blood Bags</span>
                         </div>
                     </a>
                 </li>
@@ -498,8 +490,8 @@
                 <li class="menu">
                     <a href="#donations" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
-                            <i class="fa-solid fa-user" style="width:50px; height:100%;"></i>
-                            <span>Donations</span>
+                            
+                            <span><i class="fa-solid fa-user" style="width:50px; height:100%;"></i>Donations</span>
                         </div>
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>

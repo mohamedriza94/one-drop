@@ -74,6 +74,11 @@ Route::group([
                 Route::get('/fetchReply/{messageId}', 'staffMessageController@fetchReply');
                 Route::put('/viewedReplyUpdateStatus/{id}', 'staffMessageController@viewedReplyUpdateStatus');
                 
+                //admin news  
+                Route::get('/news', 'newsController@index')->name('admin.news');
+                Route::get('/adminFetchNews', 'newsController@adminFetchNews');
+                Route::get('/adminSearchNews/{input}', 'newsController@adminSearchNews');
+                Route::get('/adminfetchSingleNews/{id}', 'newsController@adminfetchSingleNews');
                 
                 //===========================================================================
                 //Staff routes---------------------------------------------------------------

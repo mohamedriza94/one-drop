@@ -110,7 +110,7 @@
                         </div>
                     </div>
                     
-                    <a class="bg-light text-bold text-center" href="{{ Route('visitor.news') }}"><b>See More Posts</b></a>
+                    <a class="bg-success text-bold text-center text-white" href="{{ Route('visitor.news') }}"><b>See More Posts</b></a>
                 </div><!-- .card-preview -->
             </div>
         </div>

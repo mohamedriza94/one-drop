@@ -29,7 +29,7 @@
                                     class="icon ni ni-menu"></em></a>
                         </div>
                         <div class="nk-header-brand">
-                            <a href="html/index.html" class="logo-link d-flex align-items-center">
+                            <a href="{{ Route('visitor.home') }}" class="logo-link d-flex align-items-center">
                                 <img class="logo-light logo-img" src="{{ asset('assets/client/images/logo.png') }}"
                                     alt="logo">
                                 <img class="logo-dark logo-img"
@@ -39,7 +39,7 @@
                         <div class="nk-header-menu ms-auto" data-content="headerNav">
                             <div class="nk-header-mobile">
                                 <div class="nk-header-brand">
-                                    <a href="html/index.html" class="logo-link">
+                                    <a href="{{ Route('visitor.home') }}" class="logo-link">
                                         <img class="logo-light logo-img"
                                             src="{{ asset('assets/client/images/logo.png') }}" srcset=""
                                             alt="logo">
@@ -93,7 +93,7 @@
                                     </a>
                                 </li><!-- .nk-menu-item -->
 
-                                <li class="nk-menu-item bg-primary" data-bs-toggle="modal"
+                                <li class="nk-menu-item bg-dark" data-bs-toggle="modal"
                                     data-bs-target="#becomeADonorModal">
                                     <a href="#" class="nk-menu-link" style="color:white">
                                         <span class="nk-menu-text">Become a Donor</span>
