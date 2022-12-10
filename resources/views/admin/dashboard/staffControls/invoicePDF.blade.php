@@ -6,9 +6,9 @@
 <body>
     <div style="background: #f6f8ff; border:solid; border-radius:10px; padding:50px; border-color:rgb(26, 141, 235);">
 
-        <h2 style="color:rgb(154, 40, 247)">ONE DROP - BLOOD RECEIVAL RECEIPT</h2>
+        <h2 style="color:rgb(255, 0, 0)">ONE DROP - BLOOD RECEIVAL RECEIPT</h2>
 
-        <hr style="border-radius:10px; border-color:rgb(194, 131, 245)"><br>
+        <hr style="border-radius:10px; border-color:rgb(250, 132, 132)"><br>
 
         <p><b>Request No. :</b> &nbsp; {{ $invrequestNo }}</p>
         <p><b>Date :</b> &nbsp; {{ $invdate }}</p>
