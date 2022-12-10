@@ -18,11 +18,11 @@ class DashboardController extends Controller
     {
         if(auth()->guard('admin')->user()->role == 'admin')
         {
-            $notifications = Notification::where('entity','LIKE','%'.'admin'.'%')->orderBy('id', 'DESC')->get();
+            $notifications = Notification::where('entity','LIKE','%'.'admin'.'%')->orderBy('id', 'DESC')->limit(8)->get();
         }
         else
         {
-            $notifications = Notification::where('entity','LIKE','%'.'staff'.'%')->where('entity','LIKE','%'.auth()->guard('admin')->user()->id.'%')->orWhere('entity','LIKE','%'.'commonStf'.'%')->orderBy('id', 'DESC')->limit(4)->get();
+            $notifications = Notification::where('entity','LIKE','%'.'staff'.'%')->where('entity','LIKE','%'.auth()->guard('admin')->user()->id.'%')->orWhere('entity','LIKE','%'.'commonStf'.'%')->orderBy('id', 'DESC')->limit(8)->get();
         }
 
         return response()->json([

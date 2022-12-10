@@ -197,6 +197,9 @@ Route::group([
                 //notifications
                 Route::get('/fetchNotifications', 'DashboardController@fetchNotifications');
                 Route::put('/notifUpdate', 'DashboardController@notifUpdate');
+
+                //campaign routes
+                Route::get('/campaign', 'Staff\campaignController@index')->name('admin.staffControls.campaign');
             });
             
         });

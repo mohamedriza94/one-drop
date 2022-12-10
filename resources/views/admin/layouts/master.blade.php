@@ -520,6 +520,14 @@
                 </li>
                 
                 <hr>
+
+                <li class="menu {{ (\Request::route()->getName() == 'admin.staffControls.campaign') ? 'active' : '' }}">
+                    <a href="{{ route('admin.staffControls.campaign') }}" aria-expanded="false" class="dropdown-toggle">
+                        <div class="">
+                            <span><i class="fa-solid fa-book" style="width:50px; height:100%;"></i>Campaign</span>
+                        </div>
+                    </a>
+                </li>
                 
                 <li class="menu {{ (\Request::route()->getName() == 'admin.staffControls.news') ? 'active' : '' }}">
                     <a href="{{ route('admin.staffControls.news') }}" aria-expanded="false" class="dropdown-toggle">
