@@ -524,8 +524,7 @@
                 <li class="menu {{ (\Request::route()->getName() == 'admin.staffControls.news') ? 'active' : '' }}">
                     <a href="{{ route('admin.staffControls.news') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
-                            <i class="fa-solid fa-newspaper" style="width:50px; height:100%;"></i>
-                            <span>News</span>
+                            <span><i class="fa-solid fa-newspaper" style="width:50px; height:100%;"></i>News</span>
                         </div>
                     </a>
                 </li>
@@ -533,8 +532,7 @@
                 <li class="menu {{ (\Request::route()->getName() == 'admin.invoice') ? 'active' : '' }}">
                     <a href="{{ route('admin.invoice') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
-                            <i class="fa-solid fa-receipt" style="width:50px; height:100%;"></i>
-                            <span>Invoice</span>
+                            <span><i class="fa-solid fa-receipt" style="width:50px; height:100%;"></i>Invoice</span>
                         </div>
                     </a>
                 </li>
@@ -542,8 +540,7 @@
                 <li class="menu {{ (\Request::route()->getName() == 'admin.staffControls.tracking') ? 'active' : '' }}">
                     <a href="{{ route('admin.staffControls.tracking') }}" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
-                            <i class="fa-solid fa-chalkboard" style="width:50px; height:100%;"></i>
-                            <span>Tracking</span>
+                            <span><i class="fa-solid fa-chalkboard" style="width:50px; height:100%;"></i>Tracking</span>
                         </div>
                     </a>
                 </li>

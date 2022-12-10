@@ -767,10 +767,7 @@
                             $('#btnYes').text('Confirm');
                             $('#btnYes').removeClass('btn-success');
                             $('#btnYes').addClass('btn-outline-success');
-                            
-                            $('#invoiceBody').removeClass('d-none');
-                            $('#invoiceBody').printThis();
-                            
+                            $('#checkModal').modal('hide');
                             $('#confirmationSection').addClass('d-none');
                             $('#btnProvide').removeClass('d-none');
                         }, 2000);
