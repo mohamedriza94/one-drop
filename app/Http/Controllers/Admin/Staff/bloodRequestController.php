@@ -232,7 +232,7 @@ class bloodRequestController extends Controller
             $invoices->nic = $request->input('nic');
             $invoices->email = $request->input('email');
             $invoices->telephone = $request->input('telephone');
-            $invoices->bagNo = $request->input('bagNo');
+            $invoices->bagNo = $request->input('bloodBagNo');
             $invoices->bloodGroup = $request->input('bloodGroup');
             $invoices->expiryDate = $request->input('expiryDate');
             $invoices->staffName = $request->input('staffName');
@@ -249,7 +249,7 @@ class bloodRequestController extends Controller
             $data["invnic"] = $request->input('nic');
             $data["invemail"] = $request->input('email');
             $data["invtelephone"] = $request->input('telephone');
-            $data["invbagNo"] = $request->input('bagNo');
+            $data["invbagNo"] = $request->input('bloodBagNo');
             $data["invbloodGroup"] = $request->input('bloodGroup');
             $data["invexpiryDate"] = $request->input('expiryDate');
             $data["invstaffName"] = $request->input('staffName');
