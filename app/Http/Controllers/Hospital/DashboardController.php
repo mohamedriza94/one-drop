@@ -15,7 +15,7 @@ class DashboardController extends Controller
 
     public function fetchNotifications()
     {
-        $notifications = Notification::where('entity','LIKE','%'.'hospital'.'%')->where('entity','LIKE','%'.auth()->guard('hospital')->user()->no.'%')->orderBy('id', 'DESC')->get();
+        $notifications = Notification::where('entity','LIKE','%'.'hospital'.'%')->where('entity','LIKE','%'.auth()->guard('hospital')->user()->no.'%')->orderBy('id', 'DESC')->limit(4)->get();
         
         return response()->json([
             'notifications'=>$notifications
