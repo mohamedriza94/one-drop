@@ -208,8 +208,12 @@ Route::group([
                 Route::post('/newCampaign', 'Staff\campaignController@newCampaign');
                 Route::get('/fetchSingleCampaign/{id}', 'Staff\campaignController@fetchSingleCampaign');
                 Route::delete('/deleteCampaign/{campaignNo}', 'Staff\campaignController@deleteCampaign');
+                Route::delete('/deleteCampaignPhoto/{id}', 'Staff\campaignController@deleteCampaignPhoto');
+                Route::delete('/deleteCampaignTag/{id}', 'Staff\campaignController@deleteCampaignTag');
                 Route::put('/changeStatus/{id}', 'Staff\campaignController@changeStatus');
                 Route::post('/editCampaign', 'Staff\campaignController@editCampaign');
+                Route::post('/addTag', 'Staff\campaignController@addTag');
+                Route::post('/uploadPhoto', 'Staff\campaignController@uploadPhoto');
             });
             
         });

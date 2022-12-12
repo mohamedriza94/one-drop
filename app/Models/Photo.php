@@ -14,5 +14,6 @@ class Photo extends Model
     protected $fillable = [
         'campaignNo',
         'photo',
+        'caption',
     ];
 }

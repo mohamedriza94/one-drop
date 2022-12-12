@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('campaignNo');
             $table->string('photo');
+            $table->string('caption')->nullable();
             $table->timestamps();
         });
     }
