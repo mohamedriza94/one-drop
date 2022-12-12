@@ -200,6 +200,16 @@ Route::group([
 
                 //campaign routes
                 Route::get('/campaign', 'Staff\campaignController@index')->name('admin.staffControls.campaign');
+                Route::get('/fetchCampaign', 'Staff\campaignController@fetchCampaign');
+                Route::get('/searchCampaign/{input}', 'Staff\campaignController@searchCampaign');
+                Route::get('/fetchActiveCampaign', 'Staff\campaignController@fetchActiveCampaign');
+                Route::get('/fetchInactiveCampaign', 'Staff\campaignController@fetchInactiveCampaign');
+                Route::get('/fetchEndedCampaign', 'Staff\campaignController@fetchEndedCampaign');
+                Route::post('/newCampaign', 'Staff\campaignController@newCampaign');
+                Route::get('/fetchSingleCampaign/{id}', 'Staff\campaignController@fetchSingleCampaign');
+                Route::delete('/deleteCampaign/{campaignNo}', 'Staff\campaignController@deleteCampaign');
+                Route::put('/changeStatus/{id}', 'Staff\campaignController@changeStatus');
+                Route::post('/editCampaign', 'Staff\campaignController@editCampaign');
             });
             
         });
