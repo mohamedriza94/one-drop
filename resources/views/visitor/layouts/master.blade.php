@@ -690,6 +690,7 @@
     <script src="{{ asset('assets/client/assets/js/bundle.js?ver=3.0.3') }}"></script>
     <script src="{{ asset('assets/client/assets/js/scripts.js?ver=3.0.3') }}"></script>
     <script src="{{ asset('assets/client/assets/js/charts/gd-invest.js?ver=3.0.3') }}"></script>
+    <script src="{{asset('assets/print/printThis.js')}}"></script>
     
 </body>
 

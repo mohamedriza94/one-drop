@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\NewsAndUpdate;
+use App\Models\Campaign;
+use App\Models\CampaignTag;
+use App\Models\Photo;
 
 class newsController extends Controller
 {
@@ -24,14 +27,26 @@ class newsController extends Controller
         ]);
     }
     
-    public function fetchNewsAndUpdates_ForHomePage()
+    public function fetchUpdates_ForHomePage()
     {
         $newsandupdates = NewsAndUpdate::where('status', '=', "active")->orderBy('id', 'DESC')->limit(3)->get();
+        $campaigns = Campaign::where('status','=','active')->orderBy('id', 'DESC')->limit(3)->get();
         
         return response()->json([
             'newsandupdates'=>$newsandupdates,
+            'campaigns'=>$campaigns
         ]);
     }
+    
+    public function fetchCampainTags_ForHomePage($campaignId)
+    {
+        $campaignTags = CampaignTag::where('campaignNo','=',$campaignId)->orderBy('id', 'DESC')->get();
+
+        return response()->json([
+            'campaignTags'=>$campaignTags
+        ]);
+    }
+    
     
     public function fetchSingleNews($id)
     {
@@ -50,5 +65,15 @@ class newsController extends Controller
                 'message'=>'Post Unavailable'
             ]);
         }
+    }
+
+    public function seeCampaignPage($id)
+    {
+        $campaigns = Campaign::where('id','=',$id)->first();
+        $campaignTags = CampaignTag::where('campaignNo','=',$id)->get();
+        $photos = Photo::where('campaignNo','=',$id)->get();
+
+        return view('visitor.dashboard.seeCampaign')->with('campaigns', $campaigns)->with('campaignTags', $campaignTags)->with('photos', $photos);
+
     }
 }

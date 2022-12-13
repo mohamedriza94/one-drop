@@ -24,8 +24,12 @@ Route::group([
             //news routes
             Route::get('/news', 'newsController@index')->name('visitor.news');
             Route::get('/fetchNewsAndUpdates', 'newsController@fetchNewsAndUpdates');
-            Route::get('/fetchNewsAndUpdates_ForHomePage', 'newsController@fetchNewsAndUpdates_ForHomePage');
+            Route::get('/fetchUpdates_ForHomePage', 'newsController@fetchUpdates_ForHomePage');
+            Route::get('/fetchCampainTags_ForHomePage/{campaignId}', 'newsController@fetchCampainTags_ForHomePage');
             Route::get('/fetchSingleNews/{id}', 'newsController@fetchSingleNews');
+
+            //see campaigns
+            Route::get('/seeCampaign/{id}', 'newsController@seeCampaignPage');
             
             //navigate to donor login
             Route::get('/donorLogin', 'homeController@donorLogin')->name('visitor.donorLogin');

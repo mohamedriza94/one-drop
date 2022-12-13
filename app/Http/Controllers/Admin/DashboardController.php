@@ -22,7 +22,7 @@ class DashboardController extends Controller
         }
         else
         {
-            $notifications = Notification::where('entity','LIKE','%'.'staff'.'%')->where('entity','LIKE','%'.auth()->guard('admin')->user()->id.'%')->orWhere('entity','LIKE','%'.'commonStf'.'%')->orderBy('id', 'DESC')->limit(8)->get();
+            $notifications = Notification::where('entity','LIKE','%'.'staff'.'%')->where('entity','LIKE','%'.auth()->guard('admin')->user()->id.'%')->orWhere('entity','LIKE','%'.'commonStf'.'%')->orderBy('id', 'DESC')->limit(4)->get();
         }
 
         return response()->json([
