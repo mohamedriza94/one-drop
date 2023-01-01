@@ -630,6 +630,11 @@
                             <label class="form-label">Email</label>
                             <input type="email" style="color:black" readonly class="form-control" id="profileEmail" name="" value="{{ Auth::guard('admin')->user()->email }}">
                         </div>
+                        
+                        <div class="col-md-12">
+                            <label class="form-label">Assigned Hospital</label>
+                            <input type="email" style="color:white" readonly class="form-control bg-primary" id="profileAssignedHospital" name="" >
+                        </div>
                     </div>
                     <!-- </form> -->
                 </div>
@@ -894,6 +899,7 @@
                         $('#view_photo').attr("src",response.admins.photo);
                         $('#profilePhotoHeader').attr("src",response.admins.photo);
                         $('#profilePhotoDropDown').attr("src",response.admins.photo);
+                        $('#profileAssignedHospital').val(response.assignedHospital.name);
                     }
                 }
             });

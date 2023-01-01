@@ -24,7 +24,7 @@ class requestController extends Controller
             'email' => ['required','email'],
             'fullName' => ['required'],
         ]); //validate all the data
-
+        
         if($validator->fails())
         {
             return response()->json([
@@ -37,23 +37,29 @@ class requestController extends Controller
             $requests = new BloodRequest;
             $requestNo = $request->input('requestNo');
             
+            //splitting and imploding telephone input to filter our zeros and enter 0094
+            $split_telephone_string = str_split($request->input('telephone'));
+            $filteredArray = array_diff($split_telephone_string, [$split_telephone_string[0]]);
+            $telephone_imploded = implode("", $filteredArray);
+            $telephone_final_string = '+94'.$telephone_imploded;
+            
             $requests->requestNo = $requestNo;
             $requests->nic = $request->input('nic');
             $requests->fullName = $request->input('fullName');
             $requests->email = $request->input('email');
-            $requests->telephone = $request->input('telephone');
+            $requests->telephone = $telephone_final_string;
             $requests->bloodGroup = $request->input('bloodGroup');
             $requests->fulfilDate = '-';
             $requests->remark = '-';
             $requests->date = now();
             $requests->time = now();
             $requests->status = 'pending';
-
+            
             $requests->save();
-
+            
             $mailRequestNo = $request->input('requestNo');
             Mail::to($request->input('email'))->send(new bloodRequesMail($mailRequestNo));
-
+            
             $notifications = new Notification;
             $notifications->notifNo = rand(100000,950000);
             $notifications->entity = 'commonStf';
@@ -69,15 +75,15 @@ class requestController extends Controller
             ]);
         }
     }
-
+    
     public function trackBloodRequest($id)
     {
         $isBloodRequestsExist = BloodRequest::select("*")->where("requestNo", $id)->exists();
-
+        
         if($isBloodRequestsExist)
         {
             $bloodrequests = BloodRequest::where('requestNo', '=', $id)->get();
-
+            
             return response()->json([
                 'status' => 200,
                 'bloodrequests'=>$bloodrequests

@@ -31,12 +31,18 @@ class donorRequestController extends Controller
         }
         else
         {
+            //splitting and imploding telephone input to filter our zeros and enter 0094
+            $split_telephone_string = str_split($request->input('telephone'));
+            $filteredArray = array_diff($split_telephone_string, [$split_telephone_string[0]]);
+            $telephone_imploded = implode("", $filteredArray);
+            $telephone_final_string = '+94'.$telephone_imploded;
+
             $donorRequests = new DonorRequest;
             $donorRequests->donorRequestNo = $request->input('donorRequestNo');
             $donorRequests->nic = $request->input('nic');
             $donorRequests->fullName = $request->input('fullName');
             $donorRequests->email = $request->input('email');
-            $donorRequests->telephone = $request->input('telephone');
+            $donorRequests->telephone = $telephone_final_string;
             $donorRequests->age = $request->input('age');
             $donorRequests->dateOfBirth = $request->input('dateOfBirth');
             $donorRequests->date = now();

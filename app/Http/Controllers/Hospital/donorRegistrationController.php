@@ -44,6 +44,12 @@ class donorRegistrationController extends Controller
             $hospitalDonorPassword = rand(1500000,9515959);
             $hospitalDonorEmail = $request->input('email');
             
+            //splitting and imploding telephone input to filter our zeros and enter 0094
+            $split_telephone_string = str_split($request->input('telephone'));
+            $filteredArray = array_diff($split_telephone_string, [$split_telephone_string[0]]);
+            $telephone_imploded = implode("", $filteredArray);
+            $telephone_final_string = '+94'.$telephone_imploded;
+            
             Mail::to($request->input('email'))->send(new registeredHospitalDonorMail($hospitalDonorEmail, $hospitalDonorPassword));
             
             $donors = new Donor;
@@ -54,7 +60,7 @@ class donorRegistrationController extends Controller
             $donors->dateofbirth = $request->input('dateofbirth');
             $donors->age = $request->input('age');
             $donors->gender = $request->input('gender');
-            $donors->telephone = $request->input('telephone');
+            $donors->telephone = $telephone_final_string;
             $donors->email = $request->input('email');
             $donors->status = 'active';
             $donors->bloodGroup = $request->input('bloodGroup');

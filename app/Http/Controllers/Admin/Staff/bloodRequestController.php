@@ -225,13 +225,20 @@ class bloodRequestController extends Controller
             '.$bloodBagNo.'. Thank you.';
 
             $invoices = new Invoice;
+
+            //splitting and imploding telephone input to filter our zeros and enter 0094
+            $split_telephone_string = str_split($request->input('telephone'));
+            $filteredArray = array_diff($split_telephone_string, [$split_telephone_string[0]]);
+            $telephone_imploded = implode("", $filteredArray);
+            $telephone_final_string = '+94'.$telephone_imploded;
+
             $invoices->requestNo = $request->input('requestNo');
             $invoices->date = $request->input('date');
             $invoices->time = $request->input('time');
             $invoices->fullname = $request->input('fullname');
             $invoices->nic = $request->input('nic');
             $invoices->email = $request->input('email');
-            $invoices->telephone = $request->input('telephone');
+            $invoices->telephone = $telephone_final_string;
             $invoices->bagNo = $request->input('bloodBagNo');
             $invoices->bloodGroup = $request->input('bloodGroup');
             $invoices->expiryDate = $request->input('expiryDate');
@@ -248,7 +255,7 @@ class bloodRequestController extends Controller
             $data["invfullname"] = $request->input('fullname');
             $data["invnic"] = $request->input('nic');
             $data["invemail"] = $request->input('email');
-            $data["invtelephone"] = $request->input('telephone');
+            $data["invtelephone"] = $telephone_final_string;
             $data["invbagNo"] = $request->input('bloodBagNo');
             $data["invbloodGroup"] = $request->input('bloodGroup');
             $data["invexpiryDate"] = $request->input('expiryDate');

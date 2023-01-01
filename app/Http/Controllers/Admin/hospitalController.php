@@ -48,6 +48,12 @@ class hospitalController extends Controller
         }
         else
         {
+            //splitting and imploding telephone input to filter our zeros and enter 0094
+            $split_telephone_string = str_split($request->input('landline'));
+            $filteredArray = array_diff($split_telephone_string, [$split_telephone_string[0]]);
+            $telephone_imploded = implode("", $filteredArray);
+            $telephone_final_string = '+94'.$telephone_imploded;
+
             $hospitalNo = $request->input('no');
             $hospitalPassword = $request->input('password');
 
@@ -55,7 +61,7 @@ class hospitalController extends Controller
             $hospitals->no = $request->input('no');
             $hospitals->name = $request->input('hospitalName');
             $hospitals->address = $request->input('address');
-            $hospitals->landline = $request->input('landline');
+            $hospitals->landline = $telephone_final_string;
             $hospitals->description = $request->input('description');
             $hospitals->email = $request->input('email');
             $hospitals->password = Hash::make($request->input('password'));
@@ -100,9 +106,9 @@ class hospitalController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'update_name' => ['required','max:100'],
-            'address' => ['required','max:255','unique:hospitals'],
-            'landline' => ['required','numeric','digits_between:9,10','unique:hospitals'],
-            'email' => ['required','email','unique:hospitals'],
+            'address' => ['required','max:255'],
+            'landline' => ['required','numeric','digits_between:9,10'],
+            'email' => ['required','email'],
         ]); //validate all the data
 
         if($validator->fails())
@@ -118,9 +124,15 @@ class hospitalController extends Controller
 
             if($hospitals)
             {
+                //splitting and imploding telephone input to filter our zeros and enter 0094
+                $split_telephone_string = str_split($request->input('landline'));
+                $filteredArray = array_diff($split_telephone_string, [$split_telephone_string[0]]);
+                $telephone_imploded = implode("", $filteredArray);
+                $telephone_final_string = '+94'.$telephone_imploded;
+                
                 $hospitals->name = $request->input('update_name');
                 $hospitals->address = $request->input('address');
-                $hospitals->landline = $request->input('landline');
+                $hospitals->landline = $telephone_final_string;
                 $hospitals->description = $request->input('update_description');
                 $hospitals->email = $request->input('email');
 

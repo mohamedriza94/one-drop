@@ -26,11 +26,11 @@ class staffController extends Controller
             return back();
         }
     }
-
+    
     public function addStaff(Request $request)
     {
         $validator = Validator::make($request->all(), [
-
+            
             'no' => ['required','string','max:255','unique:admins'],
             'nic' => ['required','string','between:10,12','unique:admins'],
             'telephone' => ['required','numeric','digits_between:9,10','unique:admins'],
@@ -41,9 +41,9 @@ class staffController extends Controller
             'photo' => ['required','image'],
             'email' => ['required','string','max:255','email','unique:admins'],
             'status' => ['required'],
-
+            
         ]); //validate all the data
-
+        
         if($validator->fails())
         {
             return response()->json([
@@ -57,35 +57,41 @@ class staffController extends Controller
             $staffEmail = $request->input('email');
             $role = 'staff';
             
+            //splitting and imploding telephone input to filter our zeros and enter 0094
+            $split_telephone_string = str_split($request->input('telephone'));
+            $filteredArray = array_diff($split_telephone_string, [$split_telephone_string[0]]);
+            $telephone_imploded = implode("", $filteredArray);
+            $telephone_final_string = '+94'.$telephone_imploded;
+            
             Mail::to($request->input('email'))->send(new sendStaffPassword($staffEmail, $staffPassword));
-
+            
             $admins = new Admin;
             $admins->no = $request->input('no');
             $admins->nic = $request->input('nic');
-            $admins->telephone = $request->input('telephone');
+            $admins->telephone = $telephone_final_string;
             $admins->fullname = $request->input('fullName');
             $admins->address = $request->input('address');
             $admins->dateofbirth = $request->input('dateOfBirth');
             $admins->gender = $request->input('gender');
             $admins->password = Hash::make($staffPassword);
             $admins->role = $role;
-
+            
             If(request('photo')!="")
             {
                 $photoPath = request('photo')->store('staff','public'); //get image path
                 $admins->photo = '/'.'storage/'.$photoPath;
             }
-
+            
             $admins->email = $request->input('email');
             $admins->status = $request->input('status');
             $admins->save();
-
+            
             return response()->json([
                 'status'=>200
             ]);
         }
     }
-
+    
     public function fetchStaff()
     {
         $admins = Admin::where('role', '=', "staff")->orderBy('id', 'DESC')->get();
@@ -93,7 +99,7 @@ class staffController extends Controller
             'admins'=>$admins,
         ]);
     }
-
+    
     public function fetchActiveStaff()
     {
         $admins = Admin::where('role', '=', "staff")->where('status', '=', "active")->orderBy('id', 'DESC')->get();
@@ -101,7 +107,7 @@ class staffController extends Controller
             'admins'=>$admins,
         ]);
     }
-
+    
     public function fetchInactiveStaff()
     {
         $admins = Admin::where('role', '=', "staff")->where('status', '=', "inactive")->orderBy('id', 'DESC')->get();
@@ -109,7 +115,7 @@ class staffController extends Controller
             'admins'=>$admins,
         ]);
     }
-
+    
     public function searchStaff($input)
     {
         $admins = Admin::where('role', '=', "staff")->Where('nic','LIKE','%'.$input.'%')->orderBy('id', 'DESC')->get();
@@ -117,7 +123,7 @@ class staffController extends Controller
             'admins'=>$admins,
         ]);
     }
-
+    
     public function fetchSingleStaff($id)
     {
         $admins = Admin::find($id);
@@ -135,29 +141,29 @@ class staffController extends Controller
             ]);
         }
     }
-
+    
     public function changeStatus(Request $request, $id)
     {
         $admins = Admin::where('id', $id)->update(['status' => $request->input('status')]);
-
+        
         return response()->json([
             'status'=>200
         ]);
     }
-
+    
     public function updateStaff(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-
+            
             'update_nic' => ['required','string','between:10,12'],
             'update_telephone' => ['required','numeric','digits_between:9,10'],
             'update_fullName' => ['required'],
             'update_address' => ['required','max:255'],
             'update_dateOfBirth' => ['required','max:12'],
             'update_email' => ['required','string','max:255','email'],
-
+            
         ]); //validate all the data
-
+        
         if($validator->fails())
         {
             return response()->json([
@@ -168,24 +174,30 @@ class staffController extends Controller
         else
         {
             $admins = Admin::find($id);;
-
+            
             if($admins)
             {
+                //splitting and imploding telephone input to filter our zeros and enter 0094
+                $split_telephone_string = str_split($request->input('update_telephone'));
+                $filteredArray = array_diff($split_telephone_string, [$split_telephone_string[0]]);
+                $telephone_imploded = implode("", $filteredArray);
+                $telephone_final_string = '+94'.$telephone_imploded;
+                
                 $admins->nic = $request->input('update_nic');
-                $admins->telephone = $request->input('update_telephone');
+                $admins->telephone = $telephone_final_string;
                 $admins->fullname = $request->input('update_fullName');
                 $admins->address = $request->input('update_address');
                 $admins->dateofbirth = $request->input('update_dateOfBirth');
-
+                
                 If(request('update_photo')!="")
                 {
                     $photoPath = request('update_photo')->store('staff','public'); //get image path
                     $admins->photo = '/'.'storage/'.$photoPath;
                 }
-
+                
                 $admins->email = $request->input('update_email');
                 $admins->save();
-
+                
                 return response()->json([
                     'status'=>200
                 ]);
@@ -199,7 +211,7 @@ class staffController extends Controller
             
         }
     }
-
+    
     public function deleteStaff(Request $request, $id)
     {
         $admins = Admin::find($id);
@@ -207,7 +219,7 @@ class staffController extends Controller
         if($admins)
         {
             $admins->delete();
-
+            
             return response()->json([
                 'status'=>200,
             ]);
@@ -219,7 +231,7 @@ class staffController extends Controller
             ]);
         }
     }
-
+    
     public function fetchHospitalToAssign()
     {
         $hospitals = Hospital::orderBy('id', 'DESC')->get();
@@ -227,29 +239,29 @@ class staffController extends Controller
             'hospitals'=>$hospitals,
         ]);
     }
-
+    
     public function appoint(Request $request, $id)
     {
         $isExist = Hospital::select("*")->where("no", $request->input('hospital_id'))->exists();
-
+        
         if ($isExist) {
-
+            
             $admins = Admin::find($id);
             
             $admins->hospital_id = $request->input('hospital_id');
             $admins->update();
-    
+            
             return response()->json([
                 'status'=>200,
             ]);
-
+            
         }else{
             return response()->json([
                 'status'=>400,
             ]);
         }
     }
-
+    
     public function fetchAssignedHospital($id)
     {
         $hospitals = Hospital::where("no",'=', $id)->first();
@@ -267,5 +279,5 @@ class staffController extends Controller
             ]);
         }
     }
-
+    
 }
