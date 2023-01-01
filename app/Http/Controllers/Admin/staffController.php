@@ -53,7 +53,7 @@ class staffController extends Controller
         }
         else
         {
-            $staffPassword = rand(1500000,9515959);
+            $staffPassword = route('admin.setPassword', ['no' => $request->input('no')]);
             $staffEmail = $request->input('email');
             $role = 'staff';
             

@@ -186,7 +186,6 @@ Route::group([
                 Route::get('/trackDonation/{donationNo}', 'Staff\donationController@trackDonation');
                 Route::get('/trackDonationReceiver/{receivedBloodBagNo}', 'Staff\donationController@trackDonationReceiver');
                 
-                
                 //invoice routes
                 Route::get('/invoice', 'Staff\invoiceController@index')->name('admin.invoice');
                 Route::get('/getInvoice/{input}', 'Staff\invoiceController@searchRequest');
@@ -198,6 +197,9 @@ Route::group([
                 Route::get('/fetchNotifications', 'DashboardController@fetchNotifications');
                 Route::put('/notifUpdate', 'DashboardController@notifUpdate');
 
+                //set password route
+                Route::get('staff/setPassword/{no}', 'staffController@setPassword')->name('admin.setPassword');
+                
                 //campaign routes
                 Route::get('/campaign', 'Staff\campaignController@index')->name('admin.staffControls.campaign');
                 Route::get('/fetchCampaign', 'Staff\campaignController@fetchCampaign');

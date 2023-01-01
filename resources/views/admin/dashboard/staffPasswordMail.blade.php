@@ -9,10 +9,10 @@
  <hr></br>
  <h3>Staff Login Credentials</h3></br>
  <p>You are now a staff member of One Drop. Now you can access your staff dashboard using the following 
-    Email and Password.</p></br></br>
+    Credentials</p></br></br>
     
 <p><b>Email: </b>{{$staffEmail}}</p></br>
-<p><b>Password: </b> {{$staffPassword}}</p></br>
+<p><b>Please visit this link and set your password: </b> {{$staffPassword}}</p></br>
 
 </body>
 </html> 
