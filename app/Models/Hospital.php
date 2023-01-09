@@ -26,9 +26,4 @@ class Hospital extends Authenticatable
         'password',
         'remember_token',
     ];
-
-    public function admin()
-    {
-        return $this->belongsTo(Admin::class);
-    }
 }

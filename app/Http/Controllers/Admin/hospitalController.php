@@ -55,7 +55,7 @@ class hospitalController extends Controller
             $telephone_final_string = '+94'.$telephone_imploded;
 
             $hospitalNo = $request->input('no');
-            $hospitalPassword = $request->input('password');
+            $hospitalPassword = route('hospital.setPassword', ['no' => $request->input('no')]);
 
             $hospitals = new Hospital;
             $hospitals->no = $request->input('no');

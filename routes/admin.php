@@ -12,6 +12,10 @@ Route::group([
         Route::get('/verify/{typedCode}/{email}', 'Auth\ForgotPasswordController@verifyCode');
         Route::get('/resetPassword/{typedCode}/{email}/{password}', 'Auth\ForgotPasswordController@resetPassword');
         
+        //set password route
+        Route::get('staff/setPassword/{no}', 'staffController@setPassword')->name('admin.setPassword'); //get page
+        Route::post('staff/setPassword/', 'staffController@submitPassword')->name('admin.setPassword.submit'); //form action
+        
         Route::post('/auth/register', 'Auth\RegisterController@registerAdmin'); //not used for now
         
         Route::group(['middleware' => ['auth:admin']], function () {
@@ -196,9 +200,6 @@ Route::group([
                 //notifications
                 Route::get('/fetchNotifications', 'DashboardController@fetchNotifications');
                 Route::put('/notifUpdate', 'DashboardController@notifUpdate');
-
-                //set password route
-                Route::get('staff/setPassword/{no}', 'staffController@setPassword')->name('admin.setPassword');
                 
                 //campaign routes
                 Route::get('/campaign', 'Staff\campaignController@index')->name('admin.staffControls.campaign');

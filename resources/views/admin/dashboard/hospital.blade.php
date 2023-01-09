@@ -199,15 +199,14 @@
               <input type="text" class="form-control" id="description" name="description">
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-6 d-none">
               <label class="form-label">Password</label>
-              <input  type="password" class="form-control" id="password" name="password">
-              <label class="form-label" style="color:red" id="passwordError"></label>
+              <input  type="password" class="form-control" id="password" name="password" value="123456">
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-6 d-none">
               <label class="form-label">Confirm Password</label>
-              <input  type="password" class="form-control" id="confirmPassword" name="confirmPassword">
+              <input  type="password" class="form-control" id="confirmPassword" name="confirmPassword" value="123456">
           </div>
 
           <div class="col-md-12">

@@ -131,7 +131,7 @@ class appointmentController extends Controller
         else
         {
             $donorNumber = 'OD'.$request->input('no');
-            $donorPassword = rand(1500000,9515959);
+            $donorPassword = route('donor.setPassword', ['no' => $request->input('no')]);
             $donorEmail = $request->input('email');
             
             //splitting and imploding telephone input to filter our zeros and enter 0094

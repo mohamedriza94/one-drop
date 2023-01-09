@@ -12,7 +12,7 @@
         been provided below. You can log in to your dashboard and keep your self updated.</p><br>
 
     <p><b>Email: </b>{{ $donorEmail }}</p>
-    <p><b>Password: </b>{{ $donorPassword }}</p>
+    <p><b>Please visit this link and set your password: </b> {{$donorPassword}}</p>
     <p>--------------------------------------------------</p>
 </body>
 </html> 

@@ -11,7 +11,7 @@
  <p>This Hospital has been registered at One Drop - Blood donation and blood banking information management</p><br>
     
 <p><b>Hospital No.: </b>{{$hospitalNo}}</p>
-<p><b>Password: </b> {{$hospitalPassword}}</p>
+<p><b>Please visit this link and set the password: </b> {{$hospitalPassword}}</p>
 
 </body>
 </html> 

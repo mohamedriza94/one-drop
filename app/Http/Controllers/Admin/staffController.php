@@ -280,4 +280,32 @@ class staffController extends Controller
         }
     }
     
+    public function setPassword($no)
+    {
+        return view('admin.auth.setPassword')->with('no',$no);
+    }
+    
+    public function submitPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            
+            'no' => ['required','exists:admins'],
+            'password' => 'required|min:6|confirmed',
+            
+        ]); //validate all the data
+
+        if($validator->fails())
+        {
+            return redirect()->back()->withErrors($validator);
+        }
+        else
+        {
+            $admins = Admin::where('no','=',$request->input('no'))->first();
+
+            $admins->password = Hash::make($request->input('password'));
+            $admins->save();
+
+            return redirect()->back()->with('message', 'PASSWORD RESET SUCCESSFULLY!');
+        }
+    }
 }

@@ -12,6 +12,9 @@ Route::group([
         Route::get('/verify/{typedCode}/{email}', 'Auth\ForgotPasswordController@verifyCode');
         Route::get('/resetPassword/{typedCode}/{email}/{password}', 'Auth\ForgotPasswordController@resetPassword');
         
+        //set password route
+        Route::get('setPassword/{no}', 'DashboardController@setPassword')->name('hospital.setPassword'); //get page
+        Route::post('setPassword/', 'DashboardController@submitPassword')->name('hospital.setPassword.submit'); //form action
         
         Route::group(['middleware' => ['auth:hospital']], function () {
             
@@ -76,7 +79,7 @@ Route::group([
                 Route::get('/tracking', 'donationController@trackingPage')->name('hospital.tracking');
                 Route::get('/trackDonation/{donationNo}', 'donationController@trackDonation');
                 Route::get('/trackDonationReceiver/{receivedBloodBagNo}', 'donationController@trackDonationReceiver');
-
+                
                 //message routes
                 Route::get('/message', 'messageController@index')->name('hospital.message');
                 Route::get('/fetchStaffList', 'messageController@fetchStaffList');

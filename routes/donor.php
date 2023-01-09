@@ -11,6 +11,10 @@ Route::group([
         Route::post('/sendVerificationCode/{email}', 'Auth\ForgotPasswordController@verifyEmail');
         Route::get('/verify/{typedCode}/{email}', 'Auth\ForgotPasswordController@verifyCode');
         Route::get('/resetPassword/{typedCode}/{email}/{password}', 'Auth\ForgotPasswordController@resetPassword');
+
+        //set password route
+        Route::get('setPassword/{no}', 'profileController@setPassword')->name('donor.setPassword'); //get page
+        Route::post('setPassword/', 'profileController@submitPassword')->name('donor.setPassword.submit'); //form action
         
         Route::group(['middleware' => ['auth:donor']], function () {
             
