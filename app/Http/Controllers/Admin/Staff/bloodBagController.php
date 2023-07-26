@@ -99,7 +99,9 @@ class bloodBagController extends Controller
     
     public function fetchCustomBloodBags($bloodGroup)
     {
-        $bloodBags = BloodBag::where('bag_no','LIKE','%'.'OD'.'%')->where('status','=','available')->where('bloodGroup','=',$bloodGroup)->orderBy('id','DESC')->get();
+        $bloodBags = BloodBag::where('bag_no','LIKE','%'.'OD'.'%')
+        ->where('status','=','available')->where('bloodGroup','=',$bloodGroup)
+        ->orderBy('id','DESC')->get();
         
         return response()->json([
             'blood_bags'=>$bloodBags

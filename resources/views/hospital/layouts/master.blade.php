@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>ONE DROP</title>
+    <title>LIFE SAVER</title>
     <link rel="icon" type="image/x-icon" href="{{asset('assets/admin/src/assets/img/.ico')}}"/>
     
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
@@ -121,7 +121,7 @@
                         </a>
                     </div>
                     <div class="nav-item theme-text">
-                        <a href="{{ route('hospital.dashboard') }}" class="nav-link"> ONE DROP </a>
+                        <a href="{{ route('hospital.dashboard') }}" class="nav-link"> LIFE SAVER </a>
                     </div>
                 </div>
             </div>
@@ -507,7 +507,7 @@
     <!--  BEGIN FOOTER  -->
     <div class="footer-wrapper">
         <div class="footer-section f-section-1">
-            <p class="">Copyright © <span class="dynamic-year">2022</span> <a href="">One Drop</a>, All rights reserved.</p>
+            <p class="">Copyright © <span class="dynamic-year">2022</span> <a href="">LIFE SAVER</a>, All rights reserved.</p>
         </div>
     </div>
     <!--  END FOOTER  -->

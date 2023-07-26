@@ -652,7 +652,7 @@
                             }
                             else if(senderType.includes('donorToStaff'))
                             {
-                                $('#sender').html('<b>'+$toOrFrom+'</b> One Drop');
+                                $('#sender').html('<b>'+$toOrFrom+'</b> LIFE SAVER');
                             }
                             else if(senderType.includes('hospitalToDonor'))
                             {

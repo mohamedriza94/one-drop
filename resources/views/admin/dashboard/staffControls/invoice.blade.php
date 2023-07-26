@@ -110,7 +110,7 @@
                                                                 <div class="col-sm-12 col-12 order-sm-0 order-1">
                                                                     <p id="staffMemberDetails"><b>STAFF MEMBER:</b> Name: &nbsp;&nbsp;
                                                                         Telephone: </p>
-                                                                        <p>Thank you for using One Drop Services.</p>
+                                                                        <p>Thank you for using Life Saver Services.</p>
                                                                     </div>
                                                                 </div>
                                                                 

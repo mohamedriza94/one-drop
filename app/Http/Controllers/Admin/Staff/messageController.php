@@ -235,7 +235,7 @@ class messageController extends Controller
                         $notifications = new Notification;
                         $notifications->notifNo = rand(100000,950000);
                         $notifications->entity = 'donor '.$notificationDonorNo;
-                        $notifications->text = 'Message from One Drop ('.$messageNo.')';
+                        $notifications->text = 'Message from Life Saver ('.$messageNo.')';
                         $notifications->date = NOW();
                         $notifications->time = NOW();
                         $notifications->status = '0';

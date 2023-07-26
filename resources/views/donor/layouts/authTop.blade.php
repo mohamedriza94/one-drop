@@ -9,7 +9,7 @@
     <!-- Fav Icon  -->
     {{-- <link rel="shortcut icon" href="./images/favicon.png"> --}}
     <!-- Page Title  -->
-    <title>ONE DROP</title>
+    <title>LIFE SAVER</title>
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ asset('assets/client/assets/css/dashlite.css?ver=3.0.3') }}">
     <link id="skin-default" rel="stylesheet" href="{{ asset('assets/client/assets/css/theme.css?ver=3.0.3') }}">
@@ -30,7 +30,7 @@
             <div class="nk-footer bg-white">
                 <div class="container-fluid">
                     <div class="nk-footer-wrap">
-                        <div class="nk-footer-copyright">Copyright © 2022 <b>One Drop</b>. All rights reserved.
+                        <div class="nk-footer-copyright">Copyright © 2022 <b>LIFE SAVER</b>. All rights reserved.
                         </div>
                     </div>
                 </div>

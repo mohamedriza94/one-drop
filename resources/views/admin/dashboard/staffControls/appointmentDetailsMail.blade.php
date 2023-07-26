@@ -5,10 +5,10 @@
 </head>
 <body>
     
-    <h1 style="color:red">ONE DROP</h1>
+    <h1 style="color:red">LIFE SAVER</h1>
     <hr><br>
     <h3>Appointment Details</h3><br>
-    <p>Your have been scheduled for a Medical Appointment following your request to become a Donor at One Drop. 
+    <p>Your have been scheduled for a Medical Appointment following your request to become a Donor at Life Saver. 
         Below are your Appointment Details. Please be present on time at the given venue.</p><br><br>
 
     <p><b>Appointment No.: </b>{{ $appointmentMailNo }}</p>

@@ -6,7 +6,7 @@
 <body>
     <div style="background: #f6f8ff; border:solid; border-radius:10px; padding:50px; border-color:rgb(26, 141, 235);">
 
-        <h2 style="color:rgb(255, 0, 0)">ONE DROP - BLOOD RECEIVAL RECEIPT</h2>
+        <h2 style="color:rgb(255, 0, 0)">LIFE SAVER - BLOOD RECEIVAL RECEIPT</h2>
 
         <hr style="border-radius:10px; border-color:rgb(250, 132, 132)"><br>
 

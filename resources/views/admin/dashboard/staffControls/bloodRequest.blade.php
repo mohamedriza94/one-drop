@@ -259,7 +259,7 @@
                                                                 <div class="col-sm-12 col-12 order-sm-0 order-1">
                                                                     <p><b>STAFF MEMBER:</b> Name: {{ auth()->guard('admin')->user()->fullname }} &nbsp;&nbsp;
                                                                         Telephone: {{ auth()->guard('admin')->user()->telephone }}</p>
-                                                                        <p>Thank you for using One Drop Services.</p>
+                                                                        <p>Thank you for using Life Saver Drop Services.</p>
                                                                         
                                                                         <input type="hidden" id="staffName" value="{{ auth()->guard('admin')->user()->fullname }}">
                                                                         <input type="hidden" id="staffTelephone" value="{{ auth()->guard('admin')->user()->telephone }}">
